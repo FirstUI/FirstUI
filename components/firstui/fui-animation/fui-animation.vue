@@ -1,0 +1,213 @@
+<template>
+	<view class="fui-popup__animation" :class="[ani.in]" :style="'transform:' + transform + ';' + stylesObject"
+		@tap="change" v-if="isShow" ref="fui_ani">
+		<slot></slot>
+	</view>
+</template>
+
+<script>
+	// #ifdef APP-NVUE
+	const animation = uni.requireNativePlugin('animation');
+	// #endif
+
+	export default {
+		name: 'fui-animation',
+		props: {
+			//是否显示
+			show: {
+				type: Boolean,
+				default: false
+			},
+			/*
+			 过渡动画类型
+			  ['fade,'slide-top','slide-right','slide-bottom','slide-left','zoom-in','zoom-out']
+			*/
+			animationType: {
+				type: Array,
+				default () {
+					return [];
+				}
+			},
+			duration: {
+				type: Number,
+				default: 300
+			},
+			//styles 组件样式，同 css 样式
+			styles: {
+				type: Object,
+				default () {
+					return {
+						position: 'fixed',
+						bottom: 0,
+						top: 0,
+						left: 0,
+						right: 0,
+						/* #ifndef APP-NVUE */
+						display: 'flex',
+						/* #endif */
+						'justify-content': 'center',
+						'align-items': 'center'
+					};
+				}
+			}
+		},
+		data() {
+			return {
+				isShow: false,
+				transform: '',
+				ani: {
+					in: '',
+					active: ''
+				}
+			};
+		},
+		watch: {
+			show: {
+				handler(newVal) {
+					if (newVal) {
+						this.open();
+					} else {
+						this.close();
+					}
+				},
+				immediate: true
+			}
+		},
+		computed: {
+			stylesObject() {
+				let styles = {
+					...this.styles,
+					'transition-duration': this.duration / 1000 + 's'
+				};
+				let transfrom = '';
+				for (let i in styles) {
+					let line = this.toLine(i);
+					transfrom += line + ':' + styles[i] + ';';
+				}
+				return transfrom;
+			}
+		},
+		methods: {
+			change() {
+				this.$emit('click', {
+					detail: this.isShow
+				});
+			},
+			open() {
+				clearTimeout(this.timer);
+				this.isShow = true;
+				this.transform = '';
+				this.ani.in = '';
+				for (let i in this.getTranfrom(false)) {
+					if (i === 'opacity') {
+						this.ani.in = 'fui-fade-in';
+					} else {
+						this.transform += `${this.getTranfrom(false)[i]} `;
+					}
+				}
+				this.$nextTick(() => {
+					setTimeout(() => {
+						this._animation(true);
+					}, 50);
+				});
+			},
+			close(type) {
+				clearTimeout(this.timer);
+				this._animation(false);
+			},
+			_animation(type) {
+				let styles = this.getTranfrom(type);
+				// #ifdef APP-NVUE
+				if (!this.$refs['fui_ani']) return;
+				animation.transition(
+					this.$refs['fui_ani'].ref, {
+						styles,
+						duration: this.duration, //ms
+						timingFunction: 'ease',
+						needLayout: false,
+						delay: 0 //ms
+					},
+					() => {
+						if (!type) {
+							this.isShow = false;
+						}
+						this.$emit('change', {
+							detail: this.isShow
+						});
+					}
+				);
+				// #endif
+				// #ifndef APP-NVUE
+				this.transform = '';
+				for (let i in styles) {
+					if (i === 'opacity') {
+						this.ani.in = `fui-fade-${type ? 'out' : 'in'}`;
+					} else {
+						this.transform += `${styles[i]} `;
+					}
+				}
+				this.timer = setTimeout(() => {
+					if (!type) {
+						this.isShow = false;
+					}
+					this.$emit('change', {
+						detail: this.isShow
+					});
+				}, this.duration);
+				// #endif
+			},
+			getTranfrom(type) {
+				let styles = {
+					transform: ''
+				};
+				this.animationType.forEach(mode => {
+					switch (mode) {
+						case 'fade':
+							styles.opacity = type ? 1 : 0;
+							break;
+						case 'slide-top':
+							styles.transform += `translateY(${type ? '0' : '-100%'}) `;
+							break;
+						case 'slide-right':
+							styles.transform += `translateX(${type ? '0' : '100%'}) `;
+							break;
+						case 'slide-bottom':
+							styles.transform += `translateY(${type ? '0' : '100%'}) `;
+							break;
+						case 'slide-left':
+							styles.transform += `translateX(${type ? '0' : '-100%'}) `;
+							break;
+						case 'zoom-in':
+							styles.transform += `scale(${type ? 1 : 0.8}) `;
+							break;
+						case 'zoom-out':
+							styles.transform += `scale(${type ? 1 : 1.2}) `;
+							break;
+					}
+				});
+				return styles;
+			},
+			toLine(name) {
+				return name.replace(/([A-Z])/g, '-$1').toLowerCase();
+			}
+		}
+	};
+</script>
+
+<style scoped>
+	.fui-popup__animation {
+		transition-timing-function: ease;
+		transition-duration: 0.3s;
+		transition-property: transform, opacity;
+		position: relative;
+		z-index: 99;
+	}
+
+	.fui-fade-in {
+		opacity: 0;
+	}
+
+	.fui-fade-active {
+		opacity: 1;
+	}
+</style>

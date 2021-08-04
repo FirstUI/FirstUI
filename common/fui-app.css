@@ -1,0 +1,134 @@
+/* #ifndef APP-NVUE */
+page {
+	background-color: #F1F4FA;
+	font-size: 32rpx;
+	font-weight: 500;
+	color: #181818;
+	font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
+}
+
+.fui-page__hd {
+	width: 100%;
+	padding: 52rpx 32rpx;
+	box-sizing: border-box;
+}
+
+.fui-page__bd {
+	width: 100%;
+	padding-bottom: 64rpx;
+}
+
+
+.fui-page__title {
+	text-align: left;
+	font-size: 36rpx;
+	font-weight: 600;
+}
+
+.fui-page__desc {
+	margin-top: 8rpx;
+	color: #B2B2B2;
+	text-align: left;
+	font-size: 28rpx;
+	font-weight: 400;
+	word-break: break-all;
+}
+
+.fui-page__spacing {
+	padding-left: 32rpx;
+	padding-right: 32rpx;
+	box-sizing: border-box;
+}
+
+.fui-section__title {
+	font-size: 32rpx;
+	line-height: 32rpx;
+	font-weight: 600;
+	margin-bottom: 32rpx;
+	padding-left: 16rpx;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.fui-section__title:not(:first-child) {
+	margin-top: 96rpx;
+}
+
+.fui-page__title image {
+	width: 48rpx;
+	height: 48rpx;
+	margin-left: 16rpx;
+	/* #ifdef H5 */
+	cursor: pointer;
+	/* #endif */
+}
+
+.fui-section__title::after {
+	content: '';
+	position: absolute;
+	width: 2px;
+	height: 100%;
+	background: #465CFF;
+	border-radius: 2px;
+	left: 0;
+	top: 0;
+}
+.fui-color__primary{
+	color: #465CFF;
+}
+
+::-webkit-scrollbar {
+	width: 0 !important;
+	height: 0 !important;
+	color: transparent !important;
+	display: none;
+}
+
+.fui-wrap {
+	width: 100%;
+	display: flex;
+	box-sizing: border-box;
+	flex-direction: column;
+}
+
+.fui-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/*Flex布局*/
+.fui-flex {
+	display: flex;
+}
+
+.fui-flex__1 {
+	flex: 1
+}
+
+.fui-flex__column {
+	flex-direction: column;
+}
+
+.fui-flex__center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.fui-flex__between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.fui-flex__reverse {
+	flex-direction: row-reverse;
+}
+
+.fui-align__center {
+	display: flex;
+	align-items: center;
+}
+
+/* #endif */
