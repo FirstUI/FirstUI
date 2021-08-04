@@ -3,6 +3,21 @@
 使用 First UI 前，请确保你已经学习并熟练使用过 [uni-app](https://uniapp.dcloud.io/) 。
 
 
+<a href="https://github.com/FirstUI/FirstUI" target="_blank">
+  <img alt="star this repo" src="https://img.shields.io/github/stars/FirstUI/FirstUI" />
+</a>
+ <a href="https://github.com/FirstUI/FirstUI/fork" target="_blank">
+   <img alt="fork this repo" src="https://img.shields.io/github/forks/FirstUI/FirstUI" />
+ </a>
+
+ <a href="https://www.npmjs.com/package/firstui-uni" target="_blank">
+	<img alt="npm" src="https://img.shields.io/npm/v/firstui-uni.svg" />
+  </a>
+
+  <a href="https://www.npmjs.com/package/firstui-uni" target="_blank">
+	<img alt="license" src="https://img.shields.io/npm/l/firstui-uni.svg" />
+ </a>
+
 ### 安装
 
 #### 方式一 ：通过 npm 安装
