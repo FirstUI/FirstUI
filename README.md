@@ -112,6 +112,52 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.1.0（2021-09-07）
+
+- 调整组件对vue3支持与uni-app官方一致。
+
+- 新增 Panel 面板 组件（VIP组件）。
+
+- 新增 Preview 表单预览 组件（VIP组件）。
+
+- 新增 Empty 缺省页 组件。
+
+- 新增 SegmentedControl 分段器 组件。
+
+- 新增 Pagination 分页器 组件。
+
+- 新增 NavBar 导航栏 组件（VIP组件）。
+
+- 新增 Tabs 标签页 组件。
+
+- 新增 Tag 标签 组件。
+
+- 新增 Backdrop 遮罩层 组件。
+
+- 新增 Result 结果页 组件（VIP组件）。
+
+- 新增 Avatar 头像 组件。
+
+- 新增 Form 表单校验 组件（VIP组件）。
+
+- 新增 Validator 表单验证（JS）组件（VIP组件）。
+
+- 新增 SingleInput 单输入框 组件（VIP组件）。
+
+- 新增 IndexList 索引列表 组件（VIP组件）。
+
+- 新增 SearchBar 搜索栏 组件（VIP组件）。
+
+- 新增 登录（A）模板（物料）。
+
+- 新增 登录（B）模板（物料）。
+
+- 新增 登录（C）模板（物料）。
+
+- 新增 登录（D）模板（物料）。
+
+- 优化若干已知问题。
+
 #### V1.0.0（2021-08-02）
 
 - 新增 Color 色彩 ，First UI用色指南。

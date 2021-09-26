@@ -146,9 +146,7 @@
 
 <style scoped>
 	.fui-alert__wrap {
-		/* #ifdef APP-NVUE */
 		flex: 1;
-		/* #endif */
 		/* #ifndef APP-NVUE */
 		display: flex;
 		width: 100%;
