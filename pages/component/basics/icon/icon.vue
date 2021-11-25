@@ -5,8 +5,9 @@
 			<view class="fui-page__desc">Icon 图标，First UI字体图标库，可自行扩展。</view>
 		</view>
 		<view class="fui-page__bd fui-page__spacing">
-			<fui-grid ref="fuiGrid" :columns="3">
-				<fui-grid-item v-for="(item, index) in icons" :index="index" :key="index">
+			<fui-grid :columns="3">
+				<fui-grid-item v-for="(item, index) in icons" :highlight="index!==icons.length-1" :index="index"
+					:key="index">
 					<view class="fui-icon__item">
 						<fui-icon :name="item"></fui-icon>
 						<text class="fui-icon__name">{{ item }}</text>
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-	const icons = require('./icon.js');
+	import icons from './icon.js';
 	export default {
 		data() {
 			return {

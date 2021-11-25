@@ -11,9 +11,7 @@
 <script>
 	export default {
 		name: "fui-grid-item",
-		// #ifndef MP-TOUTIAO
 		inject: ['grid'],
-		// #endif
 		// #ifdef MP-WEIXIN
 		options: {
 			virtualHost: true
@@ -33,11 +31,6 @@
 			index: {
 				type: Number,
 				default: 0
-			},
-			//父级组件（fui-grid）ref值，头条小程序
-			parentId: {
-				type: String,
-				default: 'fuiGrid'
 			}
 		},
 		data() {
@@ -49,24 +42,10 @@
 				borderColor: '#eaeef1'
 			};
 		},
-		// #ifndef MP-TOUTIAO
 		created() {
 			this.init()
 		},
-		// #endif
-		// #ifdef MP-TOUTIAO
-		mounted() {
-			this.$nextTick(() => {
-				setTimeout(() => {
-					this.grid = this.$parent.$refs[this.parentId];
-					if (this.grid instanceof Array) {
-						this.grid = this.grid[0]
-					}
-					this.grid && this.init()
-				}, 0)
-			})
-		},
-		// #endif  
+		// #ifndef VUE3
 		beforeDestroy() {
 			if (this.grid) {
 				this.grid.children.forEach((item, index) => {
@@ -76,6 +55,18 @@
 				})
 			}
 		},
+		// #endif
+		// #ifdef VUE3
+		beforeUnmount() {
+			if (this.grid) {
+				this.grid.children.forEach((item, index) => {
+					if (item === this) {
+						this.grid.children.splice(index, 1)
+					}
+				})
+			}
+		},
+		// #endif
 		methods: {
 			init() {
 				if (this.grid) {

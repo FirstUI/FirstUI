@@ -4,8 +4,8 @@
 			<view class="fui-img__box">
 				<image src="/static/images/common/img_coding_3x.png" class="fui-img" mode="widthFix"></image>
 			</view>
-			<view class="fui-title">闭源模块</view>
-			<view class="fui-sub__title">功能开发中，敬请期待！</view>
+			<view class="fui-title">付费模块</view>
+			<view class="fui-sub__title">详情请查看官网或文档介绍！</view>
 		</view>
 	</view>
 </template>

@@ -6,7 +6,7 @@
 		</view>
 		<view class="fui-page__bd fui-page__spacing">
 			<view class="fui-section__title">按钮类型</view>
-			<fui-button text="默认按钮"></fui-button>
+			<fui-button text="默认按钮" @click="btnClick"></fui-button>
 			<fui-button :margin="['24rpx']" type="success">success</fui-button>
 			<fui-button type="warning">warning</fui-button>
 			<fui-button :margin="['24rpx']" type="danger">danger</fui-button>
@@ -29,7 +29,8 @@
 			<fui-button :margin="['24rpx']" background="#fff" color="#6831FF" borderColor="#6831FF">朴素按钮</fui-button>
 			<fui-button background="linear-gradient(300deg, #6831FF 0%, #465CFF 100%)" border-width="0">渐变按钮
 			</fui-button>
-			<fui-button :margin="['24rpx']" background="linear-gradient(127deg, #FF416C 0%, #FF2B2B 100%)" border-width="0">渐变按钮
+			<fui-button :margin="['24rpx']" background="linear-gradient(127deg, #FF416C 0%, #FF2B2B 100%)"
+				border-width="0">渐变按钮
 			</fui-button>
 		</view>
 	</view>
@@ -43,7 +44,9 @@
 			}
 		},
 		methods: {
-
+			btnClick() {
+				console.log('click~')
+			}
 		}
 	}
 </script>

@@ -1,4 +1,4 @@
-module.exports = [
+export default [
 	"addfriends",
 	"addfriends-fill",
 	"backspace",
@@ -140,6 +140,8 @@ module.exports = [
 	"play",
 	"video",
 	"voice",
+	"addressbook",
+	"principal",
 	"sina",
 	"browser",
 	"moments",
@@ -148,5 +150,6 @@ module.exports = [
 	"balance",
 	"bankcardpay",
 	"wxpay",
-	"alipay"
+	"alipay",
+	""
 ]

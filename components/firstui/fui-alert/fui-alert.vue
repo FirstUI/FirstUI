@@ -1,12 +1,12 @@
 <template>
-	<view class="fui-alert__wrap" :class="[backgroundColor?'':('fui-alert__'+type)]"
-		:style="{backgroundColor:backgroundColor?backgroundColor:getColor(type),borderRadius:radius,paddingTop:padding[0] || 0,paddingRight:padding[1]||0,paddingBottom:padding[2] || padding[0]||0,paddingLeft:padding[3] || padding[1]||0,marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}">
+	<view class="fui-alert__wrap" :class="[background?'':('fui-alert__'+type)]"
+		:style="{background:background || getColor(type),borderRadius:radius,paddingTop:padding[0] || 0,paddingRight:padding[1]||0,paddingBottom:padding[2] || padding[0]||0,paddingLeft:padding[3] || padding[1]||0,marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}">
 		<view class="fui-alert__shrink" @tap.stop="leftClick">
 			<slot></slot>
-			<icon :type="type" :size="iconSize" :color="iconColor" v-if="!isLeft && type"></icon>
+			<icon :type="type" :size="iconSize" :color="iconColor" v-if="!isLeft && type && type!=='true'"></icon>
 		</view>
 		<view class="fui-alert__content"
-			:class="{'fui-text__p-left':(!isLeft && type) || (spacing && isLeft),'fui-text__p-right':closable}"
+			:class="{'fui-text__p-left':(!isLeft && type && type!=='true') || (spacing && isLeft),'fui-text__p-right':closable}"
 			@tap.stop="onClick">
 			<text class="fui-alert__text" :style="{fontSize:size,color:color}" v-if="title">{{title}}</text>
 			<text class="fui-alert__text fui-desc__padding" :class="{'fui-alert__single':single}"
@@ -25,6 +25,7 @@
 <script>
 	export default {
 		name: "fui-alert",
+		emits: ['leftClick', 'click', 'close'],
 		props: {
 			//info, success, warn, waiting,clear
 			type: {
@@ -32,7 +33,7 @@
 				default: ''
 			},
 			//背景色，如果设置type对应颜色失效
-			backgroundColor: {
+			background: {
 				type: String,
 				default: ''
 			},
@@ -146,7 +147,9 @@
 
 <style scoped>
 	.fui-alert__wrap {
+		/* #ifdef APP-NVUE */
 		flex: 1;
+		/* #endif */
 		/* #ifndef APP-NVUE */
 		display: flex;
 		width: 100%;

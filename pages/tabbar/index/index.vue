@@ -44,9 +44,9 @@
 
 <script>
 	import {
-		mapState
+		mapActions
 	} from 'vuex'
-	const tabs = require('./index.js');
+	import tabs from './index.js';
 	export default {
 		data() {
 			return {
@@ -57,9 +57,15 @@
 			}
 		},
 		onLoad() {
-			this.height = uni.getSystemInfoSync().windowHeight - uni.upx2px(538) + 'px';
+			setTimeout(() => {
+				this.height = uni.getSystemInfoSync().windowHeight - uni.upx2px(538) + 'px';
+				// #ifdef MP
+				this.getStatus().then((res) => {})
+				// #endif
+			}, 50)
 		},
 		methods: {
+			...mapActions(['getStatus']),
 			tabClick(index) {
 				this.switchTab(index)
 			},
@@ -80,7 +86,6 @@
 					this.fui.href(`/pages/component/${type}/${page}/${page}`)
 				} else {
 					this.fui.href('/pages/common/coding/coding')
-					// this.fui.toast('开发中~')
 				}
 			}
 		},
@@ -213,12 +218,14 @@
 
 	.fui-list__item text {
 		padding-left: 24rpx;
-		padding-right: 16rpx;
+		padding-right: 12rpx;
+		flex-shrink: 0;
 	}
 
 	.fui-item__icon,
 	.fui-vip__icon {
 		width: 48rpx;
 		height: 48rpx;
+		flex-shrink: 0;
 	}
 </style>

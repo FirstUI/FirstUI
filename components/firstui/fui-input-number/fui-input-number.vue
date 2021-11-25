@@ -24,11 +24,20 @@
 <script>
 	export default {
 		name: 'fui-input-number',
+		emits: ['change', 'update:modelValue', 'input'],
 		props: {
+			// #ifndef VUE3
 			value: {
-				type: Number,
+				type: [Number, String],
 				default: 1
 			},
+			// #endif
+			// #ifdef VUE3
+			modelValue: {
+				type: [Number, String],
+				default: 1
+			},
+			// #endif
 			//最小值
 			min: {
 				type: Number,
@@ -110,7 +119,13 @@
 			}
 		},
 		created() {
+			// #ifndef VUE3
 			this.inputValue = this.getValue(this.value);
+			// #endif
+
+			// #ifdef VUE3
+			this.inputValue = this.getValue(this.modelValue);
+			// #endif
 		},
 		data() {
 			let isNvue = false;
@@ -123,9 +138,16 @@
 			};
 		},
 		watch: {
+			// #ifndef VUE3
 			value(val) {
 				this.inputValue = this.getValue(val);
 			},
+			// #endif
+			// #ifdef VUE3
+			modelValue(val) {
+				this.inputValue = this.getValue(val);
+			},
+			// #endif
 			inputValue(newVal, oldVal) {
 				if (+newVal !== +oldVal) {
 					const val = this.getValue(+newVal)
@@ -134,18 +156,45 @@
 						index: this.index,
 						params: this.params
 					});
+					// TODO vue2 兼容
 					this.$emit("input", val);
+					// TODO vue3 兼容
+					// #ifdef VUE3
+					this.$emit("update:modelValue", +val);
+					// #endif
 				}
 			}
 		},
 		methods: {
-			getScale() {
-				let scale = 1;
+			toFixed(num, s) {
+				let times = Math.pow(10, s)
+				let des = num * times + 0.5
+				des = parseInt(des, 10) / times
+				return des + ''
+			},
+			getLen(val, step) {
+				let len = 0;
+				let lenVal = 0;
 				//浮点型
-				if (!Number.isInteger(this.step)) {
-					scale = Math.pow(10, (this.step + '').split('.')[1].length);
+				if (!Number.isInteger(step)) {
+					len = (step + '').split('.')[1].length
 				}
-				return scale;
+				if (!Number.isInteger(val)) {
+					lenVal = (val + '').split('.')[1].length
+				}
+				return Math.max(len, lenVal);
+			},
+			getScale(val, step) {
+				let scale = 1;
+				let scaleVal = 1;
+				//浮点型
+				if (!Number.isInteger(step)) {
+					scale = Math.pow(10, (step + '').split('.')[1].length);
+				}
+				if (!Number.isInteger(val)) {
+					scaleVal = Math.pow(10, (val + '').split('.')[1].length);
+				}
+				return Math.max(scale, scaleVal);
 			},
 			getValue(val) {
 				val = Number(val)
@@ -157,23 +206,23 @@
 				return val
 			},
 			calcNum: function(type) {
-				if (this.disabled) return;
-				const scale = this.getScale();
-				let num = this.inputValue * scale;
+				if (this.disabled || (this.inputValue == this.min && type === 'reduce') || (this.inputValue == this
+						.max && type === 'plus')) return;
+				const scale = this.getScale(Number(this.inputValue), Number(this.step));
+				const len = this.getLen(Number(this.inputValue), Number(this.step));
+
+				let num = Number(this.inputValue) * scale;
 				let step = this.step * scale;
 				if (type === 'reduce') {
 					num -= step;
 				} else if (type === 'plus') {
 					num += step;
 				}
-				let value = num / scale;
-				if (type === 'plus' && value < this.min) {
+				let value = this.toFixed(num / scale, len);
+				if (value < this.min) {
 					value = this.min;
-				} else if (type === 'reduce' && value > this.max) {
+				} else if (value > this.max) {
 					value = this.max;
-				}
-				if (value < this.min || value > this.max) {
-					return;
 				}
 				this.inputValue = String(value);
 			},
@@ -187,7 +236,7 @@
 				this.$emit('blur', e)
 				let value = e.detail.value;
 				if (value) {
-					if (~value.indexOf('.') && Number.isInteger(this.step)) {
+					if (~value.indexOf('.') && Number.isInteger(this.step) && Number.isInteger(Number(value))) {
 						value = value.split('.')[0];
 					}
 					value = this.getValue(value)

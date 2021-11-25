@@ -6,9 +6,8 @@
 		</view>
 		<view class="fui-page__bd"> 
 			<view class="fui-section__title">九宫格</view>
-			<!--由于官方未修复头条小程序bug，ref与parentId只为兼容头条小程序-->
-			<fui-grid ref="fui_grid_1">
-				<fui-grid-item parentId="fui_grid_1" v-for="(item,index) in nums" :key="index">
+			<fui-grid>
+				<fui-grid-item v-for="(item,index) in nums" :key="index">
 					<view class="fui-grid__cell">
 						<image src="/static/images/common/icon_tabbar_3x.png" class="fui-icon" mode="widthFix"></image>
 						<text>Grid</text>
@@ -16,8 +15,8 @@
 				</fui-grid-item>
 			</fui-grid>
 			<view class="fui-section__title">高度自适应</view>
-			<fui-grid ref="fui_grid_2" :square="false">
-				<fui-grid-item parentId="fui_grid_2" v-for="(item,index) in nums" :key="index">
+			<fui-grid :square="false">
+				<fui-grid-item v-for="(item,index) in nums" :key="index">
 					<view class="fui-grid__cell fui-padding">
 						<image src="/static/images/common/icon_tabbar_2x.png" class="fui-icon__2x" mode="widthFix">
 						</image>
@@ -26,8 +25,8 @@
 				</fui-grid-item>
 			</fui-grid>
 			<view class="fui-section__title">改变列数（4列）</view>
-			<fui-grid ref="fui_grid_3" :columns="4">
-				<fui-grid-item parentId="fui_grid_3" v-for="(item,index) in arrs" :key="index">
+			<fui-grid :columns="4">
+				<fui-grid-item v-for="(item,index) in arrs" :key="index">
 					<view class="fui-grid__cell fui-padding">
 						<image src="/static/images/common/icon_tabbar_2x.png" class="fui-icon__2x" mode="widthFix">
 						</image>

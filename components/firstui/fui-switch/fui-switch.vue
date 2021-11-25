@@ -1,10 +1,21 @@
 <template>
 	<view class="fui-switch__input" :style="{zoom:isNvue?1:scaleRatio,transform:`scale(${isNvue?scaleRatio:1})`}">
-		<switch v-if="type==='switch'" @change="change" :name="name" :checked="val" :disabled="disabled" :color="color">
+		<!-- #ifdef APP-NVUE -->
+		<switch v-if="type==='switch'" @change="change" :name="name" :checked="val" :disabled="disabled"
+			:color="color || '#465CFF'">
 		</switch>
-		<view class="fui-checkbox__self" :class="{'fui-checkbox__disabled':disabled}"
-			:style="{backgroundColor:val?color:'#fff',border:val?`1px solid ${color}`:`1px solid ${borderColor}`}"
-			v-else>
+		<!-- #endif -->
+		<!-- #ifndef APP-NVUE -->
+		<view class="fui-switch__input-def" :style="{background:val?color:'#dfdfdf',borderColor:val?color:borderColor}"
+			:class="{'fui-switch__input--checked':val,'fui-checkbox__disabled':disabled,'fui-switch__color':val && !color}"
+			v-if="type==='switch'">
+			<switch class="fui-switch__hidden" @change="change" :name="name" :checked="val" :disabled="disabled"
+				:color="color">
+			</switch>
+		</view>
+		<!-- #endif -->
+		<view class="fui-checkbox__self" :class="{'fui-checkbox__disabled':disabled,'fui-switch__color':!color && val}"
+			:style="{background:val?color:'#fff',border:val?`1px solid ${color}`:`1px solid ${borderColor}`}" v-else>
 			<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 				v-if="val"></view>
 			<switch class="fui-switch__hidden" @change="change" :name="name" :type="isNvue?'switch':'checkbox'"
@@ -16,11 +27,14 @@
 <script>
 	export default {
 		name: "fui-switch",
+		emits: ['change'],
+		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		behaviors: ['wx://form-field-group'],
 		// #endif
 		// #ifdef MP-BAIDU || MP-QQ
 		behaviors: ['uni://form-field'],
+		// #endif
 		// #endif
 		props: {
 			//开关选择器名称
@@ -44,7 +58,12 @@
 			//switch选中颜色
 			color: {
 				type: String,
+				// #ifdef APP-NVUE
 				default: '#465CFF'
+				// #endif
+				// #ifndef APP-NVUE
+				default: ''
+				// #endif
 			},
 			//边框颜色，type=checkbox时生效
 			borderColor: {
@@ -59,11 +78,6 @@
 			scaleRatio: {
 				type: [Number, String],
 				default: 1
-			},
-			//父级组件（fui-label）ref值，头条小程序
-			labelRef: {
-				type: String,
-				default: 'fuiLabel'
 			}
 		},
 		data() {
@@ -83,27 +97,11 @@
 		},
 		created() {
 			this.val = this.checked;
-			// #ifndef MP-TOUTIAO
 			this.label = this.getParent();
 			if (this.label) {
 				this.label.childrens.push(this)
 			}
-			// #endif
 		},
-		// #ifdef MP-TOUTIAO
-		mounted() {
-			this.$nextTick(() => {
-				setTimeout(() => {
-					//对于label此方法不太优雅，待官方修复bug立即优化
-					this.label = this.$parent.$refs[this.labelRef];
-					if (this.label instanceof Array) {
-						this.label = this.label[0]
-					} 
-					this.label && this.label.childrens.push(this);
-				}, 50)
-			})
-		},
-		// #endif
 		methods: {
 			change(e, label) {
 				if (this.label && !label) return;
@@ -160,6 +158,58 @@
 		overflow: hidden;
 		position: relative;
 	}
+
+	/* #ifndef APP-NVUE */
+	.fui-switch__input-def {
+		position: relative;
+		width: 52px;
+		height: 32px;
+		border: 1px solid #CCCCCC;
+		outline: 0;
+		border-radius: 16px;
+		box-sizing: border-box;
+		transition: background-color .1s, border .1s;
+	}
+
+	.fui-switch__input-def::before {
+		content: " ";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 50px;
+		height: 30px;
+		border-radius: 15px;
+		background-color: #fdfdfd;
+		transition: transform .3s
+	}
+
+	.fui-switch__input-def::after {
+		content: " ";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 30px;
+		height: 30px;
+		border-radius: 15px;
+		background-color: #fff;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+		transition: transform .3s
+	}
+
+	.fui-switch__input--checked::before {
+		transform: scale(0)
+	}
+
+	.fui-switch__input--checked::after {
+		transform: translateX(20px)
+	}
+
+	.fui-switch__color {
+		background: var(--fui-color-primary, #465CFF) !important;
+		border-color: var(--fui-color-primary, #465CFF) !important;
+	}
+
+	/* #endif */
 
 	/* #ifdef H5 || APP-VUE */
 	>>>.uni-switch-input {

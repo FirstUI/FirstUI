@@ -1,5 +1,6 @@
 <template>
-	<view class="fui-checkbox__input" :class="{'fui-checkbox__disabled':disabled}"
+	<view class="fui-radio__input"
+		:class="{'fui-radio__disabled':disabled,'fui-radio__color':!color && val && !isCheckMark}"
 		:style="{backgroundColor:getBackgroundColor(val,isCheckMark),borderColor:getBorderColor(val,isCheckMark),zoom:isNvue?1:scaleRatio,transform:`scale(${isNvue?scaleRatio:1})`,borderRadius:borderRadius}"
 		@tap.stop="radioChange">
 		<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
@@ -11,6 +12,7 @@
 <script>
 	export default {
 		name: "fui-radio",
+		emits: ['change'],
 		options: {
 			virtualHost: true
 		},
@@ -30,7 +32,12 @@
 			//radio选中背景颜色
 			color: {
 				type: String,
+				// #ifdef APP-NVUE
 				default: '#465CFF'
+				// #endif
+				// #ifndef APP-NVUE
+				default: ''
+				// #endif
 			},
 			//radio未选中时边框颜色
 			borderColor: {
@@ -59,51 +66,27 @@
 			scaleRatio: {
 				type: [Number, String],
 				default: 1
-			},
-			//父级组件（fui-radio-group）ref值，头条小程序
-			groupRef: {
-				type: String,
-				default: 'fuiGroup'
-			},
-			//父级组件（fui-label）ref值，头条小程序
-			labelRef: {
-				type: String,
-				default: 'fuiLabel'
 			}
 		},
 		created() {
 			this.val = this.checked;
-			// #ifndef MP-TOUTIAO
 			this.group = this.getParent()
 			if (this.group) {
 				this.group.childrens.push(this);
+				if (this.group.value) {
+					this.val = this.value === this.group.value
+				}
+				// #ifdef VUE3
+				if (this.group.modelValue) {
+					this.val = this.value === this.group.modelValue
+				}
+				// #endif
 			}
 			this.label = this.getParent('fui-label')
 			if (this.label) {
 				this.label.childrens.push(this);
 			}
-			// #endif
 		},
-		// #ifdef MP-TOUTIAO
-		mounted() {
-			this.$nextTick(() => {
-				setTimeout(() => {
-					this.group = this.$parent.$refs[this.groupRef];
-					if (this.group instanceof Array) {
-						this.group = this.group[0]
-					}
-					this.group && this.group.childrens.push(this);
-					//对于label此方法不太优雅，待官方修复bug立即优化
-					this.label = this.$parent.$refs[this.labelRef];
-					if (this.label instanceof Array) {
-						this.label = this.label[0]
-					}
-					this.label && this.label.childrens.push(this);
-
-				}, 50)
-			})
-		},
-		// #endif
 		watch: {
 			checked(newVal) {
 				this.val = newVal;
@@ -165,7 +148,7 @@
 </script>
 
 <style scoped>
-	.fui-checkbox__input {
+	.fui-radio__input {
 		font-size: 0;
 		color: rgba(0, 0, 0, 0);
 		width: 40rpx;
@@ -189,6 +172,14 @@
 		position: relative;
 	}
 
+	/* #ifndef APP-NVUE */
+	.fui-radio__color {
+		background: var(--fui-color-primary, #465CFF) !important;
+		border-color: var(--fui-color-primary, #465CFF) !important;
+	}
+
+	/* #endif */
+
 	.fui-check__mark {
 		width: 20rpx;
 		height: 40rpx;
@@ -198,11 +189,14 @@
 		border-right-style: solid;
 		border-right-width: 3px;
 		border-right-color: #FFFFFF;
-		transform: rotate(45deg) scale(0.5);
-		transform-origin: 54% 48%;
 		/* #ifndef APP-NVUE */
 		box-sizing: border-box;
+		transform: rotate(45deg) scale(0.5) translateZ(0);
 		/* #endif */
+		/* #ifdef APP-NVUE */
+		transform: rotate(45deg) scale(0.5);
+		/* #endif */
+		transform-origin: 54% 48%;
 	}
 
 	.fui-radio__hidden {
@@ -227,7 +221,7 @@
 		z-index: 2;
 	}
 
-	.fui-checkbox__disabled {
+	.fui-radio__disabled {
 		opacity: 0.6;
 	}
 </style>

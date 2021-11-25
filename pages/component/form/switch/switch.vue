@@ -27,21 +27,20 @@
 				</view>
 			</fui-list-cell>
 			<view class="fui-section__title">改变大小、颜色</view>
-			<!--ref、labelRef仅为兼容头条小程序，如果不需要兼容可删除-->
-			<fui-label ref="fui_label_1">
+			<fui-label>
 				<fui-list-cell>
 					<view class="fui-cells">
 						<text>scaleRatio</text>
-						<fui-switch labelRef="fui_label_1" :scaleRatio="0.8" color="#FFB703"></fui-switch>
+						<fui-switch :scaleRatio="0.8" color="#FFB703"></fui-switch>
 					</view>
 				</fui-list-cell>
 			</fui-label>
 			<view class="fui-section__title">展示为checkbox</view>
-			<fui-label ref="fui_label_2">
+			<fui-label>
 				<fui-list-cell>
 					<view class="fui-cells">
 						<text>type=checkbox</text>
-						<fui-switch labelRef="fui_label_2" type="checkbox" color="#FFB703" :scaleRatio="1.1">
+						<fui-switch type="checkbox" color="#FFB703" :scaleRatio="1.1">
 						</fui-switch>
 					</view>
 				</fui-list-cell>

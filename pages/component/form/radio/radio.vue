@@ -6,29 +6,28 @@
 		</view>
 		<view class="fui-page__bd">
 			<view class="fui-section__title">基本使用</view>
-			<!--ref、groupRef、labelRef等仅为兼容头条小程序，如果不需要兼容可删除-->
-			<fui-radio-group ref="fui_r_1" name="radio" v-model="val" @change="change">
+			<fui-radio-group name="radio" v-model="val" @change="change">
 				<view class="fui-list__item">
-					<fui-label ref="fui_l_1">
+					<fui-label>
 						<view class="fui-align__center">
-							<fui-radio groupRef="fui_r_1" labelRef="fui_l_1" value="1" checked></fui-radio>
+							<fui-radio value="1"></fui-radio>
 							<text class="fui-text">选中</text>
 						</view>
 					</fui-label>
-					<fui-label ref="fui_l_2" :margin="['0','0','0','40rpx']">
+					<fui-label :margin="['0','0','0','40rpx']">
 						<view class="fui-align__center">
-							<fui-radio groupRef="fui_r_1" labelRef="fui_l_2" value="2"></fui-radio>
+							<fui-radio value="2"></fui-radio>
 							<text class="fui-text">未选中</text>
 						</view>
 					</fui-label>
 				</view>
 			</fui-radio-group>
 			<view class="fui-section__title">推荐布局</view>
-			<fui-radio-group ref="fui_r_2">
-				<fui-label :ref="'f_label_'+index" v-for="(item,index) in radioItems" :key="index">
+			<fui-radio-group>
+				<fui-label v-for="(item,index) in radioItems" :key="index">
 					<fui-list-cell>
 						<view class="fui-align__center">
-							<fui-radio groupRef="fui_r_2" :labelRef="'f_label_'+index" :checked="item.checked" :value="item.value" color="#FFB703"
+							<fui-radio :checked="item.checked" :value="item.value" color="#FFB703"
 								borderColor="#B2B2B2">
 							</fui-radio>
 							<text class="fui-text">{{item.name}}</text>
@@ -37,24 +36,24 @@
 				</fui-label>
 			</fui-radio-group>
 			<view class="fui-section__title">推荐布局</view>
-			<fui-radio-group ref="fui_r_3">
-				<fui-label :ref="'fui_label_'+index" v-for="(item,index) in radioItems" :key="index">
+			<fui-radio-group>
+				<fui-label v-for="(item,index) in radioItems" :key="index">
 					<fui-list-cell>
 						<view class="fui-list__cell">
 							<text>{{item.name}}</text>
-							<fui-radio groupRef="fui_r_3" :labelRef="'fui_label_'+index" :checked="item.checked" :value="item.value">
+							<fui-radio :checked="item.checked" :value="item.value">
 							</fui-radio>
 						</view>
 					</fui-list-cell>
 				</fui-label>
 			</fui-radio-group>
 			<view class="fui-section__title">推荐布局</view>
-			<fui-radio-group ref="fui_r_4">
-				<fui-label :ref="'label_'+index" v-for="(item,index) in radioItems" :key="index">
+			<fui-radio-group>
+				<fui-label v-for="(item,index) in radioItems" :key="index">
 					<fui-list-cell>
 						<view class="fui-list__cell">
 							<text>{{item.name}}</text>
-							<fui-radio groupRef="fui_r_4" :labelRef="'label_'+index" isCheckMark checkMarkColor="#FF2B2B" :scaleRatio="1.3" :checked="item.checked"
+							<fui-radio isCheckMark checkMarkColor="#FF2B2B" :scaleRatio="1.3" :checked="item.checked"
 								:value="item.value">
 							</fui-radio>
 						</view>
@@ -62,12 +61,12 @@
 				</fui-label>
 			</fui-radio-group>
 			<view class="fui-section__title">修改圆角值</view>
-			<fui-radio-group ref="fui_r_5">
-				<fui-label :ref="'l_'+index" v-for="(item,index) in radioItems" :key="index">
+			<fui-radio-group>
+				<fui-label v-for="(item,index) in radioItems" :key="index">
 					<fui-list-cell>
 						<view class="fui-align__center">
-							<fui-radio groupRef="fui_r_5" :labelRef="'l_'+index" :checked="item.checked" :value="item.value" color="#FFB703"
-								borderColor="#B2B2B2" borderRadius="8rpx">
+							<fui-radio :checked="item.checked" :value="item.value" color="#FFB703" borderColor="#B2B2B2"
+								borderRadius="8rpx">
 							</fui-radio>
 							<text class="fui-text">{{item.name}}</text>
 						</view>
@@ -82,7 +81,7 @@
 	export default {
 		data() {
 			return {
-				val: '',
+				val: '1',
 				radioItems: [{
 						name: '小于18岁',
 						value: '1',

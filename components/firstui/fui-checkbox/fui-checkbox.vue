@@ -1,5 +1,6 @@
 <template>
-	<view class="fui-checkbox__input" :class="{'fui-checkbox__disabled':disabled}"
+	<view class="fui-checkbox__input"
+		:class="{'fui-checkbox__disabled':disabled,'fui-checkbox__color':!color && val && !isCheckMark}"
 		:style="{backgroundColor:getBackgroundColor(val,isCheckMark),borderColor:getBorderColor(val,isCheckMark),zoom:isNvue?1:scaleRatio,transform:`scale(${isNvue?scaleRatio:1})`,borderRadius:borderRadius}"
 		@tap.stop="checkboxChange">
 		<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
@@ -12,6 +13,7 @@
 <script>
 	export default {
 		name: "fui-checkbox",
+		emits: ['change'],
 		// #ifdef MP-WEIXIN
 		options: {
 			virtualHost: true
@@ -33,7 +35,12 @@
 			//checkbox选中背景颜色
 			color: {
 				type: String,
+				// #ifdef APP-NVUE
 				default: '#465CFF'
+				// #endif
+				// #ifndef APP-NVUE
+				default: ''
+				// #endif
 			},
 			//checkbox未选中时边框颜色
 			borderColor: {
@@ -62,50 +69,27 @@
 			scaleRatio: {
 				type: [Number, String],
 				default: 1
-			},
-			//父级组件（fui-checkbox-group）ref值，头条小程序
-			groupRef: {
-				type: String,
-				default: 'fuiGroup'
-			},
-			//父级组件（fui-label）ref值，头条小程序
-			labelRef: {
-				type: String,
-				default: 'fuiLabel'
 			}
 		},
 		created() {
 			this.val = this.checked;
-			// #ifndef MP-TOUTIAO
 			this.group = this.getParent()
 			if (this.group) {
 				this.group.childrens.push(this);
+				if (this.group.value && this.group.value.length > 0) {
+					this.val = this.group.value.includes(this.value)
+				}
+				// #ifdef VUE3
+				if (this.group.modelValue && this.group.modelValue.length > 0) {
+					this.val = this.group.modelValue.includes(this.value)
+				}
+				// #endif
 			}
 			this.label = this.getParent('fui-label')
 			if (this.label) {
 				this.label.childrens.push(this);
-			}
-			// #endif  
+			} 
 		},
-		// #ifdef MP-TOUTIAO
-		mounted() {
-			this.$nextTick(() => {
-				setTimeout(() => {
-					this.group = this.$parent.$refs[this.groupRef];
-					if (this.group instanceof Array) {
-						this.group = this.group[0]
-					}
-					this.group && this.group.childrens.push(this);
-					//对于label此方法不太优雅，待官方修复bug立即优化
-					this.label = this.$parent.$refs[this.labelRef];
-					if (this.label instanceof Array) {
-						this.label = this.label[0]
-					}
-					this.label && this.label.childrens.push(this);
-				}, 50)
-			})
-		},
-		// #endif  
 		watch: {
 			checked(newVal) {
 				this.val = newVal;
@@ -191,6 +175,14 @@
 		position: relative;
 	}
 
+	/* #ifndef APP-NVUE */
+	.fui-checkbox__color {
+		background: var(--fui-color-primary, #465CFF) !important;
+		border-color: var(--fui-color-primary, #465CFF) !important;
+	}
+
+	/* #endif */
+
 	.fui-check__mark {
 		width: 20rpx;
 		height: 40rpx;
@@ -200,11 +192,14 @@
 		border-right-style: solid;
 		border-right-width: 3px;
 		border-right-color: #FFFFFF;
-		transform: rotate(45deg) scale(0.5);
-		transform-origin: 54% 48%;
 		/* #ifndef APP-NVUE */
 		box-sizing: border-box;
+		transform: rotate(45deg) scale(0.5) translateZ(0);
 		/* #endif */
+		/* #ifdef APP-NVUE */
+		transform: rotate(45deg) scale(0.5);
+		/* #endif */
+		transform-origin: 54% 48%;
 	}
 
 	.fui-checkbox__hidden {

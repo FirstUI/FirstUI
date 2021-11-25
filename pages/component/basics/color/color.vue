@@ -19,7 +19,7 @@
 </template>
 
 <script>
-	const colors = require('./color.js');
+	import colors from './color.js';
 	export default {
 		data() {
 			return {

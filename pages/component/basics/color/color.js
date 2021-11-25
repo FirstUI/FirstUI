@@ -1,4 +1,4 @@
-module.exports = [{
+export default [{
 	text: '主色',
 	key:'key_01',
 	data: [{

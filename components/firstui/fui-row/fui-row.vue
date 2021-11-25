@@ -8,6 +8,7 @@
 <script>
 	export default {
 		name: "fui-row",
+		componentName:'fuiRow',
 		props: {
 			//是否为flex布局
 			isFlex: {

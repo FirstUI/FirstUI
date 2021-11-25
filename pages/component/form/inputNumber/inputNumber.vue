@@ -8,7 +8,7 @@
 			<view class="fui-section__title">基本使用</view>
 			<fui-input-number></fui-input-number>
 			<view class="fui-section__title">改变加减号颜色</view>
-			<fui-input-number signColor="#FFB703"></fui-input-number>
+			<fui-input-number signColor="#FFB703" value="1.1" modelValue="1.1"></fui-input-number>
 			<view class="fui-section__title">改变数字框背景色</view>
 			<fui-input-number backgroundColor="#F1F4FA"></fui-input-number>
 			<view class="fui-section__title">自定义加减号</view>

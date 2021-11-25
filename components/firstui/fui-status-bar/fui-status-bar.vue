@@ -9,6 +9,7 @@
 	var statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px'
 	export default {
 		name: "fui-status-bar",
+		emits: ['init'],
 		props: {
 			//背景色
 			background: {
@@ -41,7 +42,6 @@
 
 <style scoped>
 	.fui-status__bar {
-		flex: 1;
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		/* #endif */
@@ -52,6 +52,7 @@
 	.fui-status__bar-fixed {
 		position: fixed;
 		left: 0;
+		right: 0;
 		top: 0;
 	}
 </style>

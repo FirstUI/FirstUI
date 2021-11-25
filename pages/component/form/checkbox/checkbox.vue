@@ -6,30 +6,29 @@
 		</view>
 		<view class="fui-page__bd">
 			<view class="fui-section__title">基本使用</view>
-			<!--ref、groupRef、labelRef等仅为兼容头条小程序，如果不需要兼容可删除-->
-			<fui-checkbox-group ref="c_1" name="checkbox" v-model="vals" @change="change">
+			<fui-checkbox-group name="checkbox" v-model="vals" @change="change">
 				<view class="fui-list__item">
-					<fui-label ref="l_1">
+					<fui-label>
 						<view class="fui-align__center">
-							<fui-checkbox groupRef="c_1" labelRef="l_1" value="1" checked></fui-checkbox>
+							<fui-checkbox value="1"></fui-checkbox>
 							<text class="fui-text">选中</text>
 						</view>
 					</fui-label>
-					<fui-label ref="l_2" :margin="['0','0','0','40rpx']">
+					<fui-label :margin="['0','0','0','40rpx']">
 						<view class="fui-align__center">
-							<fui-checkbox groupRef="c_1" labelRef="l_2" value="2"></fui-checkbox>
+							<fui-checkbox value="2"></fui-checkbox>
 							<text class="fui-text">未选中</text>
 						</view>
 					</fui-label>
 				</view>
 			</fui-checkbox-group>
 			<view class="fui-section__title">推荐布局</view>
-			<fui-checkbox-group ref="ck_1">
-				<fui-label :ref="'fl'+index" v-for="(item,index) in checkboxItems" :key="index">
+			<fui-checkbox-group>
+				<fui-label v-for="(item,index) in checkboxItems" :key="index">
 					<fui-list-cell>
 						<view class="fui-align__center">
-							<fui-checkbox groupRef="ck_1" :labelRef="'fl'+index" :checked="item.checked"
-								:value="item.value" color="#FFB703" borderColor="#B2B2B2">
+							<fui-checkbox :checked="item.checked" :value="item.value" color="#FFB703"
+								borderColor="#B2B2B2">
 							</fui-checkbox>
 							<text class="fui-text">{{item.name}}</text>
 						</view>
@@ -37,25 +36,24 @@
 				</fui-label>
 			</fui-checkbox-group>
 			<view class="fui-section__title">推荐布局</view>
-			<fui-checkbox-group ref="ck_2">
-				<fui-label :ref="'fui_'+index" v-for="(item,index) in checkboxItems" :key="index">
+			<fui-checkbox-group>
+				<fui-label v-for="(item,index) in checkboxItems" :key="index">
 					<fui-list-cell>
 						<view class="fui-list__cell">
 							<text>{{item.name}}</text>
-							<fui-checkbox groupRef="ck_2" :labelRef="'fui_'+index" :checked="item.checked"
-								:value="item.value">
+							<fui-checkbox :checked="item.checked" :value="item.value">
 							</fui-checkbox>
 						</view>
 					</fui-list-cell>
 				</fui-label>
 			</fui-checkbox-group>
 			<view class="fui-section__title">推荐布局</view>
-			<fui-checkbox-group ref="ck_3">
-				<fui-label :ref="'fui_label'+index" v-for="(item,index) in checkboxItems" :key="index">
+			<fui-checkbox-group>
+				<fui-label v-for="(item,index) in checkboxItems" :key="index">
 					<fui-list-cell>
 						<view class="fui-list__cell">
 							<text>{{item.name}}</text>
-							<fui-checkbox groupRef="ck_3" :labelRef="'fui_label'+index" isCheckMark checkMarkColor="#FF2B2B" :scaleRatio="1.3" :checked="item.checked"
+							<fui-checkbox isCheckMark checkMarkColor="#FF2B2B" :scaleRatio="1.3" :checked="item.checked"
 								:value="item.value">
 							</fui-checkbox>
 						</view>
@@ -63,11 +61,11 @@
 				</fui-label>
 			</fui-checkbox-group>
 			<view class="fui-section__title">修改圆角值</view>
-			<fui-checkbox-group ref="ck_4">
-				<fui-label :ref="'label'+index" v-for="(item,index) in checkboxItems" :key="index">
+			<fui-checkbox-group>
+				<fui-label v-for="(item,index) in checkboxItems" :key="index">
 					<fui-list-cell>
 						<view class="fui-align__center">
-							<fui-checkbox groupRef="ck_34" :labelRef="'label'+index" :checked="item.checked" :value="item.value" color="#FFB703"
+							<fui-checkbox :checked="item.checked" :value="item.value" color="#FFB703"
 								borderColor="#B2B2B2" borderRadius="8rpx">
 							</fui-checkbox>
 							<text class="fui-text">{{item.name}}</text>
@@ -83,7 +81,7 @@
 	export default {
 		data() {
 			return {
-				vals: [],
+				vals: ['1'],
 				checkboxItems: [{
 						name: '篮球',
 						value: '1',

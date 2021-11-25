@@ -1,5 +1,4 @@
-//组件后续会新增，目前为第一期计划加入内容
-module.exports = [{
+export default [{
 	id: 'basics',
 	name: '基础组件',
 	data: [{
@@ -94,11 +93,80 @@ module.exports = [{
 }, {
 	id: 'operate',
 	name: '操作反馈',
-	data: [ {
+	data: [{
+		icon: 'actionsheet',
+		name: 'ActionSheet 上拉菜单',
+		vip: false,
+		page: 'actionsheet'
+	}, {
+		icon: 'toast',
+		name: 'Toast 轻提示',
+		vip: false,
+		page: 'toast'
+	}, {
+		icon: 'backdrop',
+		name: 'Backdrop 遮罩层',
+		vip: false,
+		page: 'backdrop'
+	}, {
+		icon: 'dialog',
+		name: 'Dialog 对话框',
+		vip: false,
+		page: 'dialog'
+	}, {
+		icon: 'dropdownmenu',
+		name: 'DropdownMenu 下拉菜单',
+		vip: false,
+		page: 'dropdownMenu'
+	}, {
+		icon: 'dropdownmenu',
+		name: 'DropdownList 下拉菜单',
+		vip: false,
+		page: 'dropdownList'
+	}, {
 		icon: 'loading',
 		name: 'Loading 加载',
 		vip: false,
 		page: 'loading'
+	}, {
+		icon: 'swipeaction',
+		name: 'SwipeAction 滑动菜单',
+		vip: false,
+		page: 'swipeAction'
+	}]
+}, {
+	id: 'nav',
+	name: '导航组件',
+	data: [{
+		icon: 'pagination',
+		name: 'Pagination 分页器',
+		vip: false,
+		page: 'pagination'
+	}, {
+		icon: 'segmentedcontrol',
+		name: 'SegmentedControl 分段器',
+		vip: false,
+		page: 'segmentedControl'
+	}, {
+		icon: 'tabs',
+		name: 'Tabs 标签页',
+		vip: false,
+		page: 'tabs'
+	}, {
+		icon: 'drawer',
+		name: 'Drawer 抽屉',
+		vip: false,
+		page: 'drawer'
+	}, {
+		icon: 'bottompopup',
+		name: 'BottomPopup 底部弹出层',
+		vip: false,
+		page: 'bottomPopup'
+	}, {
+		icon: 'toppopup',
+		name: 'TopPopup 顶部弹出层',
+		vip: false,
+		page: 'topPopup'
 	}]
 }, {
 	id: 'data',
@@ -114,6 +182,21 @@ module.exports = [{
 		vip: false,
 		page: 'alert'
 	}, {
+		icon: 'avatar',
+		name: 'Avatar 头像',
+		vip: false,
+		page: 'avatar'
+	}, {
+		icon: 'tag',
+		name: 'Tag 标签',
+		vip: false,
+		page: 'tag'
+	}, {
+		icon: 'collapse',
+		name: 'Collapse 折叠面板',
+		vip: false,
+		page: 'collapse'
+	}, {
 		icon: 'divider',
 		name: 'Divider 分割线',
 		vip: false,
@@ -123,6 +206,11 @@ module.exports = [{
 		name: 'LoadMore 加载更多',
 		vip: false,
 		page: 'loadmore'
+	}, {
+		icon: 'empty',
+		name: 'Empty 缺省页',
+		vip: false,
+		page: 'empty'
 	}]
 }, {
 	id: 'js',

@@ -59,7 +59,7 @@
 </template>
 
 <script>
-	const utils = require('@/components/firstui/fui-utils');
+	import utils from '@/components/firstui/fui-utils';
 	export default {
 		data() {
 			return {

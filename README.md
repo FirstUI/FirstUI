@@ -112,6 +112,73 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.2.0（2021-11-22）
+
+- 新增 Tabbar 标签栏 组件（VIP组件）。
+
+- 新增 ActionSheet 上拉菜单 组件。
+
+- 新增 Toast 轻提示 组件。
+
+- 新增 Dialog 对话框 组件。
+
+- 新增 DropdownMenu 下拉菜单 组件。
+
+- 新增 DropdownList 下拉菜单 组件。
+
+- 新增 Modal 模态框 组件（VIP组件）。
+
+- 新增 Landscape 压屏窗 组件（VIP组件）。
+
+- 新增 Message 消息提示 组件（VIP组件）。
+
+- 新增 BottomPopup 底部弹出层 组件。
+
+- 新增 TopPopup 顶部弹出层 组件。
+
+- 新增 Drawer 抽屉 组件。
+
+- 新增 NoticeBar 通告栏 组件（VIP组件）。
+
+- 新增 TimeAxis 时间轴 组件（VIP组件）。
+
+- 新增 Steps 步骤条 组件（VIP组件）。
+
+- 新增 Progress 进度条 组件（VIP组件）。
+
+- 新增 Collapse 折叠面板 组件。
+
+- 新增 SwiperDot 轮播图指示点 组件（VIP组件）。
+
+- 新增 DigitalRoller 数字滚轮 组件（VIP组件）。
+
+- 新增 DigitalKeyboard 数字键盘 组件（VIP组件）。
+
+- 新增 LicensePlate 车牌号键盘 组件（VIP组件）。
+
+- 新增 CountdownVerify 验证码倒计时 组件（VIP组件）。
+
+- 新增 Sticky 吸顶容器 组件（VIP组件）。
+
+- 新增 Fab 浮动按钮 组件（VIP组件）。
+
+- 新增 ShareSheet  分享面板 组件（VIP组件）。
+
+- 新增 FilterBar 筛选栏 组件（VIP组件）。
+
+- 新增 SwipeAction 滑动菜单 组件。
+
+- 新增 Picker 选择器 组件（VIP组件）。
+
+- 新增 DatePicker 日期时间选择器 组件（VIP组件）。
+
+- 新增 门户模板（物料）。
+
+- 优化掉部分组件中对头条小程序做兼容的冗余代码。
+
+- 优化若干已知问题。
+
+
 #### V1.1.0（2021-09-07）
 
 - 调整组件对vue3支持与uni-app官方一致。
@@ -158,6 +225,7 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 - 优化若干已知问题。
 
+
 #### V1.0.0（2021-08-02）
 
 - 新增 Color 色彩 ，First UI用色指南。
@@ -170,7 +238,7 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 - 新增 Animation 动画 组件。
 
-- 新增 StatusBar 状态栏占位 组件。
+- 新增 StatusBar 状态栏 组件。
 
 - 新增 Layout 栅格布局 组件（fui-row和fui-col）。
 

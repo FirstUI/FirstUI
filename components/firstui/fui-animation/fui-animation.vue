@@ -12,6 +12,7 @@
 
 	export default {
 		name: 'fui-animation',
+		emits: ['click', 'change'],
 		props: {
 			//是否显示
 			show: {
@@ -42,9 +43,9 @@
 						top: 0,
 						left: 0,
 						right: 0,
-						/* #ifndef APP-NVUE */
+						// #ifndef APP-NVUE
 						display: 'flex',
-						/* #endif */
+						// #endif
 						'justify-content': 'center',
 						'align-items': 'center'
 					};
@@ -100,7 +101,7 @@
 				this.ani.in = '';
 				for (let i in this.getTranfrom(false)) {
 					if (i === 'opacity') {
-						this.ani.in = 'fui-fade-in';
+						this.ani.in = 'fui-popup__fade-out';
 					} else {
 						this.transform += `${this.getTranfrom(false)[i]} `;
 					}
@@ -141,7 +142,7 @@
 				this.transform = '';
 				for (let i in styles) {
 					if (i === 'opacity') {
-						this.ani.in = `fui-fade-${type ? 'out' : 'in'}`;
+						this.ani.in = `fui-popup__fade-${type ? 'in' : 'out'}`;
 					} else {
 						this.transform += `${styles[i]} `;
 					}
@@ -203,11 +204,11 @@
 		z-index: 99;
 	}
 
-	.fui-fade-in {
+	.fui-popup__fade-out {
 		opacity: 0;
 	}
 
-	.fui-fade-active {
+	.fui-popup__fade-in {
 		opacity: 1;
 	}
 </style>

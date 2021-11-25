@@ -5,7 +5,7 @@
 				<image src="/static/images/common/img_coding_3x.png" class="fui-img" mode="widthFix"></image>
 			</view>
 			<view class="fui-title">会员模块</view>
-			<view class="fui-sub__title">功能开发中，敬请期待！</view>
+			<view class="fui-sub__title">详情请扫码查看线上小程序！</view>
 		</view>
 	</view>
 </template>

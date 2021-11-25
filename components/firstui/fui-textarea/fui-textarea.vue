@@ -25,7 +25,7 @@
 			<view class="fui-textarea__flex-1">
 				<textarea class="fui-textarea__self" :class="{'fui-text__right':textRight}"
 					:style="{height:height,minHeight:minHeight,fontSize:size+'rpx',color:color}"
-					placeholder-class="fui-textarea-placeholder" :name="name" :value="value" :placeholder="placeholder"
+					placeholder-class="fui-textarea-placeholder" :name="name" :value="val" :placeholder="placeholder"
 					:placeholderStyle="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
 					:maxlength="maxlength" :focus="focused" :auto-height="autoHeight" :fixed="fixed"
 					:confirm-type="confirmType" :show-confirm-bar="showConfirmBar" :cursor="cursor"
@@ -49,6 +49,8 @@
 <script>
 	export default {
 		name: "fui-textarea",
+		emits: ['input', 'update:modelValue', 'focus', 'blur', 'confirm', 'click', 'linechange', 'keyboardheightchange'],
+		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		//加group是为了避免在表单中使用时给组件加value属性
 		behaviors: ['wx://form-field-group'],
@@ -56,6 +58,7 @@
 		// #ifdef MP-BAIDU || MP-QQ
 		//如果在这些平台不需要也能识别，则删除
 		behaviors: ['uni://form-field'],
+		// #endif
 		// #endif
 		// #ifdef MP-WEIXIN
 		options: {
@@ -124,9 +127,16 @@
 			},
 			//输入框值
 			value: {
-				type: String,
+				type: [Number, String],
 				default: ''
 			},
+			// #ifdef VUE3
+			//输入框值
+			modelValue: {
+				type: [Number, String],
+				default: ''
+			},
+			// #endif
 			disabled: {
 				type: Boolean,
 				default: false
@@ -284,7 +294,8 @@
 			return {
 				placeholderStyl: '',
 				count: 0,
-				focused: false
+				focused: false,
+				val: ''
 			};
 		},
 		watch: {
@@ -295,29 +306,67 @@
 			},
 			placeholderStyle() {
 				this.fieldPlaceholderStyle()
+			},
+			// #ifdef VUE3
+			modelValue(newVal) {
+				this.val = newVal
+			},
+			// #endif
+			value(newVal) {
+				this.val = newVal
+				this.count = this.getCount(this.val.length)
 			}
 		},
 		created() {
+			// #ifndef VUE3
+			this.val = this.value
+			// #endif
+
+			// #ifdef VUE3
+			if (this.value && !this.modelValue) {
+				this.val = this.value
+			} else {
+				this.val = this.modelValue
+			}
+			// #endif
+			this.count = this.getCount(this.val.length)
 			this.fieldPlaceholderStyle()
+		},
+		mounted() {
+			this.$nextTick(() => {
+				this.focused = this.focus
+			})
 		},
 		methods: {
 			fieldPlaceholderStyle() {
 				if (this.placeholderStyle) {
 					this.placeholderStyl = this.placeholderStyle
 				} else {
-					this.placeholderStyl = `font-size:${this.size}rpx`
+					const size = uni.upx2px(this.size)
+					this.placeholderStyl = `font-size:${size}px`
 				}
+			},
+			getCount(len) {
+				const max = Number(this.maxlength)
+				return len > max ? max : len
 			},
 			onInput(event) {
 				let value = event.detail.value;
 				if (this.trim) value = this.trimStr(value);
 				const len = value.length;
-				if (len > this.maxlength) {
-					len = this.maxlength;
-					value = value.substring(0, this.maxlength - 1)
+				const max = Number(this.maxlength)
+				if (len > max) {
+					len = max;
+					value = value.substring(0, max - 1)
 				}
 				this.count = len;
+				this.val = value;
+				// TODO　兼容　vue2
 				this.$emit('input', value);
+				// TODO　兼容　vue3
+				// #ifdef VUE3
+				this.$emit('update:modelValue', value)
+				// #endif
 			},
 			onFocus(event) {
 				this.$emit('focus', event);
@@ -326,7 +375,7 @@
 				this.$emit('blur', event);
 			},
 			onConfirm(e) {
-				this.$emit('confirm', e.detail.value);
+				this.$emit('confirm', e);
 			},
 			fieldClick() {
 				this.$emit('click', {
@@ -334,10 +383,10 @@
 				});
 			},
 			onLinechange(e) {
-				this.$emit('linechange', e.detail)
+				this.$emit('linechange', e)
 			},
 			onKeyboardheightchange(e) {
-				this.$emit('keyboardheightchange', e.detail)
+				this.$emit('keyboardheightchange', e)
 			},
 			trimStr(str) {
 				return str.replace(/^\s+|\s+$/g, '');

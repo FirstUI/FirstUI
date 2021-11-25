@@ -29,6 +29,7 @@
 <script>
 	export default {
 		name: "fui-card",
+		emits: ['click'],
 		props: {
 			//card margin值：[上、右、下、左]
 			margin: {

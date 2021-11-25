@@ -8,6 +8,7 @@
 <script>
 	export default {
 		name: "fui-badge",
+		emits: ['click'],
 		props: {
 			value: {
 				type: [Number, String],

@@ -1,4 +1,5 @@
 export default {
+	"addressbook":"\ue80c",
 	"addfriends-fill": "\ue80a",
 	"addfriends": "\ue80b",
 	"backspace-fill": "\ue808",
@@ -55,6 +56,7 @@ export default {
 	"more-fill": "\ue7d7",
 	"my-fill": "\ue7d4",
 	"my": "\ue7d5",
+	"principal":"\ue80d",
 	"notice-fill": "\ue7d2",
 	"notice": "\ue7d3",
 	"order": "\ue7d0",

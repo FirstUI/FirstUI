@@ -1,5 +1,5 @@
 <template>
-	<view class="fui-list__cell" :class="{'fui-highlight':highlight}"
+	<view class="fui-list__cell" :class="{'fui-highlight':highlight,'fui-list__cell-background':!background}"
 		:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,background:background,marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx',borderRadius:radius}"
 		@tap="handleClick">
 		<view v-if="topBorder" :style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}"
@@ -15,6 +15,7 @@
 <script>
 	export default {
 		name: "fui-list-cell",
+		emits: ['click'],
 		props: {
 			//padding值，上、右、下、左,nvue下padding-right(右)无效
 			padding: {
@@ -34,10 +35,18 @@
 				default: 0
 			},
 			//背景颜色
+			// #ifdef APP-NVUE
 			background: {
 				type: String,
 				default: '#fff'
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			background: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			//是否有点击效果
 			highlight: {
 				type: Boolean,
@@ -63,16 +72,18 @@
 				default: true
 			},
 			//边框颜色，非nvue下传值则全局默认样式失效
+			// #ifdef APP-NVUE
 			borderColor: {
 				type: String,
-				// #ifdef APP-NVUE
 				default: '#EEEEEE'
-				// #endif
-				// #ifndef APP-NVUE
-				default: ''
-				// #endif
-
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			borderColor: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			//上边框left值，单位rpx
 			topLeft: {
 				type: [Number, String],
@@ -138,7 +149,7 @@
 		width: 40rpx;
 		border-width: 3px 3px 0 0;
 		border-style: solid;
-		transform: Rotate(45deg) scale(0.5);
+		transform: rotate(45deg) scale(0.5);
 		/* #ifndef APP-NVUE */
 		border-radius: 4rpx;
 		flex-shrink: 0;
@@ -188,6 +199,9 @@
 	/* #ifndef APP-NVUE */
 	.fui-cell__border-color {
 		background-color: var(--fui-color-border, #EEEEEE) !important;
+	}
+	.fui-list__cell-background {
+		background-color: var(--fui-bg-color, #fff);
 	}
 
 	/* #endif */

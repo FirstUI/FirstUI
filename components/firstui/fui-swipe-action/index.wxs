@@ -1,0 +1,235 @@
+var MIN_DISTANCE = 10
+
+function isPC() {
+	if (typeof navigator !== 'object') return false;
+	var userAgentInfo = navigator.userAgent;
+	var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+	var flag = true;
+	for (var v = 0; v < Agents.length - 1; v++) {
+		if (userAgentInfo.indexOf(Agents[v]) > 0) {
+			flag = false;
+			break;
+		}
+	}
+	return flag;
+}
+var isH5 = false
+if (typeof window === 'object') isH5 = true
+
+function getDom(ins, ownerInstance) {
+	var state = ins.getState()
+	var rightDom = ownerInstance.selectComponent('.fui-swipe__action-right')
+	if (isH5 || isPC()) {
+		state.rightWidth = rightDom['$el'].offsetWidth || 0
+	} else {
+		var rightStyles = rightDom.getBoundingClientRect()
+		state.rightWidth = rightStyles.width || 0
+	}
+}
+
+function getDirection(x, y) {
+	if (x > y && x > MIN_DISTANCE) {
+		return 'horizontal';
+	}
+	if (y > x && y > MIN_DISTANCE) {
+		return 'vertical';
+	}
+	return '';
+}
+
+function stopTouchMove(event) {
+	var instance = event.instance;
+	var state = instance.getState();
+	var touch = event.touches[0];
+	if (isH5 && isPC()) {
+		touch = event;
+	}
+	state.deltaX = touch.clientX - state.startX;
+	state.deltaY = touch.clientY - state.startY;
+	state.offsetY = Math.abs(state.deltaY);
+	state.offsetX = Math.abs(state.deltaX);
+	state.direction = state.direction || getDirection(state.offsetX, state.offsetY);
+}
+
+function stopTouchStart(event) {
+	var instance = event.instance;
+	var state = instance.getState();
+	resetTouchStatus(instance);
+	var touch = event.touches[0];
+	if (isH5 && isPC()) {
+		touch = event;
+	}
+	state.startX = touch.clientX;
+	state.startY = touch.clientY;
+}
+
+function touchstart(e, ownerInstance) {
+	var ins = e.instance;
+	var state = ins.getState();
+	getDom(ins, ownerInstance)
+	if (state.disabled) return
+	// 开始触摸时移除动画类
+	ins.requestAnimationFrame(function() {
+		ins.removeClass('fui-swipe__action-ani');
+		ownerInstance.callMethod('closeSwipe');
+	})
+
+	// 记录上次的位置
+	state.x = state.left || 0
+	// 计算滑动开始位置
+	stopTouchStart(e, ownerInstance)
+}
+
+function move(value, ins, ownerInstance) {
+	value = value || 0
+	var state = ins.getState()
+	var rightWidth = state.rightWidth
+	// 获取可滑动范围
+	state.left = Math.min(Math.max(value, -rightWidth), 0);
+	ins.requestAnimationFrame(function() {
+		ins.setStyle({
+			transform: 'translateX(' + state.left + 'px)',
+			'-webkit-transform': 'translateX(' + state.left + 'px)'
+		})
+	})
+}
+
+function touchmove(e, ownerInstance) {
+	var ins = e.instance;
+	var state = ins.getState()
+	if (state.disabled) return;
+	// 是否可以滑动页面
+	stopTouchMove(e);
+	if (state.direction !== 'horizontal') return;
+
+	if (e.preventDefault) {
+		// 阻止页面滚动
+		e.preventDefault()
+	}
+
+	move(state.x + state.deltaX, ins, ownerInstance)
+}
+
+function openState(type, ins, ownerInstance) {
+	var state = ins.getState()
+	var leftWidth = state.leftWidth
+	var rightWidth = state.rightWidth
+	var left = ''
+	state.open = state.open ? state.open : 'none'
+	if (type === 'right' || type === true) {
+		left = -rightWidth
+	} else {
+		left = 0
+	}
+	if (state.open !== type) {
+		state.throttle = true
+		ownerInstance.callMethod('change', {
+			open: type
+		})
+	}
+
+	state.open = type
+	// 添加动画类
+	ins.requestAnimationFrame(function() {
+		ins.addClass('fui-swipe__action-ani');
+		move(left, ins, ownerInstance)
+	})
+}
+
+function moveDirection(left, ins, ownerInstance) {
+	var state = ins.getState()
+	var threshold = state.threshold || 30
+	var position = state.position
+	var open = state.open || 'none'
+	var rightWidth = state.rightWidth
+	if (state.deltaX === 0) {
+		openState('none', ins, ownerInstance)
+		return
+	}
+	if ((open === 'none' && rightWidth > 0 && -left > threshold) || (open !== 'none' && rightWidth > 0 &&
+			rightWidth +
+			left < threshold)) {
+		openState('right', ins, ownerInstance)
+	} else {
+		// default
+		openState('none', ins, ownerInstance)
+	}
+}
+
+function touchend(e, ownerInstance) {
+	var instance = e.instance;
+	var state = instance.getState()
+	if (state.disabled) return
+	moveDirection(state.left, instance, ownerInstance)
+}
+
+function resetTouchStatus(instance) {
+	var state = instance.getState();
+	state.direction = '';
+	state.deltaX = 0;
+	state.deltaY = 0;
+	state.offsetX = 0;
+	state.offsetY = 0;
+}
+
+function showChange(newVal, oldVal, ownerInstance, instance) {
+	var state = instance.getState()
+	getDom(instance, ownerInstance)
+	if (newVal && newVal !== 'none') {
+		openState(newVal || 'right', instance, ownerInstance)
+		return
+	}
+
+	if (state.left) {
+		openState('none', instance, ownerInstance)
+	}
+	resetTouchStatus(instance)
+}
+
+var movable = false
+
+function mousedown(e, ins) {
+	if (!isH5 || !isPC()) return
+	touchstart(e, ins)
+	movable = true
+}
+
+function mousemove(e, ins) {
+	if (!isH5 || !isPC() || !movable) return
+	touchmove(e, ins)
+}
+
+function mouseup(e, ins) {
+	if (!isH5 || !isPC()) return
+	touchend(e, ins)
+	movable = false
+}
+
+function mouseleave(e, ins) {
+	if (!isH5 || !isPC()) return
+	movable = false
+}
+
+function disabledChange(newVal, oldVal, ownerInstance, ins) {
+	var st = ins.getState()
+	st.disabled = newVal
+}
+
+function thresholdChange(newVal, oldVal, ownerInstance, ins) {
+	var st = ins.getState()
+	st.threshold = newVal || 30
+}
+
+
+module.exports = {
+	touchstart: touchstart,
+	touchmove: touchmove,
+	touchend: touchend,
+	mousedown: mousedown,
+	mousemove: mousemove,
+	mouseup: mouseup,
+	mouseleave: mouseleave,
+	disabledChange: disabledChange,
+	thresholdChange: thresholdChange,
+	showChange: showChange
+}

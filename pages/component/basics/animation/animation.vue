@@ -43,9 +43,9 @@
 					top: 0,
 					left: 0,
 					right: 0,
-					/* #ifndef APP-NVUE */
+					// #ifndef APP-NVUE
 					display: 'flex',
-					/* #endif */
+					// #endif
 					'justify-content': 'center',
 					'align-items': 'center'
 				}

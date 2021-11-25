@@ -1,6 +1,6 @@
 <template>
 	<view :class="{'fui-input__border':inputBorder,'fui-radius__fillet':isFillet,borderColor:borderColor}"
-		:style="{marginTop:marginTop+'rpx'}" @tap="fieldClick">
+		:style="getStyles" @tap="fieldClick">
 		<view class="fui-input__wrap" :class="{'fui-radius__fillet':isFillet}"
 			:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,backgroundColor:backgroundColor}">
 			<view v-if="borderTop && !inputBorder"
@@ -20,14 +20,21 @@
 			<slot name="left"></slot>
 			<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
 				:style="{fontSize:size+'rpx',color:color}" placeholder-class="fui-input__placeholder" :type="type"
-				:name="name" :value="value" :password="password" :placeholder="placeholder"
+				:name="name" :value="val" :password="password" :placeholder="placeholder"
 				:placeholder-style="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
 				:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
 				:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
-				:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur" :enableNative="false" @focus="onFocus"
-				@blur="onBlur" @input="onInput" @confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
-			<view class="fui-clear__wrap" @tap.stop="onClear" v-if="clearable && value != ''">
-				<icon type="clear" :size="clearSize" :color="clearColor"></icon>
+				:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur"
+				:enableNative="false" @focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm"
+				@keyboardheightchange="onKeyboardheightchange" />
+			<view class="fui-input__clear-wrap" :style="{background:clearColor}" v-if="clearable && val != ''"
+				@tap.stop="onClear">
+				<view class="fui-input__clear">
+					<view class="fui-input__clear-a"></view>
+				</view>
+				<view class="fui-input__clear">
+					<view class="fui-input__clear-b"></view>
+				</view>
 			</view>
 			<slot></slot>
 			<view v-if="borderBottom  && !inputBorder"
@@ -40,6 +47,8 @@
 <script>
 	export default {
 		name: "fui-input",
+		emits: ['input', 'update:modelValue', 'focus', 'blur', 'confirm', 'click','keyboardheightchange'],
+		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		//加group是为了避免在表单中使用时给组件加value属性
 		behaviors: ['wx://form-field-group'],
@@ -47,6 +56,7 @@
 		// #ifdef MP-BAIDU || MP-QQ
 		//如果在这些平台不需要也能识别，则删除
 		behaviors: ['uni://form-field'],
+		// #endif
 		// #endif
 		// #ifdef MP-WEIXIN
 		options: {
@@ -87,11 +97,6 @@
 				type: Boolean,
 				default: false
 			},
-			//px
-			clearSize: {
-				type: Number,
-				default: 15
-			},
 			clearColor: {
 				type: String,
 				default: '#CCCCCC'
@@ -114,11 +119,18 @@
 				type: String,
 				default: ''
 			},
-			//输入框值
+			//输入框值 vue2
 			value: {
-				type: String,
+				type: [Number, String],
 				default: ''
 			},
+			// #ifdef VUE3
+			//输入框值
+			modelValue: {
+				type: [Number, String],
+				default: ''
+			},
+			// #endif
 			//与官方input type属性一致
 			type: {
 				type: String,
@@ -192,6 +204,11 @@
 				type: Boolean,
 				default: false
 			},
+			//自定义圆角值，无边框时生效
+			radius: {
+				type: [Number, String],
+				default: -1
+			},
 			// 是否显示上边框
 			borderTop: {
 				type: Boolean,
@@ -257,7 +274,17 @@
 		data() {
 			return {
 				placeholderStyl: '',
-				focused: false
+				focused: false,
+				val: ''
+			}
+		},
+		computed: {
+			getStyles() {
+				let styles = `margin-top:${this.marginTop}rpx;`
+				if (!this.inputBorder && !this.borderTop && !this.borderBottom && this.radius != -1) {
+					styles += `border-radius:${this.radius}rpx;overflow:hidden;`
+				}
+				return styles
 			}
 		},
 		watch: {
@@ -268,23 +295,64 @@
 			},
 			placeholderStyle() {
 				this.fieldPlaceholderStyle()
+			},
+			// #ifdef VUE3
+			modelValue(newVal) {
+				this.val = newVal
+			},
+			// #endif
+			value(newVal) {
+				this.val = newVal
 			}
 		},
 		created() {
+			// #ifndef VUE3
+			this.val = this.value
+			// #endif
+
+			// #ifdef VUE3
+			if (this.value && !this.modelValue) {
+				this.val = this.value
+			} else {
+				this.val = this.modelValue
+			}
+			// #endif
+
 			this.fieldPlaceholderStyle()
+		},
+		mounted() {
+			this.$nextTick(() => {
+				// #ifdef MP-TOUTIAO
+				setTimeout(() => {
+					this.focused = this.focus
+				}, 300)
+				// #endif
+				// #ifndef MP-TOUTIAO
+				setTimeout(() => {
+					this.focused = this.focus
+				}, 120)
+				// #endif
+			})
 		},
 		methods: {
 			fieldPlaceholderStyle() {
 				if (this.placeholderStyle) {
 					this.placeholderStyl = this.placeholderStyle
 				} else {
-					this.placeholderStyl = `font-size:${this.size}rpx`
+					const size = uni.upx2px(this.size)
+					this.placeholderStyl = `font-size:${size}px`
 				}
 			},
 			onInput(event) {
 				let value = event.detail.value;
 				if (this.trim) value = this.trimStr(value);
+				this.val = value;
+				// TODO　兼容　vue2
 				this.$emit('input', value);
+				// TODO　兼容　vue3
+				// #ifdef VUE3
+				this.$emit('update:modelValue', value)
+				// #endif
 			},
 			onFocus(event) {
 				this.$emit('focus', event);
@@ -293,10 +361,15 @@
 				this.$emit('blur', event);
 			},
 			onConfirm(e) {
-				this.$emit('confirm', e.detail.value);
+				this.$emit('confirm', e);
 			},
 			onClear(event) {
+				uni.hideKeyboard()
+				this.val = '';
 				this.$emit('input', '');
+				// #ifdef VUE3
+				this.$emit('update:modelValue', '')
+				// #endif
 			},
 			fieldClick() {
 				this.$emit('click', {
@@ -393,14 +466,59 @@
 		box-sizing: border-box;
 		overflow: visible;
 		/* #endif */
+		background-color: transparent;
 	}
 
-	.fui-clear__wrap {
-		/* display: inline; */
-		padding: 2rpx;
-		font-size: 0;
+	.fui-input__clear-wrap {
+		width: 32rpx;
+		height: 32rpx;
+		transform: rotate(45deg) scale(1.1);
+		position: relative;
+		/* #ifndef APP-NVUE */
+		border-radius: 50%;
+		flex-shrink: 0;
+		/* #endif */
+
+		/* #ifdef APP-NVUE */
+		border-radius: 32rpx;
+		/* #endif */
+
 		/* #ifdef H5 */
 		cursor: pointer;
+		/* #endif */
+
+	}
+
+	.fui-input__clear {
+		width: 32rpx;
+		height: 32rpx;
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		left: 0;
+		top: 0;
+		transform: scale(0.5) translateZ(0);
+	}
+
+	.fui-input__clear-a {
+		width: 32rpx;
+		border: 2rpx solid #fff;
+		background-color: #fff;
+		/* #ifndef APP-NVUE */
+		box-sizing: border-box;
+		/* #endif */
+	}
+
+	.fui-input__clear-b {
+		height: 32rpx;
+		border: 2rpx solid #fff;
+		background-color: #fff;
+		/* #ifndef APP-NVUE */
+		box-sizing: border-box;
 		/* #endif */
 	}
 
@@ -424,7 +542,7 @@
 	/* #endif */
 
 	.fui-input__border {
-		border-radius: 6rpx;
+		border-radius: 8rpx;
 		position: relative;
 		/* #ifdef APP-NVUE */
 		border-style: solid;
@@ -446,7 +564,7 @@
 		transform: scale(0.5);
 		left: 0;
 		top: 0;
-		border-radius: 12rpx;
+		border-radius: 16rpx;
 		pointer-events: none;
 	}
 

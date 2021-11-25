@@ -59,7 +59,6 @@
 
 <style scoped>
 	.fui-divider__wrap {
-		flex: 1;
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		display: flex;
@@ -83,8 +82,8 @@
 		height: 1px;
 		top: 50%;
 		left: 50%;
-		-webkit-transform: scaleY(0.5) translate(-50%) translateZ(0);
-		transform: scaleY(0.5) translate(-50%) translateZ(0);
+		-webkit-transform: scaleY(0.5) translate3d(-50%,-50%,0);
+		transform: scaleY(0.5) translate3d(-50%,-50%,0);
 		/* #endif */
 	}
 

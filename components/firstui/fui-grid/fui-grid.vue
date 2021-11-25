@@ -1,6 +1,6 @@
 <template>
 	<view class="fui-grid__wrap">
-		<view :id="elemId" ref="fui_grid" class="fui-grid" :class="{ 'fui-grid__border': showBorder }"
+		<view :id="elemId" class="fui-grid" :class="{ 'fui-grid__border': showBorder }"
 			:style="{ 'border-left-color':borderColor,'border-top-color':borderColor}">
 			<slot></slot>
 		</view>
@@ -13,6 +13,7 @@
 	// #endif
 	export default {
 		name: "fui-grid",
+		emits: ['click'],
 		props: {
 			// 每行显示个数
 			columns: {
@@ -32,16 +33,14 @@
 			// 是否正方形显示,默认为 true
 			square: {
 				type: Boolean,
-				default: true 
+				default: true
 			}
 		},
-		// #ifndef MP-TOUTIAO
 		provide() {
 			return {
 				grid: this
 			}
 		},
-		// #endif
 		data() {
 			const elemId = `fui_${Math.ceil(Math.random() * 10e5).toString(36)}`
 			return {
@@ -97,11 +96,13 @@
 				this.width = (100 / this.columns) + '%'
 				if (this.square || isNoSupported) {
 					uni.createSelectorQuery()
+						// #ifndef MP-ALIPAY
 						.in(this)
+						// #endif
 						.select(`#${this.elemId}`)
 						.boundingClientRect()
 						.exec(ret => {
-							const width = Number((ret[0].width) / this.columns) + 'px'
+							const width = Number((ret[0].width - 1) / this.columns) + 'px'
 							if (this.square)
 								this.height = width;
 							if (isNoSupported)

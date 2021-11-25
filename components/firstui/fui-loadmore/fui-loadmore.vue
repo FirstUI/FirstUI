@@ -88,17 +88,26 @@
 				// #endif
 			}
 		},
+		// #ifdef APP-NVUE
 		mounted() {
-			// #ifdef APP-NVUE
 			this._animation()
-			// #endif
 		},
+		// #endif
+		//nvue暂不支持vue3，所以不需要做兼容,此处以防后续兼容
+		// #ifdef APP-NVUE
+		// #ifndef VUE3
 		beforeDestroy() {
-			// #ifndef APP-NVUE
 			this.deg = 0;
 			this.stop = true;
-			// #endif
 		},
+		// #endif
+		// #ifdef VUE3
+		beforeUnmount() {
+			this.deg = 0;
+			this.stop = true;
+		},
+		// #endif
+		// #endif
 		methods: {
 			// #ifdef APP-NVUE
 			_animation() {
@@ -126,7 +135,6 @@
 
 <style scoped>
 	.fui-loadmore__wrap {
-		flex: 1;
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		display: flex;

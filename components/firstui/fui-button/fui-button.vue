@@ -13,9 +13,9 @@
 				width: width,
 				height: height,
 				lineHeight: height,
-				background: disabled && disabledBackground ? disabledBackground : plain ? 'transparent' : background,
+				background: disabled && disabledBackground ? disabledBackground : (plain ? 'transparent' : background),
 				borderWidth:borderWidth,
-				borderColor: borderColor ? borderColor : disabled && disabledBackground ? disabledBackground : background,
+				borderColor: borderColor ? borderColor : disabled && disabledBackground ? disabledBackground : (background || 'transparent'),
 				borderRadius: radius,
 				fontSize: size + 'rpx',
 				color: disabled && disabledBackground ? disabledColor : color
@@ -34,8 +34,11 @@
 <script>
 	export default {
 		name: 'fui-button',
+		emits: ['click', 'getuserinfo', 'contact', 'getphonenumber', 'error', 'opensetting'],
+		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		behaviors: ['wx://form-field-button'],
+		// #endif
 		// #endif
 		props: {
 			//样式类型：primary，success， warning，danger，link，purple，gray
@@ -93,7 +96,7 @@
 			},
 			//字体大小，单位rpx
 			size: {
-				type: Number,
+				type: [Number, String],
 				default: 32
 			},
 			bold: {
@@ -134,9 +137,9 @@
 			},
 			//支付宝小程序 
 			//当 open-type 为 getAuthorize 时，可以设置 scope 为：phoneNumber、userInfo
-			scope:{
-				type:String,
-				default:''
+			scope: {
+				type: String,
+				default: ''
 			},
 			index: {
 				type: [Number, String],
@@ -169,7 +172,7 @@
 			},
 			handleTap() {
 				// #ifdef H5
-				if (this.tap) return;
+				if (this.disabled || this.tap) return;
 				this.$emit('click', {
 					index: Number(this.index)
 				});
@@ -221,6 +224,10 @@
 		/* #endif */
 		/* #ifndef APP-NVUE */
 		border-width: 1rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
 		/* #endif */
 		border-style: solid;
 		position: relative;
@@ -228,6 +235,7 @@
 		padding-right: 0;
 		overflow: hidden;
 		/* #ifndef APP-NVUE */
+		transform: translateZ(0);
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
 		user-select: none;
@@ -246,6 +254,10 @@
 	}
 
 	/* #ifndef APP-NVUE */
+	.fui-button__active {
+		overflow: hidden !important;
+	}
+
 	.fui-button__active::after {
 		content: ' ';
 		background-color: var(--fui-bg-color-hover, rgba(0, 0, 0, 0.2));
@@ -254,10 +266,10 @@
 		height: 100%;
 		left: 0;
 		right: 0;
+		top: 0;
 		transform: none;
 		z-index: 1;
 		border-radius: 0;
-		top: 0;
 	}
 
 	/* #endif */

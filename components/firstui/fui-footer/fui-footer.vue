@@ -8,7 +8,7 @@
 					:style="{color:item.color || '#465CFF',fontSize:(item.size || 28)+'rpx',borderColor:borderColor,lineHeight:(item.size || 28)+'rpx'}">{{item.text}}</text>
 			</navigator>
 		</view>
-		<view class="fui-footer__text">
+		<view class="fui-footer__text" :class="{'fui-as__safe-weex':iphoneX}">
 			<text :style="{color:color,fontSize:size+'rpx'}">{{text}}</text>
 		</view>
 	</view>
@@ -56,6 +56,35 @@
 				type: Boolean,
 				default: false
 			}
+		},
+		data() {
+			return {
+				iphoneX: false
+			}
+		},
+		created() {
+			// #ifdef APP-NVUE || MP-TOUTIAO
+			this.iphoneX = this.isPhoneX();
+			// #endif
+		},
+		methods: {
+			// #ifdef APP-NVUE || MP-TOUTIAO
+			isPhoneX() {
+				//34px
+				const res = uni.getSystemInfoSync();
+				let iphonex = false;
+				let models = ['iphonex', 'iphonexr', 'iphonexsmax', 'iphone11', 'iphone11pro', 'iphone11promax',
+					'iphone12', 'iphone12mini', 'iphone12pro', 'iphone12promax', 'iphone13', 'iphone13mini',
+					'iphone13pro', 'iphone13promax', 'iphone14', 'iphone14mini',
+					'iphone14pro', 'iphone14promax'
+				]
+				const model = res.model.replace(/\s/g, "").toLowerCase()
+				if (models.includes(model)) {
+					iphonex = true;
+				}
+				return iphonex;
+			}
+			// #endif
 		}
 	}
 </script>
@@ -161,10 +190,17 @@
 		line-height: 1;
 		text-align: center;
 		padding-top: 8rpx;
-		/* #ifndef APP-NVUE */
+		/* #ifndef APP-NVUE || MP-TOUTIAO */
 		padding-bottom: constant(safe-area-inset-bottom);
 		padding-bottom: env(safe-area-inset-bottom);
 		/* #endif */
 		font-weight: 400;
 	}
+
+	/* #ifdef APP-NVUE || MP-TOUTIAO */
+	.fui-as__safe-weex {
+		padding-bottom: 34px;
+	}
+
+	/* #endif */
 </style>

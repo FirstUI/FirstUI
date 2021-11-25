@@ -42,11 +42,11 @@
 				<fui-icon name="clear" :size="48" color="#fff"></fui-icon>
 			</fui-alert>
 			<view class="fui-section__title">自定义颜色</view>
-			<fui-alert type="clear" iconColor="#FF2B2B" backgroundColor="#fff" color="#181818" title="An info alert">
+			<fui-alert type="clear" iconColor="#FF2B2B" background="#fff" color="#181818" title="An info alert">
 			</fui-alert>
-			<fui-alert type="success" iconColor="#09BE4F" backgroundColor="#fff" color="#181818" title="An info alert"
+			<fui-alert type="success" iconColor="#09BE4F" background="#fff" color="#181818" title="An info alert"
 				:marginTop="24"></fui-alert>
-			<fui-alert type="warn" iconColor="#FFB703" backgroundColor="#fff" color="#181818" title="An info alert"
+			<fui-alert type="warn" iconColor="#FFB703" background="#fff" color="#181818" title="An info alert"
 				:marginTop="24"></fui-alert>
 		</view>
 	</view>
