@@ -11,7 +11,7 @@
 					:style="{height:height+'rpx'}">
 					<view class="fui-tabs__ac-line"
 						:class="{'fui-tabs__line-short':short,'fui-tabs__slider-color':!sliderBackground}"
-						:style="{height:sliderHeight+'rpx',background:sliderBackground,borderRadius:sliderRadius==-1?sliderHeight+'rpx':sliderRadius+'rpx',bottom:bottom +'rpx',left:`-${padding}rpx`,right:`-${padding}rpx`,transform: `scale(${tabIndex===index?(isNvue?1:scale):(isNvue?0.00001:0)})`}">
+						:style="{height:sliderHeight+'rpx',background:sliderBackground,borderRadius:sliderRadius==-1?sliderHeight+'rpx':sliderRadius+'rpx',bottom:bottom +'rpx',left:`-${padding}rpx`,right:`-${padding}rpx`,transform: `scale(${tabIndex===index?(isNvue?1:scale):(isNvue?0.00001:0)})`}" v-if="isSlider">
 					</view>
 					<image class="fui-tabs__icon" :class="{'fui-tabs__icon-column':direction==='column'}"
 						:src="tabIndex===index && tab.selectedIcon?tab.selectedIcon:tab.icon" v-if="tab.icon">
@@ -126,6 +126,10 @@
 			isDot: {
 				type: Boolean,
 				default: false
+			},
+			isSlider:{
+				type: Boolean,
+				default: true
 			},
 			//滑块高度
 			sliderHeight: {

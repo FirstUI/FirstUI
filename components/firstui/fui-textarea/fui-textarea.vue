@@ -28,11 +28,10 @@
 					placeholder-class="fui-textarea-placeholder" :name="name" :value="val" :placeholder="placeholder"
 					:placeholderStyle="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
 					:maxlength="maxlength" :focus="focused" :auto-height="autoHeight" :fixed="fixed"
-					:confirm-type="confirmType" :show-confirm-bar="showConfirmBar" :cursor="cursor"
-					:selection-start="selectionStart" :selection-end="selectionEnd" :adjust-position="adjustPosition"
-					:hold-keyboard="holdKeyboard" :disable-default-padding="disableDefaultPadding" :auto-blur="autoBlur"
-					:enableNative="false" :show-count="false" @focus="onFocus" @blur="onBlur" @input="onInput"
-					@confirm="onConfirm" @linechange="onLinechange"
+					:show-confirm-bar="showConfirmBar" :cursor="cursor" :selection-start="selectionStart"
+					:selection-end="selectionEnd" :adjust-position="adjustPosition" :hold-keyboard="holdKeyboard"
+					:disable-default-padding="disableDefaultPadding" :enableNative="false" :show-count="false"
+					@focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm" @linechange="onLinechange"
 					@keyboardheightchange="onKeyboardheightchange"></textarea>
 				<view class="fui-textarea__counter" v-if="isCounter && maxlength!=-1">
 					<text :style="{fontSize:counterSize+'rpx',color:counterColor}">{{count}}/{{maxlength}}</text>
@@ -149,10 +148,6 @@
 				type: Number,
 				default: 0,
 			},
-			confirmType: {
-				type: String,
-				default: 'done'
-			},
 			showConfirmBar: {
 				type: Boolean,
 				default: true
@@ -178,10 +173,6 @@
 				default: true
 			},
 			holdKeyboard: {
-				type: Boolean,
-				default: false
-			},
-			autoBlur: {
 				type: Boolean,
 				default: false
 			},

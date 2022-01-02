@@ -211,7 +211,7 @@
 					'iphone14pro', 'iphone14promax'
 				]
 				const model = res.model.replace(/\s/g, "").toLowerCase()
-				if (models.includes(model)) {
+				if (models.includes(model) || (res.safeAreaInsets && res.safeAreaInsets.bottom)) {
 					iphonex = true;
 				}
 				return iphonex;

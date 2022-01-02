@@ -150,5 +150,16 @@ export default {
 	"balance": "\ue779",
 	"bankcardpay": "\ue778",
 	"wxpay": "\ue777",
-	"alipay": "\ue776"
+	"alipay": "\ue776",
+	"payment":"\ue818",
+	"receive":"\ue817",
+	"sendout":"\ue816",
+	"evaluate":"\ue815",
+	"aftersale":"\ue814",
+	"warehouse":"\ue813",
+	"transport":"\ue812",
+	"delivery":"\ue811",
+	"switch":"\ue810",
+	"goods":"\ue80f",
+	"goods-fill":"\ue80e"
 }

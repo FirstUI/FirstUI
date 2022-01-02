@@ -112,6 +112,46 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.3.0（2021-12-31）
+
+- 新增 Calendar 日历 组件（VIP组件）。
+
+- 新增 Cascader 级联选择器 组件（VIP组件）。
+
+- 新增 Slider 滑块 组件（VIP组件）。
+
+- 新增 Rate 评分 组件（VIP组件）。
+
+- 新增 Select 选择器 组件（VIP组件）。
+
+- 新增 Upload 图片上传 组件（VIP组件）。
+
+- 新增 Gallery 画廊 组件（VIP组件）。
+
+- 新增 BubbleBox 气泡框 组件（VIP组件）。
+
+- 新增 BottomNavbar 底部导航栏 组件（VIP组件）。
+
+- 新增 CountDown 倒计时 组件（VIP组件）。
+
+- 新增 CopyText 长按复制 组件（VIP组件）。
+
+- 新增 Timer 计时器 组件（VIP组件）。
+
+- 新增 Qrcode 二维码 组件（VIP组件）。
+
+- 新增 Barcode 条形码 组件（VIP组件）。
+
+- 新增 Autograph 手写签名 组件（VIP组件）。
+
+- 修复 Textarea 多行输入框 组件回车无法换行的问题。
+
+- 优化 Request 网络请求 组件，新增加载中提示信息配置项。
+
+- 优化 Icon 图标 组件，新增部分图标。
+
+- 优化若干已知问题。
+
 #### V1.2.0（2021-11-22）
 
 - 新增 Tabbar 标签栏 组件（VIP组件）。

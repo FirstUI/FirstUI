@@ -151,5 +151,17 @@ export default [
 	"bankcardpay",
 	"wxpay",
 	"alipay",
+	"payment",
+	"receive",
+	"sendout",
+	"evaluate",
+	"aftersale",
+	"warehouse",
+	"transport",
+	"delivery",
+	"switch",
+	"goods",
+	"goods-fill",
+	"",
 	""
 ]
