@@ -1,3 +1,10 @@
+<!--
+  * ActionSheet 上拉菜单
+  * https://github.com/FirstUI/FirstUI | Released under Apache License 2.0
+  *
+  * 官网地址：https://firstui.cn/
+  * 文档地址：https://doc.firstui.cn/docs/operate/actionsheet.html
+  -->
 <template>
 	<view @touchmove.stop.prevent="stop" v-if="isShow || !isNvue">
 		<view class="fui-actionsheet__mask" :class="{'fui-actionsheet__mask-show':show}" ref="fui_asm_ani"
