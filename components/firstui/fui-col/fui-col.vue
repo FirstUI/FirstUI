@@ -13,7 +13,10 @@
 	<!-- #endif -->
 
 	<!-- #ifndef APP-NVUE -->
-	<view :class="classList">
+	<view :class="classList" :style="{
+		paddingLeft:`${Number(gutter)}rpx`,
+		paddingRight:`${Number(gutter)}rpx`,
+	}">
 		<slot></slot>
 	</view>
 	<!-- #endif -->
@@ -88,7 +91,6 @@
 			};
 		},
 		created() {
-			// #ifdef APP-NVUE
 			let parent = this.$parent;
 			while (parent && parent.$options.componentName !== 'fuiRow') {
 				parent = parent.$parent;
@@ -98,6 +100,7 @@
 			parent.$watch('gutter', (gutter) => {
 				this.updateGutter(gutter)
 			})
+			// #ifdef APP-NVUE
 			this.updateNvueWidth(parent.width)
 			parent.$watch('width', (width) => {
 				this.updateNvueWidth(width)
@@ -132,13 +135,13 @@
 			}
 		},
 		methods: {
-			// #ifdef APP-NVUE
 			updateGutter(parentGutter) {
 				parentGutter = Number(parentGutter);
 				if (!isNaN(parentGutter)) {
 					this.gutter = parentGutter / 2
 				}
 			},
+			// #ifdef APP-NVUE
 			updateNvueWidth(width) {
 				// 用于在nvue端，span，offset，pull，push的计算
 				this.parentWidth = width;
@@ -183,7 +186,7 @@
 				// #ifndef MP-ALIPAY || MP-BAIDU || MP-TOUTIAO
 				this.classList = classList;
 				// #endif
-				
+
 				//支付宝、百度、头条小程序不会自动拆解 bug
 				// #ifdef MP-ALIPAY || MP-BAIDU || MP-TOUTIAO
 				this.classList = classList.join(' ');

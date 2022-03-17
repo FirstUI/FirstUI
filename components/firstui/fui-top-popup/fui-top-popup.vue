@@ -145,7 +145,7 @@
 		align-items: flex-start;
 		justify-content: center;
 		/* #ifndef APP-NVUE */
-		transition: all ease-in-out .3s;
+		transition: all ease-in-out .2s;
 		visibility: hidden;
 		/* #endif */
 		opacity: 0;

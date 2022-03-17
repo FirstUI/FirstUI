@@ -22,7 +22,7 @@
 							<view class="fui-ddl__icon-box"
 								:class="{'fui-ddl__icon-ml':!isReverse && isCheckbox,'fui-ddl__icon-mr':isReverse}"
 								:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="model.src">
-								<image src="/static/images/common/logo.png"
+								<image :src="model.src"
 									:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}"></image>
 							</view>
 							<text class="fui-ddl__item-text"

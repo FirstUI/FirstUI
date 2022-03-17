@@ -139,7 +139,7 @@
 				this.getCollapseHeight()
 				// #endif
 				// #ifdef APP-NVUE
-				this.getNvueHwight()
+				this.getNvueHeight()
 				// #endif
 			},
 			uninstall() {
@@ -188,7 +188,7 @@
 					})
 					.exec()
 			},
-			getNvueHwight() {
+			getNvueHeight() {
 				const result = dom.getComponentRect(this.$refs['fui_collapse__el'], option => {
 					if (option && option.result && option.size) {
 						// #ifdef APP-NVUE

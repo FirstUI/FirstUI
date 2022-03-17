@@ -1,6 +1,6 @@
 <template>
-	<view class="fui-row__box" :class="[flex?'fui-row__flex':'', justifyClass,alignClass]" :style="{marginTop:marginTop,marginBottom:marginBottom,	marginLeft:`${Number(marginValue)}rpx`,
-		marginRight:`${Number(marginValue)}rpx`}">
+	<view class="fui-row__box" :class="[flex?'fui-row__flex':'', justifyClass,alignClass]" :style="{marginTop:marginTop,marginBottom:marginBottom,marginLeft:`-${marginValue}rpx`,
+		marginRight:`-${marginValue}rpx`}">
 		<slot></slot>
 	</view>
 </template>
@@ -33,10 +33,15 @@
 				type: String,
 				default: '0'
 			},
-			//栅格间间隔 rpx,非nvue有效
+			//栅格间隔
 			gutter: {
 				type: Number,
 				default: 0
+			},
+			// nvue如果使用span等属性，需要配置宽度
+			width: {
+				type: [String, Number],
+				default: 750
 			}
 		},
 		data() {
@@ -63,7 +68,7 @@
 			marginValue() {
 				// #ifndef APP-NVUE
 				if (this.gutter) {
-					return -(this.gutter / 2);
+					return Number(this.gutter) / 2;
 				}
 				// #endif
 				return 0;
@@ -83,18 +88,14 @@
 	:host {
 		position: relative;
 		box-sizing: border-box;
-		width: 100%;
 		display: block;
 	}
 
 	/* #endif */
 
 	.fui-row__box {
-		/* #ifdef APP-NVUE */
-		width: 750rpx;
-		/* #endif */
+		flex: 1;
 		/* #ifndef APP-NVUE */
-		width: 100%;
 		box-sizing: border-box;
 		-webkit-box-orient: horizontal;
 		-webkit-box-direction: normal;

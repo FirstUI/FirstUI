@@ -112,6 +112,50 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.4.0（2022-03-16）
+
+- 新增 Circle 圆形进度条 组件（VIP组件）。
+
+- 新增 Skeleton 骨架屏 组件（VIP组件）。
+
+- 新增 CubicBezier 贝塞尔曲线 组件（VIP组件）。
+
+- 新增 SlideVerify 滑动验证 组件（VIP组件）。
+
+- 新增 RotateVerify 旋转验证 组件（VIP组件）。
+
+- 新增 SliderCaptcha 滑块拼图验证 组件（VIP组件）。
+
+- 新增 OverflowHidden 内容超出隐藏 组件（VIP组件）。
+
+- 新增 Backtop 回到顶部 组件（VIP组件）。
+
+- 新增 Lazyload 图片懒加载 组件（VIP组件）。
+
+- 新增 Waterfall 瀑布流 组件（VIP组件）。
+
+- 优化部分组件在vue3下显示异常，控制台报出警告的问题。
+
+- 优化 Upload 图片上传 组件。新增属性设置删除图片时是否弹框确认；图片上传数到达限制数max时隐藏选择框。
+
+- 修复 Preview 表单预览 组件改变数据页面不更新的bug。
+
+- 优化 Button 按钮 组件在Nvue以及PC中的点击效果。
+
+- 优化 Card 卡片 组件在Nvue中样式显示不正确的问题。
+
+- 优化 Message 消息提示 组件，部分props属性可在show方法中传值覆盖。
+
+- 优化 Select 选择器 组件，修复单选时设置默认选中项无效的问题。
+
+- 优化 CountDown 倒计时 组件，修复初始化传0触发倒计时结束事件的问题。
+
+- 修复 Layout 栅格布局 组件属性gutter不生效的bug。
+
+- 修复 InputNumber 数字输入框 组件在vue3下 blur 事件未在emits中申明的问题。
+
+- 优化若干已知问题。
+
 #### V1.3.0（2021-12-31）
 
 - 新增 Calendar 日历 组件（VIP组件）。

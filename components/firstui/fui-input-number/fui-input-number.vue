@@ -1,7 +1,7 @@
 <template>
 	<view class="fui-input__number">
 		<view class="fui-number__minus" :class="[disabled || min >= inputValue ? 'fui-number__disabled' : '']"
-			@tap="minus" :style="{ minHeight:(height-8)+'rpx' }">
+			@tap="minus" :style="{ minHeight:getMinHeight }">
 			<view class="fui-minus__sign" :style="{backgroundColor:signColor,width:signWidth+'rpx'}" v-if="!custom">
 			</view>
 			<slot></slot>
@@ -24,7 +24,7 @@
 <script>
 	export default {
 		name: 'fui-input-number',
-		emits: ['change', 'update:modelValue', 'input'],
+		emits: ['change', 'update:modelValue', 'input', 'blur'],
 		props: {
 			// #ifndef VUE3
 			value: {
@@ -127,6 +127,11 @@
 			this.inputValue = this.getValue(this.modelValue);
 			// #endif
 		},
+		computed: {
+			getMinHeight() {
+				return (Number(this.height) - 8) + 'rpx'
+			}
+		},
 		data() {
 			let isNvue = false;
 			// #ifdef APP-NVUE
@@ -170,7 +175,7 @@
 				let times = Math.pow(10, s)
 				let des = num * times + 0.5
 				des = parseInt(des, 10) / times
-				return des + ''
+				return Number(des + '')
 			},
 			getLen(val, step) {
 				let len = 0;

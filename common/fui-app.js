@@ -53,4 +53,4 @@ const fui = {
 		return 'https://res.firstui.cn/static/images'
 	}
 }
-export default fui
+export default fui 

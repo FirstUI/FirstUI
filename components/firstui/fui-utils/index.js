@@ -1,11 +1,11 @@
 /*!
-  * 工具类：常用数据处理工具
-  * Utils - v1.0.0 (2021/7/9, 11:07:14 AM)
-  * https://github.com/FirstUI/FirstUI | Released under Apache License 2.0
-  *
-  * 官网地址：https://firstui.cn/
-  * 文档地址：https://doc.firstui.cn/
-  */
+ * 工具类：常用数据处理工具
+ * Utils - v1.0.0 (2021/7/9, 11:07:14 AM)
+ * https://github.com/FirstUI/FirstUI | Released under Apache License 2.0
+ *
+ * 官网地址：https://firstui.cn/
+ * 文档地址：https://doc.firstui.cn/
+ */
 
 const utils = {
 	/**
@@ -87,17 +87,18 @@ const utils = {
 	 * @param format 格式化字符串(y-m-d h:i:s)
 	 * @param type  date的格式类型：1-日期字符串(2017/12/04 12:12:12) 2-时间戳(1603676514690) 3-日期字符串，无连接符(20171204121212) 
 	 * 4-new Date()时间格式(Thu Oct 01 2020 00:00:00 GMT+0800 (中国标准时间))
+	 * @param isMs  时间戳精度是否为毫秒，默认为true（当精度为秒时传false），type=2时有效
 	 **/
-	dateFormatter(date, format, type = 1) {
+	dateFormatter(date, format, type = 1, isMs = true) {
 		let formatDate = ""
 		if (type === 3) {
 			formatDate = utils._formatTimeStr(date, format)
 		} else {
-			formatDate = utils._formatDate(format, date, type)
+			formatDate = utils._formatDate(format, date, type, isMs)
 		}
 		return formatDate;
 	},
-	_formatDate(formatStr, fdate, type = 1) {
+	_formatDate(formatStr, fdate, type = 1, isMs) {
 		if (!fdate) return '';
 		let fTime, fStr = 'ymdhis';
 		if (type === 4) {
@@ -112,8 +113,7 @@ const utils = {
 				formatStr = "y-m-d h:i:s";
 			if (fdate) {
 				if (type === 2) {
-					let len = fdate.length;
-					fdate = len === 10 ? Number(fdate) * 1000 : Number(fdate)
+					fdate = isMs ? Number(fdate) : Number(fdate) * 1000
 				}
 				fTime = new Date(fdate);
 			} else {
@@ -351,7 +351,7 @@ const utils = {
 	}
 }
 
-module.exports = {
+export default {
 	titleCase: utils.titleCase,
 	compressLetter: utils.compressLetter,
 	sleep: utils.sleep,

@@ -98,7 +98,7 @@
 					'iphone14pro', 'iphone14promax'
 				]
 				const model = res.model.replace(/\s/g, "").toLowerCase()
-				if (models.includes(model)) {
+				if (models.includes(model) || (res.safeAreaInsets && res.safeAreaInsets.bottom)) {
 					iphonex = true;
 				}
 				return iphonex;
@@ -173,7 +173,7 @@
 		align-items: flex-end;
 		justify-content: center;
 		/* #ifndef APP-NVUE */
-		transition: all ease-in-out .3s;
+		transition: all ease-in-out .2s;
 		visibility: hidden;
 		/* #endif */
 		opacity: 0;

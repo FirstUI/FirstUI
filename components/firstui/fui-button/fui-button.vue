@@ -1,31 +1,33 @@
 <template>
 	<view class="fui-button__wrap"
-		:style="{width: width,height: height,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: radius}"
-		@touchstart="handleStart" @touchend="handleClick" @touchcancel="handleEnd" @tap="handleTap">
+		:style="{width: width,height: height,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: radius,background:getBackground}"
+		@touchstart="handleStart" @touchend="handleClick" @touchcancel="handleEnd" @tap.stop="handleTap">
 		<button class="fui-button" :class="[
 				bold ? 'fui-text__bold' : '',
 				time && (plain || type==='link') ? 'fui-button__opacity' : '',
 				disabled && !disabledBackground ? 'fui-button__opacity' : '',
 				!background && !disabledBackground && !plain?('fui-button__'+type):'',
 				!width || width==='100%' || width==='true'?'fui-button__flex-1':'',
-				time && !plain && type!=='link' ? 'fui-button__active' : ''
+				time && !plain && type!=='link' ? 'fui-button__active' : '',
+				disabled?'':'fui-button__nvue',
+				pc && !disabled?(plain || type==='link'?'fui-button__opacity-pc':'fui-button__active-pc'):''
 			]" :style="{
 				width: width,
 				height: height,
 				lineHeight: height,
 				background: disabled && disabledBackground ? disabledBackground : (plain ? 'transparent' : background),
-				borderWidth:borderWidth,
+				borderWidth:!borderColor?'0':borderWidth,
 				borderColor: borderColor ? borderColor : disabled && disabledBackground ? disabledBackground : (background || 'transparent'),
 				borderRadius: radius,
 				fontSize: size + 'rpx',
-				color: disabled && disabledBackground ? disabledColor : color
+				color: getColor
 			}" :loading="loading" :form-type="formType" :open-type="openType" @getuserinfo="bindgetuserinfo"
 			@getphonenumber="bindgetphonenumber" @contact="bindcontact" @error="binderror"
 			@opensetting="bindopensetting" :disabled="disabled" :scope="scope">
 			<text class="fui-button__text"
 				:class="{'fui-btn__gray-color':!background && !disabledBackground && !plain && type==='gray' && color==='#fff','fui-text__bold':bold}"
 				v-if="text"
-				:style="{fontSize: size + 'rpx',lineHeight:size + 'rpx',color: disabled && disabledBackground ? disabledColor : color}">{{text}}</text>
+				:style="{fontSize: size + 'rpx',lineHeight:size + 'rpx',color:color? (disabled && disabledBackground ? disabledColor : color):(type==='gray'?'#465CFF':'#FFFFFF')}">{{text}}</text>
 			<slot></slot>
 		</button>
 	</view>
@@ -59,7 +61,7 @@
 			//按钮字体颜色
 			color: {
 				type: String,
-				default: '#fff'
+				default: ''
 			},
 			//按钮禁用背景色
 			disabledBackground: {
@@ -71,15 +73,18 @@
 				type: String,
 				default: ''
 			},
+			// #ifdef APP-NVUE
 			borderWidth: {
 				type: String,
-				// #ifdef APP-NVUE
 				default: '0.5px'
-				// #endif
-				// #ifndef APP-NVUE
-				default: '1rpx'
-				// #endif
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			borderWidth: {
+				type: String,
+				default: '1rpx'
+			},
+			// #endif
 			borderColor: {
 				type: String,
 				default: ''
@@ -146,21 +151,66 @@
 				default: 0
 			}
 		},
+		computed: {
+			getBackground() {
+				// #ifndef APP-NVUE
+				return 'transparent'
+				// #endif
+				// #ifdef APP-NVUE
+				let colors = {
+					primary: '#465CFF',
+					success: '#09BE4F',
+					warning: '#FFB703',
+					danger: '#FF2B2B',
+					link: 'transparent',
+					purple: '#6831FF',
+					gray: '#F8F8F8'
+				}
+				let color = colors[this.type] || 'transparent'
+				if (this.disabled || this.plain) {
+					color = 'transparent';
+				}
+				if (!this.disabled && !this.plain && this.background) {
+					color = this.background
+				}
+				return color
+				// #endif
+			},
+			getColor() {
+				let color = '#fff'
+				if (this.color) {
+					color = this.disabled && this.disabledBackground ? this.disabledColor : this.color
+				} else {
+					if (this.disabled && this.disabledBackground) {
+						color = this.disabledColor || '#FFFFFF'
+					} else {
+						color = this.type === 'gray' ? '#465CFF' : '#FFFFFF'
+					}
+				}
+				return color;
+			}
+		},
 		data() {
 			return {
 				time: 0,
 				trigger: false,
-				tap: false
+				pc: false
 			};
 		},
+		created() {
+			// #ifdef H5
+			this.pc = this.isPC()
+			// #endif
+		},
 		methods: {
-			handleStart() {
+			handleStart(e) {
+				// #ifndef APP-NVUE
 				if (this.disabled) return;
 				this.trigger = false;
-				this.tap = true;
 				if (new Date().getTime() - this.time <= 150) return;
 				this.trigger = true;
 				this.time = new Date().getTime();
+				// #endif
 			},
 			handleClick() {
 				if (this.disabled || !this.trigger) return;
@@ -170,19 +220,43 @@
 					index: Number(this.index)
 				});
 			},
+			// #ifdef H5
+			isPC() {
+				if (typeof navigator !== 'object') return false;
+				var userAgentInfo = navigator.userAgent;
+				var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+				var flag = true;
+				for (var v = 0; v < Agents.length - 1; v++) {
+					if (userAgentInfo.indexOf(Agents[v]) > 0) {
+						flag = false;
+						break;
+					}
+				}
+				return flag;
+			},
+			// #endif
 			handleTap() {
 				// #ifdef H5
-				if (this.disabled || this.tap) return;
+				if (this.disabled || !this.pc) return;
+				this.$emit('click', {
+					index: Number(this.index)
+				});
+				// #endif
+
+				// #ifdef APP-NVUE
+				if (this.disabled) return;
 				this.$emit('click', {
 					index: Number(this.index)
 				});
 				// #endif
 			},
-			handleEnd() {
+			handleEnd(e) {
+				// #ifndef APP-NVUE
 				if (this.disabled) return;
 				setTimeout(() => {
 					this.time = 0;
 				}, 150);
+				// #endif
 			},
 			bindgetuserinfo({
 				detail = {}
@@ -219,11 +293,8 @@
 	}
 
 	.fui-button {
-		/* #ifdef APP-NVUE */
-		border-width: 0.5px;
-		/* #endif */
+		border-width: 0;
 		/* #ifndef APP-NVUE */
-		border-width: 1rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -240,7 +311,15 @@
 		-webkit-user-select: none;
 		user-select: none;
 		/* #endif */
+
 	}
+
+	/* #ifdef APP-NVUE */
+	.fui-button__nvue {
+		opacity: 1 !important;
+	}
+
+	/* #endif */
 
 	.fui-button__flex-1 {
 		flex: 1;
@@ -252,6 +331,31 @@
 	.fui-button::after {
 		border: 0;
 	}
+
+	/* #ifdef H5 */
+	.fui-button__active-pc {
+		position: relative;
+	}
+
+	.fui-button__opacity-pc:active {
+		opacity: 0.5;
+	}
+
+	.fui-button__active-pc:active::after {
+		content: ' ';
+		background-color: var(--fui-bg-color-hover, rgba(0, 0, 0, 0.2));
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		right: 0;
+		top: 0;
+		transform: none;
+		z-index: 1;
+		border-radius: 0;
+	}
+
+	/* #endif */
 
 	/* #ifndef APP-NVUE */
 	.fui-button__active {
@@ -279,7 +383,6 @@
 		align-items: center;
 		justify-content: center !important;
 		padding-left: 0 !important;
-
 	}
 
 	.fui-button__opacity {

@@ -12,7 +12,7 @@
 	}
 </script>
 
-<style>
+<style> 
 	/*每个页面公共css */
 	@import './common/fui-app.css';
 	@import './components/firstui/fui-theme/fui-theme.css';

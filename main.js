@@ -30,5 +30,5 @@ export function createApp() {
 	return {
 		app
 	}
-}
+} 
 // #endif

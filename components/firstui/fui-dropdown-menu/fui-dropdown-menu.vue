@@ -20,7 +20,7 @@
 						<view class="fui-ddm__icon-box"
 							:class="{'fui-ddm__icon-ml':!isReverse && isCheckbox,'fui-ddm__icon-mr':isReverse}"
 							:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="model.src">
-							<image src="/static/images/common/logo.png"
+							<image :src="model.src"
 								:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}"></image>
 						</view>
 						<text class="fui-ddm__item-text"
@@ -30,7 +30,7 @@
 				</view>
 			</scroll-view>
 		</view>
-		<view class="fui-ddm__mask" :style="{backgrround:maskBackground}" v-if="isShow && isMask" @tap="close(1)">
+		<view class="fui-ddm__mask" :style="{background:maskBackground}" v-if="isShow && isMask" @tap="close(1)">
 		</view>
 	</view>
 </template>
@@ -38,7 +38,7 @@
 <script>
 	/*!
 	 * 下拉菜单
-	 * 由于weex android上overflow仅支持hidden，所以该组件不支持Nvue端
+	 * 由于weex android上overflow仅支持hidden，所以该组件暂不支持Nvue端
 	 * Nvue端使用组件fui-dropdown-list或fui-select组件替代该组件
 	 */
 	export default {
@@ -303,7 +303,6 @@
 		/* #ifdef H5 */
 		cursor: pointer;
 		/* #endif */
-
 	}
 
 	.fui-ddm__flex {

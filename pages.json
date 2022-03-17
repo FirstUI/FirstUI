@@ -19,7 +19,7 @@
 			"mp-baidu": {
 				"disableScroll": true
 			}
-		}
+		} 
 
 	}, {
 		"path": "pages/tabbar/layout/layout",

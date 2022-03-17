@@ -115,7 +115,7 @@
 			</fui-row>
 
 			<fui-row marginBottom="10px" :gutter="gutter">
-				<fui-col :span="12" :pullRight="6">
+				<fui-col :span="12" :pullRight="0">
 					<view class="fui-col__item fui-color__black"></view>
 				</fui-col>
 				<fui-col :span="6" :pushLeft="6">
