@@ -1,13 +1,13 @@
 <template>
 	<view class="fui-button__wrap"
 		:style="{width: width,height: height,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: radius,background:getBackground}"
-		@touchstart="handleStart" @touchend="handleClick" @touchcancel="handleEnd" @tap.stop="handleTap">
+		@touchstart="handleStart" @touchend="handleClick" @touchcancel="handleEnd">
 		<button class="fui-button" :class="[
 				bold ? 'fui-text__bold' : '',
 				time && (plain || type==='link') ? 'fui-button__opacity' : '',
 				disabled && !disabledBackground ? 'fui-button__opacity' : '',
 				!background && !disabledBackground && !plain?('fui-button__'+type):'',
-				!width || width==='100%' || width==='true'?'fui-button__flex-1':'',
+				!width || width==='100%' || width===true?'fui-button__flex-1':'',
 				time && !plain && type!=='link' ? 'fui-button__active' : '',
 				disabled?'':'fui-button__nvue',
 				pc && !disabled?(plain || type==='link'?'fui-button__opacity-pc':'fui-button__active-pc'):''
@@ -23,7 +23,7 @@
 				color: getColor
 			}" :loading="loading" :form-type="formType" :open-type="openType" @getuserinfo="bindgetuserinfo"
 			@getphonenumber="bindgetphonenumber" @contact="bindcontact" @error="binderror"
-			@opensetting="bindopensetting" :disabled="disabled" :scope="scope">
+			@opensetting="bindopensetting" :disabled="disabled" :scope="scope" @tap.stop="handleTap">
 			<text class="fui-button__text"
 				:class="{'fui-btn__gray-color':!background && !disabledBackground && !plain && type==='gray' && color==='#fff','fui-text__bold':bold}"
 				v-if="text"
@@ -214,11 +214,7 @@
 			},
 			handleClick() {
 				if (this.disabled || !this.trigger) return;
-				//如果想取消操作，比如长按再放开，这里可以做时间判断
 				this.time = 0;
-				this.$emit('click', {
-					index: Number(this.index)
-				});
 			},
 			// #ifdef H5
 			isPC() {
@@ -236,19 +232,10 @@
 			},
 			// #endif
 			handleTap() {
-				// #ifdef H5
-				if (this.disabled || !this.pc) return;
-				this.$emit('click', {
-					index: Number(this.index)
-				});
-				// #endif
-
-				// #ifdef APP-NVUE
 				if (this.disabled) return;
 				this.$emit('click', {
 					index: Number(this.index)
 				});
-				// #endif
 			},
 			handleEnd(e) {
 				// #ifndef APP-NVUE
@@ -304,8 +291,8 @@
 		position: relative;
 		padding-left: 0;
 		padding-right: 0;
-		overflow: hidden;
 		/* #ifndef APP-NVUE */
+		overflow: hidden;
 		transform: translateZ(0);
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;

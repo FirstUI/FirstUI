@@ -2,7 +2,7 @@
 	<text
 		:class="[dot?'fui-badge__dot':'fui-badge__wrap',background?'':('fui-badge__bg-'+type),absolute?'fui-badge__absolute':'',scaleRatio!=1 && isNvue?'fui-badge__trans-origin':'',!background && type==='white'?'fui-badge__text-color':'']"
 		:style="{top:absolute?top:'auto',right:absolute?right:'auto',zoom:scaleRatio,transform:isNvue?`scale(${scaleRatio})`:'scale(1)',marginTop:marginTop+'rpx',marginLeft:marginLeft+'rpx',marginRight:marginRight+'rpx',width:width,color:color,background:background}"
-		@tap="handleClick" v-if="value || dot">{{dot?'':value}}</text>
+		@tap="handleClick" v-if="showValue || dot">{{dot?'':showValue}}</text>
 </template>
 
 <script>
@@ -13,6 +13,10 @@
 			value: {
 				type: [Number, String],
 				default: ''
+			},
+			max: {
+				type: [Number, String],
+				default: -1
 			},
 			//类型：primary，success，warning，danger，purple，white
 			type: {
@@ -75,7 +79,8 @@
 			// #endif
 			return {
 				isNvue: isNvue,
-				width: 0
+				width: 0,
+				showValue: ''
 			};
 		},
 		watch: {
@@ -88,7 +93,16 @@
 		},
 		methods: {
 			getWidth() {
-				this.width = this.dot ? '8px' : ((String(this.value).length * 16 + 20) + 'rpx')
+				let max = Number(this.max)
+				let val = Number(this.value)
+				let value = ''
+				if (isNaN(val) || max === -1) {
+					value = this.value
+				} else {
+					value = val > max ? `${max}+` : val
+				}
+				this.showValue = value;
+				this.width = this.dot ? '8px' : ((String(value).length * 16 + 20) + 'rpx')
 			},
 			handleClick() {
 				this.$emit('click');

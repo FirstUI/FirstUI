@@ -1,7 +1,7 @@
 <template>
-	<view :class="{'fui-input__border':inputBorder,'fui-radius__fillet':isFillet,borderColor:borderColor}"
-		:style="getStyles" @tap="fieldClick">
-		<view class="fui-input__wrap" :class="{'fui-radius__fillet':isFillet}"
+	<view :class="{'fui-input__border':inputBorder,'fui-radius__fillet':isFillet}" :style="getStyles" @tap="fieldClick">
+		<view class="fui-input__wrap"
+			:class="{'fui-radius__fillet':isFillet,'fui-input__border-radius':inputBorder && !isFillet}"
 			:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,backgroundColor:backgroundColor}">
 			<view v-if="borderTop && !inputBorder"
 				:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}" class="fui-input__border-top">
@@ -25,8 +25,8 @@
 				:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
 				:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
 				:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur"
-				:enableNative="false" @focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm"
-				@keyboardheightchange="onKeyboardheightchange" />
+				:enableNative="false" :always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur" @input="onInput"
+				@confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
 			<view class="fui-input__clear-wrap" :style="{background:clearColor}" v-if="clearable && val != ''"
 				@tap.stop="onClear">
 				<view class="fui-input__clear">
@@ -47,7 +47,7 @@
 <script>
 	export default {
 		name: "fui-input",
-		emits: ['input', 'update:modelValue', 'focus', 'blur', 'confirm', 'click','keyboardheightchange'],
+		emits: ['input', 'update:modelValue', 'focus', 'blur', 'confirm', 'click', 'keyboardheightchange'],
 		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		//加group是为了避免在表单中使用时给组件加value属性
@@ -131,6 +131,15 @@
 				default: ''
 			},
 			// #endif
+			//vue3
+			modelModifiers: {
+				default: () => ({})
+			},
+			//兼容写法，type为text时也做Number处理，NaN时返回原值
+			number: {
+				type: Boolean,
+				default: false
+			},
 			//与官方input type属性一致
 			type: {
 				type: String,
@@ -181,6 +190,10 @@
 				default: false
 			},
 			autoBlur: {
+				type: Boolean,
+				default: false
+			},
+			alwaysEmbed: {
 				type: Boolean,
 				default: false
 			},
@@ -281,6 +294,13 @@
 		computed: {
 			getStyles() {
 				let styles = `margin-top:${this.marginTop}rpx;`
+
+				// #ifdef APP-NVUE
+				if (this.inputBorder) {
+					styles += `border-color:${this.borderColor};`
+				}
+				// #endif
+
 				if (!this.inputBorder && !this.borderTop && !this.borderBottom && this.radius != -1) {
 					styles += `border-radius:${this.radius}rpx;overflow:hidden;`
 				}
@@ -347,6 +367,10 @@
 				let value = event.detail.value;
 				if (this.trim) value = this.trimStr(value);
 				this.val = value;
+				if (this.modelModifiers.number || this.number) {
+					let eVal = Number(value)
+					value = isNaN(eVal) ? value : eVal
+				}
 				// TODO　兼容　vue2
 				this.$emit('input', value);
 				// TODO　兼容　vue3
@@ -551,6 +575,10 @@
 		/* #ifndef APP-NVUE */
 		border-width: 0;
 		/* #endif */
+	}
+
+	.fui-input__border-radius {
+		border-radius: 8rpx;
 	}
 
 	/* #ifndef APP-NVUE */

@@ -136,6 +136,65 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.5.0（2022-05-18）
+
+- 新增 Vtabs 纵向选项卡 组件（VIP组件）。
+
+- 新增 PuzzleVerify 滑块拼图验证 组件（VIP组件），此组件为 SliderCaptcha 滑块拼图验证 组件的功能补充。[详见](https://forum.firstui.cn/d/48)
+
+- 新增 Drag 拖拽排序 组件（VIP组件）。
+
+- 新增 ImageCropper 图片裁剪 组件（VIP组件）。
+
+- 新增 Table 表格 组件（VIP组件）。
+
+- Utils 工具 类组件新增函数节流方法使用案例。
+
+- Badge 徽章 组件优化，新增max属性，当值超过max时使用+号代替，仅为数字时有效。
+
+- SingleInput 单输入框组件优化，新增清空方法重置输入值（结合原生键盘时使用）。
+
+- Button 按钮 组件优化，修复微信小程序端@click事件中调用wx.getUserProfile无效的问题以及在subNVue中点击事件失效的问题。
+
+- Form 表单校验 示例新增其他表单元素，满足更多表单需求。
+
+- Icon 图标 组件优化，新增支持自定义图标，详见文档说明。
+
+- DropdownMenu 下拉菜单 组件优化，支持nvue。
+
+- Input 输入框 组件优化 ，新增 number 属性，修复v-model.number在小程序平台值未转化为Number类型问题。
+
+- 修复 Grid 宫格 组件 ref 被误删除导致报错的问题。
+
+- 修复并优化 Circle 圆形进度条 组件在nvue端出错的问题。
+
+- 修复vue2下使用wxs初始化时可能报错的问题。
+
+- ActionSheet 上拉菜单 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- BottomNavbar 底部导航栏 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- BottomPopup 底部弹出层 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- DigitalKeyboard 数字键盘 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- Footer 页脚 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- Gallery 画廊 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- LicensePlate 车牌号键盘 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- Select 选择器 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- ShareSheet 分享面板 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- Tabbar 标签栏 组件优化，新增属性 safeArea 控制是否需要适配底部安全区域。
+
+- BottomPopup 底部弹出层 组件优化，优化Nvue下设置顶部圆角值时IOS底部偶尔出现圆角的问题。
+
+- 优化若干已知问题。
+
+
 #### V1.4.0（2022-03-16）
 
 - 新增 Circle 圆形进度条 组件（VIP组件）。

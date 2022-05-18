@@ -11,12 +11,12 @@
 			<view :class="{'fui-actionsheet__operate-box':isCancel}">
 				<text class="fui-actionsheet__btn"
 					:style="{color:theme==='dark'?(item.darkColor || '#D1D1D1'):(item.color || '#181818'),fontSize:itemSize+'rpx'}"
-					:class="{'fui-actionsheet__btn-last':!isCancel && index==vals.length-1,'fui-as__safe-weex':!isCancel && index==vals.length-1 && iphoneX,'fui-actionsheet__radius':radius && !tips && index===0,'fui-as__divider-light':(index!==0 || tips) && theme==='light','fui-as__divider-dark':(index!==0 || tips) && theme==='dark' ,'fui-as__btn-light':theme==='light','fui-as__btn-dark':theme==='dark'}"
+					:class="{'fui-actionsheet__btn-last':!isCancel && index==vals.length-1,'fui-as__safe-weex':!isCancel && index==vals.length-1 && iphoneX && safeArea,'fui-actionsheet__radius':radius && !tips && index===0,'fui-as__divider-light':(index!==0 || tips) && theme==='light','fui-as__divider-dark':(index!==0 || tips) && theme==='dark' ,'fui-as__btn-light':theme==='light','fui-as__btn-dark':theme==='dark'}"
 					v-for="(item,index) in vals" :key="index" @tap="handleClickItem(index)">{{item.text}}</text>
 			</view>
 			<text :style="{color:theme==='dark'?'#D1D1D1':'#181818',fontSize:itemSize+'rpx'}"
 				class="fui-actionsheet__btn fui-actionsheet__cancel"
-				:class="{'fui-as__safe-weex':iphoneX,'fui-as__btn-light':theme==='light','fui-as__btn-dark':theme==='dark'}"
+				:class="{'fui-as__safe-weex':iphoneX && safeArea,'fui-as__btn-light':theme==='light','fui-as__btn-dark':theme==='dark'}"
 				v-if="isCancel" @tap="handleClickCancel">取消</text>
 		</view>
 	</view>
@@ -85,6 +85,11 @@
 			zIndex: {
 				type: [Number, String],
 				default: 1001
+			},
+			//是否适配底部安全区
+			safeArea: {
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
@@ -202,6 +207,7 @@
 			// #endif
 			// #ifdef APP-NVUE || MP-TOUTIAO
 			isPhoneX() {
+				if (!this.safeArea) return false;
 				//34px
 				const res = uni.getSystemInfoSync();
 				let iphonex = false;
@@ -211,7 +217,9 @@
 					'iphone14pro', 'iphone14promax'
 				]
 				const model = res.model.replace(/\s/g, "").toLowerCase()
-				if (models.includes(model) || (res.safeAreaInsets && res.safeAreaInsets.bottom)) {
+				const newModel = model.split('<')[0]
+				if (models.includes(model) || models.includes(newModel) || (res.safeAreaInsets && res.safeAreaInsets
+						.bottom > 0)) {
 					iphonex = true;
 				}
 				return iphonex;
@@ -255,7 +263,9 @@
 	.fui-actionsheet__radius {
 		border-top-left-radius: 24rpx;
 		border-top-right-radius: 24rpx;
+		/* #ifndef APP-NVUE */
 		overflow: hidden;
+		/* #endif */
 	}
 
 	/* #ifndef APP-NVUE */

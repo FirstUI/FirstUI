@@ -1,46 +1,48 @@
 <template>
-	<view class="fui-dropdown__menu">
+	<view class="fui-dropdown__menu" ref="fui_dm_wrap" @tap="resetCalc">
 		<slot></slot>
+		<view class="fui-ddm__mask" :style="{background:maskBackground}" v-if="isShow && isMask" @tap="close(1)">
+		</view>
 		<view class="fui-dropdown__menu-list"
 			:class="{'fui-ddm__down':direction!=='up','fui-ddm__up':direction==='up','fui-ddm__down-show':isShow && direction!=='up','fui-ddm__up-show':isShow && direction==='up'}"
-			:style="getStyles">
-			<scroll-view class="fui-ddm__scroll" scroll-y :style="{maxHeight:maxHeight+'rpx',minWidth:minWidth+'rpx'}">
-				<view class="fui-dropdown__menu-item" :style="{background:background,padding:padding}"
-					:class="{'fui-ddm__reverse':isReverse,'fui-ddm__item-line':splitLine && itemList.length-1!==index}"
-					v-for="(model,index) in itemList" :key="index" @tap.stop="itemClick(index)">
-					<view class="fui-ddm__checkbox"
-						:class="{'fui-is__checkmark':isCheckMark,'fui-ddm__checkbox-color':(!checkboxColor || checkboxColor=='true') && model.checked && !isCheckMark}"
-						:style="{background:model.checked && !isCheckMark ?checkboxColor:'transparent',borderColor:model.checked && !isCheckMark ?checkboxColor:borderColor}"
-						v-if="isCheckbox">
-						<view class="fui-ddm__checkmark"
-							:style="{borderBottomColor:checkmarkColor,borderRightColor:checkmarkColor}"
-							v-if="model.checked"></view>
-					</view>
-					<view class="fui-ddm__flex">
-						<view class="fui-ddm__icon-box"
-							:class="{'fui-ddm__icon-ml':!isReverse && isCheckbox,'fui-ddm__icon-mr':isReverse}"
-							:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="model.src">
-							<image :src="model.src"
-								:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}"></image>
+			:style="getStyles" v-if="isNvueShow || !isNvue" ref="fui_ddm_list">
+			<scroll-view :show-scrollbar="false" class="fui-ddm__scroll" scroll-y
+				:style="{height:isNvue?maxHeight+'rpx':'auto', maxHeight:maxHeight+'rpx',minWidth:minWidth+'rpx'}">
+				<view>
+					<view class="fui-dropdown__menu-item"
+						:style="{background:background,padding:padding,borderBottomColor:splitLine && isNvue?lineColor:'transparent'}"
+						:class="{'fui-ddm__reverse':isReverse,'fui-ddm__item-line':splitLine && itemList.length-1!==index}"
+						v-for="(model,index) in itemList" :key="index" @tap.stop="itemClick(index)">
+						<view class="fui-ddm__checkbox"
+							:class="{'fui-is__checkmark':isCheckMark,'fui-ddm__checkbox-color':(!checkboxColor || checkboxColor=='true') && model.checked && !isCheckMark}"
+							:style="{background:model.checked && !isCheckMark ?checkboxColor:'transparent',borderColor:model.checked && !isCheckMark ?checkboxColor:borderColor}"
+							v-if="isCheckbox">
+							<view class="fui-ddm__checkmark"
+								:style="{borderBottomColor:checkmarkColor,borderRightColor:checkmarkColor}"
+								v-if="model.checked"></view>
 						</view>
-						<text class="fui-ddm__item-text"
-							:class="{'fui-ddm__text-pl':!isReverse && (isCheckbox || model.src),'fui-ddm__text-pr':isReverse && (isCheckbox || model.src)}"
-							:style="{fontSize:size+'rpx',color:selectedColor && model.checked?selectedColor:color}">{{model.text}}</text>
+						<view class="fui-ddm__flex">
+							<view class="fui-ddm__icon-box"
+								:class="{'fui-ddm__icon-ml':!isReverse && isCheckbox,'fui-ddm__icon-mr':isReverse}"
+								:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="model.src">
+								<image :src="model.src" :style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}"></image>
+							</view>
+							<text class="fui-ddm__item-text"
+								:class="{'fui-ddm__text-pl':!isReverse && (isCheckbox || model.src),'fui-ddm__text-pr':isReverse && (isCheckbox || model.src)}"
+								:style="{fontSize:size+'rpx',color:selectedColor && model.checked?selectedColor:color}">{{model.text}}</text>
+						</view>
 					</view>
 				</view>
 			</scroll-view>
-		</view>
-		<view class="fui-ddm__mask" :style="{background:maskBackground}" v-if="isShow && isMask" @tap="close(1)">
 		</view>
 	</view>
 </template>
 
 <script>
-	/*!
-	 * 下拉菜单
-	 * 由于weex android上overflow仅支持hidden，所以该组件暂不支持Nvue端
-	 * Nvue端使用组件fui-dropdown-list或fui-select组件替代该组件
-	 */
+	// #ifdef APP-NVUE
+	const dom = weex.requireModule('dom')
+	const animation = uni.requireNativePlugin('animation');
+	// #endif
 	export default {
 		name: "fui-dropdown-menu",
 		emits: ['click', 'close'],
@@ -119,6 +121,10 @@
 				type: Boolean,
 				default: false
 			},
+			lineColor: {
+				type: String,
+				default: '#eee'
+			},
 			iconWidth: {
 				type: [Number, String],
 				default: 48
@@ -150,12 +156,36 @@
 			}
 		},
 		watch: {
+			// #ifdef APP-NVUE
+			isShow(val) {
+				if (val) {
+					this.isNvueShow = true;
+					this.$nextTick(() => {
+						setTimeout(() => {
+							this._animationFn(true);
+						}, 50);
+					});
+				} else {
+					this._animationFn(false);
+				}
+			},
+			// #endif
 			options(newVal) {
 				this.initData(newVal)
 			}
 		},
 		data() {
+			let isNvue = false;
+			// #ifdef APP-NVUE
+			isNvue = true;
+			// #endif
 			return {
+				isNvue,
+				isNvueShow: false,
+				// #ifdef APP-NVUE
+				n_left: 0,
+				n_top: 20,
+				// #endif
 				itemList: [],
 				isShow: false
 			};
@@ -167,15 +197,77 @@
 				if (right >= 0) {
 					styles += 'right:0;'
 				} else {
+					// #ifndef APP-NVUE
 					styles += 'left:0;'
+					// #endif
 				}
+				// #ifdef APP-NVUE
+				styles += `left:${this.n_left}px;top:${this.n_top}px;height:${this.maxHeight}rpx;`
+				if (this.direction === 'up') {
+					styles += `transform: translate(0, -${this.maxHeight}rpx);`
+				}
+				// #endif
 				return styles
 			}
 		},
 		created() {
 			this.initData(this.options)
 		},
+		// #ifdef APP-NVUE
+		mounted() {
+			this.$nextTick(() => {
+				setTimeout(() => {
+					this.resetCalc()
+				}, 100)
+			})
+		},
+		// #endif
 		methods: {
+			resetCalc(callback, height) {
+				// #ifdef APP-NVUE
+				if (!this.$refs['fui_dm_wrap']) return;
+				dom.getComponentRect(this.$refs['fui_dm_wrap'], option => {
+					if (option && option.result && option.size) {
+						let cbk = callback && typeof callback === 'function'
+						let height = option.size.height
+						if (cbk && height) {
+							height = height
+						}
+						let top = option.size.top
+						this.n_left = option.size.left;
+						this.n_top = this.direction === 'down' ? height + top : top
+						if (cbk) {
+							callback(true)
+						}
+					}
+				})
+				// #endif
+			},
+			// #ifdef APP-NVUE
+			_animationFn(type) {
+				if (!this.$refs['fui_ddm_list']) return;
+				let styles = {
+					opacity: type ? 1 : 0
+				}
+				if (this.direction === 'up') {
+					styles.transform = `translate(0, -100%)`
+				}
+				animation.transition(
+					this.$refs['fui_ddm_list'].ref, {
+						styles,
+						duration: 300, //ms
+						timingFunction: 'ease',
+						needLayout: false,
+						delay: 0 //ms
+					},
+					() => {
+						if (!type) {
+							this.isNvueShow = false;
+						}
+					}
+				);
+			},
+			// #endif
 			initData(vals) {
 				if (vals && vals.length > 0) {
 					if (typeof vals[0] !== 'object') {
@@ -233,24 +325,30 @@
 		/* #ifndef APP-NVUE */
 		width: auto;
 		/* #endif */
+		flex: 1;
 	}
 
 	.fui-dropdown__menu-list {
+		/* #ifndef APP-NVUE */
 		position: absolute;
-		box-shadow: 0 0 10rpx rgba(2, 4, 38, 0.05);
 		overflow: hidden;
 		z-index: 992;
-		opacity: 0;
-		/* #ifndef APP-NVUE */
 		visibility: hidden;
 		transition: all 0.3s ease-in-out;
+		/* #endif */
+		box-shadow: 0 0 10rpx rgba(2, 4, 38, 0.05);
+		opacity: 0;
+		/* #ifdef APP-NVUE */
+		position: fixed;
+		flex-direction: row;
+		transition: opacity 0.3s ease-in-out;
 		/* #endif */
 	}
 
 	.fui-ddm__down {
 		transform-origin: 0 0;
-		bottom: 0;
 		/* #ifndef APP-NVUE */
+		bottom: 0;
 		transform: translate3d(0, 100%, 0) scaleY(0);
 		/* #endif */
 	}
@@ -259,15 +357,19 @@
 		/* #ifndef APP-NVUE */
 		transform: translate3d(0, 100%, 0) scaleY(1);
 		visibility: visible;
-		/* #endif */
 		opacity: 1;
+		/* #endif */
 	}
 
 	.fui-ddm__up {
 		transform-origin: 0 100%;
-		top: 0;
 		/* #ifndef APP-NVUE */
+		top: 0;
 		transform: translate3d(0, -100%, 0) scaleY(0);
+		/* #endif */
+
+		/* #ifdef APP-NVUE */
+		transform: translate(0, -100%);
 		/* #endif */
 	}
 
@@ -275,8 +377,8 @@
 		/* #ifndef APP-NVUE */
 		transform: translate3d(0, -100%, 0) scaleY(1);
 		visibility: visible;
-		/* #endif */
 		opacity: 1;
+		/* #endif */
 	}
 
 	.fui-ddm__mask {
@@ -295,7 +397,6 @@
 		box-sizing: border-box;
 		transform: scale(1) translateZ(0);
 		/* #endif */
-		flex: 1;
 		flex-direction: row;
 		align-items: center;
 		background-color: #FFFFFF;
@@ -316,11 +417,20 @@
 		align-items: center;
 	}
 
-	/* #ifndef APP-NVUE */
 	.fui-ddm__item-line {
 		position: relative;
+		/* #ifdef APP-NVUE */
+		border-bottom-width: 0.5px;
+		border-bottom-style: solid;
+		border-bottom-color: #EEEEEE;
+		/* #endif */
+
+		/* #ifndef APP-NVUE */
+		border-bottom-width: 0;
+		/* #endif */
 	}
 
+	/* #ifndef APP-NVUE */
 	.fui-ddm__item-line::after {
 		content: '';
 		position: absolute;

@@ -1,6 +1,6 @@
 <template>
 	<view class="fui-grid__wrap">
-		<view :id="elemId" class="fui-grid" :class="{ 'fui-grid__border': showBorder }"
+		<view :id="elemId" ref="fui_grid" class="fui-grid" :class="{ 'fui-grid__border': showBorder }"
 			:style="{ 'border-left-color':borderColor,'border-top-color':borderColor}">
 			<slot></slot>
 		</view>

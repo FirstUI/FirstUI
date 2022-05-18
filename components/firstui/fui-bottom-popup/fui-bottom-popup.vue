@@ -1,9 +1,13 @@
 <template>
 	<view class="fui-bottom__popup-wrap" :class="{'fui-bottom__popwrap-show':show}"
-		:style="{ zIndex: zIndex,background:maskBackground }" @tap.stop="handleClose" @touchmove.stop.prevent="stop"
+		:style="{ zIndex: zIndex,background:maskBackground}" @tap.stop="handleClose" @touchmove.stop.prevent="stop"
 		v-if="isShow || !isNvue" ref="fui_bp_mk_ani">
+		<!-- #ifdef APP-NVUE -->
+		<view class="fui-bottom__popup-border" :style="{height:radius+'rpx',background: background}" v-if="radius">
+		</view>
+		<!-- #endif -->
 		<view ref="fui_bp_ani" class="fui-bottom__popup"
-			:class="{ 'fui-bottom__popup-show': show,'fui-bp__safe-weex':iphoneX}"
+			:class="{ 'fui-bottom__popup-show': show,'fui-bp__safe-weex':iphoneX && safeArea}"
 			:style="{borderTopLeftRadius:radius+'rpx',borderTopRightRadius:radius+'rpx' ,background: background}"
 			@tap.stop="stop($event,true)">
 			<slot></slot>
@@ -46,6 +50,11 @@
 			maskBackground: {
 				type: String,
 				default: 'rgba(0,0,0,.6)'
+			},
+			//是否适配底部安全区
+			safeArea: {
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
@@ -89,6 +98,7 @@
 			},
 			// #ifdef APP-NVUE || MP-TOUTIAO
 			isPhoneX() {
+				if (!this.safeArea) return false;
 				//34px
 				const res = uni.getSystemInfoSync();
 				let iphonex = false;
@@ -98,7 +108,9 @@
 					'iphone14pro', 'iphone14promax'
 				]
 				const model = res.model.replace(/\s/g, "").toLowerCase()
-				if (models.includes(model) || (res.safeAreaInsets && res.safeAreaInsets.bottom)) {
+				const newModel = model.split('<')[0]
+				if (models.includes(model) || models.includes(newModel) || (res.safeAreaInsets && res.safeAreaInsets
+						.bottom > 0)) {
 					iphonex = true;
 				}
 				return iphonex;
@@ -175,10 +187,21 @@
 		/* #ifndef APP-NVUE */
 		transition: all ease-in-out .2s;
 		visibility: hidden;
+		border-bottom-width: 0;
+		overflow: hidden;
 		/* #endif */
 		opacity: 0;
-		overflow: hidden;
 	}
+
+	/* #ifdef APP-NVUE */
+	.fui-bottom__popup-border {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	/* #endif */
 
 	/* #ifndef APP-NVUE */
 	.fui-bottom__popwrap-show {
@@ -193,8 +216,9 @@
 		transform: translate3d(0, 100%, 0);
 		transition: all 0.3s ease-in-out;
 		min-height: 20rpx;
+		overflow: hidden;
 		/* #endif */
-		
+
 		/* #ifndef APP-NVUE || MP-TOUTIAO */
 		padding-bottom: constant(safe-area-inset-bottom);
 		padding-bottom: env(safe-area-inset-bottom);
@@ -203,10 +227,7 @@
 		/* #ifdef APP-NVUE */
 		transform: translateY(100%);
 		flex-direction: row;
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
 		/* #endif */
-		overflow: hidden;
 	}
 
 	/* #ifndef APP-NVUE */

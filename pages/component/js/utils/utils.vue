@@ -52,8 +52,16 @@
 				<fui-button type="gray" width="400rpx" height="84rpx" text="格式化" bold :margin="['24rpx']"
 					@click="moneyFormatter"></fui-button>
 			</view>
+			<view class="fui-section__title">函数节流，连续触发事件</view>
+			<view class="fui-btn__flex-center">
+				<view class="fui-page__desc">3s执行一次，6s执行2次...：{{num}}</view>
+				<fui-button type="gray" width="400rpx" height="84rpx" text="执行 +1" bold :margin="['24rpx']"
+					@click="btnThrottle"></fui-button>
+			</view>
 			<view class="fui-section__title">其他功能</view>
-			<view class="fui-page__desc">除以上功能以外，还有：日期时间格式化，RGB颜色转十六进制颜色，十六进制颜色转RGB颜色，获取唯一标识，获取uuid，简单数组合并去重，获取日期时间段，获取Url参数，函数防抖，函数节流等功能，具体使用请查看文档。</view>
+			<view class="fui-page__desc">
+				除以上功能以外，还有：日期时间格式化，RGB颜色转十六进制颜色，十六进制颜色转RGB颜色，获取唯一标识，获取uuid，简单数组合并去重，获取日期时间段，获取Url参数，函数防抖，函数节流等功能，具体使用请查看文档。
+			</view>
 		</view>
 	</view>
 </template>
@@ -63,8 +71,13 @@
 	export default {
 		data() {
 			return {
-
+				num: 0
 			}
+		},
+		onLoad() {
+			this.throttle = utils.throttle(() => {
+				this.num++
+			}, 3000)
 		},
 		methods: {
 			titleCase() {
@@ -112,6 +125,9 @@
 				const val = utils.moneyFormatter(text);
 				console.log(val);
 				this.fui.toast(val)
+			},
+			btnThrottle() {
+				this.throttle()
 			}
 		}
 	}

@@ -8,7 +8,7 @@
 					:style="{color:item.color || '#465CFF',fontSize:(item.size || 28)+'rpx',borderColor:borderColor,lineHeight:(item.size || 28)+'rpx'}">{{item.text}}</text>
 			</navigator>
 		</view>
-		<view class="fui-footer__text" :class="{'fui-as__safe-weex':iphoneX}">
+		<view class="fui-footer__text" :class="{'fui-as__safe-weex':iphoneX && safeArea}">
 			<text :style="{color:color,fontSize:size+'rpx'}">{{text}}</text>
 		</view>
 	</view>
@@ -55,6 +55,11 @@
 			isFixed: {
 				type: Boolean,
 				default: false
+			},
+			//是否适配底部安全区
+			safeArea: {
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
@@ -70,16 +75,19 @@
 		methods: {
 			// #ifdef APP-NVUE || MP-TOUTIAO
 			isPhoneX() {
+				if (!this.safeArea) return false;
 				//34px
 				const res = uni.getSystemInfoSync();
 				let iphonex = false;
 				let models = ['iphonex', 'iphonexr', 'iphonexsmax', 'iphone11', 'iphone11pro', 'iphone11promax',
 					'iphone12', 'iphone12mini', 'iphone12pro', 'iphone12promax', 'iphone13', 'iphone13mini',
 					'iphone13pro', 'iphone13promax', 'iphone14', 'iphone14mini',
-					'iphone14pro', 'iphone14promax'
+					'iphone14pro', 'iphone14promax', 'iphone15'
 				]
 				const model = res.model.replace(/\s/g, "").toLowerCase()
-				if (models.includes(model) || (res.safeAreaInsets && res.safeAreaInsets.bottom)) {
+				const newModel = model.split('<')[0]
+				if (models.includes(model) || models.includes(newModel) || (res.safeAreaInsets && res.safeAreaInsets
+						.bottom > 0)) {
 					iphonex = true;
 				}
 				return iphonex;
