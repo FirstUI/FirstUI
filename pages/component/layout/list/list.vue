@@ -114,7 +114,6 @@
 			</fui-list-cell>
 		</view>
 	</view>
-	</view>
 </template>
 
 <script>

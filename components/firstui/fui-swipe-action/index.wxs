@@ -19,6 +19,10 @@ if (typeof window === 'object') isH5 = true
 function getDom(ins, ownerInstance) {
 	var state = ins.getState()
 	var rightDom = ownerInstance.selectComponent('.fui-swipe__action-right')
+	if (!rightDom) {
+		state.rightWidth = 0;
+		return;
+	}
 	if (isH5 || isPC()) {
 		state.rightWidth = rightDom['$el'].offsetWidth || 0
 	} else {
