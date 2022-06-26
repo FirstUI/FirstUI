@@ -33,8 +33,9 @@
 					:disable-default-padding="disableDefaultPadding" :enableNative="false" :show-count="false"
 					@focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm" @linechange="onLinechange"
 					@keyboardheightchange="onKeyboardheightchange"></textarea>
-				<view class="fui-textarea__counter" v-if="isCounter && maxlength!=-1">
-					<text :style="{fontSize:counterSize+'rpx',color:counterColor}">{{count}}/{{maxlength}}</text>
+				<view class="fui-textarea__counter" v-if="isCounter">
+					<text
+						:style="{fontSize:counterSize+'rpx',color:counterColor}">{{maxlength!=-1?`${count}/${maxlength}`:count}}</text>
 				</view>
 			</view>
 			<slot></slot>
@@ -300,27 +301,28 @@
 			},
 			// #ifdef VUE3
 			modelValue(newVal) {
-				this.val = newVal
+				this.val = this.getVal(newVal)
+				this.count = this.getCount(String(this.val).length)
 			},
 			// #endif
 			value(newVal) {
-				this.val = newVal
-				this.count = this.getCount(this.val.length)
+				this.val = this.getVal(newVal)
+				this.count = this.getCount(String(this.val).length)
 			}
 		},
 		created() {
 			// #ifndef VUE3
-			this.val = this.value
+			this.val = this.getVal(this.value)
 			// #endif
 
 			// #ifdef VUE3
 			if (this.value && !this.modelValue) {
-				this.val = this.value
+				this.val = this.getVal(this.value)
 			} else {
-				this.val = this.modelValue
+				this.val = this.getVal(this.modelValue)
 			}
 			// #endif
-			this.count = this.getCount(this.val.length)
+			this.count = this.getCount(String(this.val).length)
 			this.fieldPlaceholderStyle()
 		},
 		mounted() {
@@ -329,6 +331,9 @@
 			})
 		},
 		methods: {
+			getVal(val) {
+				return !val && val !== 0 ? '' : val
+			},
 			fieldPlaceholderStyle() {
 				if (this.placeholderStyle) {
 					this.placeholderStyl = this.placeholderStyle
@@ -339,14 +344,14 @@
 			},
 			getCount(len) {
 				const max = Number(this.maxlength)
-				return len > max ? max : len
+				return len > max && max !== -1 ? max : len
 			},
 			onInput(event) {
 				let value = event.detail.value;
 				if (this.trim) value = this.trimStr(value);
-				const len = value.length;
+				let len = value.length;
 				const max = Number(this.maxlength)
-				if (len > max) {
+				if (len > max && max !== -1) {
 					len = max;
 					value = value.substring(0, max - 1)
 				}
@@ -386,7 +391,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.fui-textarea__wrap {
 		/* #ifndef APP-NVUE */
 		width: 100%;
@@ -507,7 +512,7 @@
 	}
 
 	/* #ifdef MP */
-	>>>.fui-placeholder {
+	::v-deep .fui-placeholder {
 		color: var(--fui-color-minor, #ccc);
 		overflow: visible;
 	}
@@ -558,5 +563,9 @@
 		flex: 1;
 		justify-content: flex-end;
 		/* #endif */
+	}
+
+	.fui-text__right {
+		text-align: right;
 	}
 </style>

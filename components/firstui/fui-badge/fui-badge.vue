@@ -102,7 +102,7 @@
 					value = val > max ? `${max}+` : val
 				}
 				this.showValue = value;
-				this.width = this.dot ? '8px' : ((String(value).length * 16 + 20) + 'rpx')
+				this.width = this.dot ? '8px' : ((String(value).length * 16 + 21) + 'rpx')
 			},
 			handleClick() {
 				this.$emit('click');
@@ -123,6 +123,7 @@
 		min-width: 36rpx !important;
 		display: flex;
 		box-sizing: border-box;
+		white-space: nowrap;
 		/* #endif */
 		flex-direction: row;
 		align-items: center;

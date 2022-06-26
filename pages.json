@@ -101,6 +101,19 @@
 			}
 
 		}, {
+			"path": "basics/text/text",
+			"style": {
+				// #ifdef H5
+				"titleNView": false,
+				// #endif
+				"navigationBarTitleText": "文本",
+				"enablePullDownRefresh": false,
+				"mp-alipay": {
+					"allowsBounceVertical": "YES"
+				}
+			}
+
+		}, {
 			"path": "basics/icon/icon",
 			"style": {
 				// #ifdef H5

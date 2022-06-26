@@ -3,12 +3,12 @@
 		<view class="fui-loadmore__icon" ref="fui_loadmore"
 			:class="{'fui-loadmore__border-left':!isNvue && !activeColor}"
 			:style="{width:iconWidth+'rpx',height:iconWidth+'rpx','border-left-color':activeColor,'border-right-color':iconColor,'border-top-color':iconColor,'border-bottom-color':iconColor}"
-			v-if="!src">
+			v-if="!src && state==2">
 		</view>
 		<image class="fui-loadmore__icon-ani" ref="fui_loadmore" :src="src"
-			:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="src"></image>
+			:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="src && state==2"></image>
 		<text :class="{'fui-loadmore__text':direction==='col'}"
-			:style="{color:color,'font-size':size+'rpx','line-height':size+'rpx'}">{{text}}</text>
+			:style="{color:color,'font-size':size+'rpx','line-height':size+'rpx'}">{{getStateText(state)}}</text>
 	</view>
 </template>
 
@@ -24,10 +24,23 @@
 				type: [Number, String],
 				default: 100
 			},
+			//1-上拉加载 2-正在加载... 3-没有更多了
+			state: {
+				type: [Number, String],
+				default: 2
+			},
+			initText: {
+				type: String,
+				default: "上拉加载"
+			},
 			//提示文字
 			text: {
 				type: String,
 				default: "正在加载..."
+			},
+			noneText: {
+				type: String,
+				default: "没有更多了"
 			},
 			//文字颜色
 			color: {
@@ -75,6 +88,22 @@
 				default: 'row'
 			}
 		},
+		watch: {
+			state(newValue, oldValue) {
+				this.$nextTick(() => {
+					// #ifdef APP-NVUE
+					if (newValue == 2) {
+						this.stop = false;
+						setTimeout(() => {
+							this._animation()
+						}, 50)
+					} else {
+						this.stop = true
+					}
+					// #endif
+				})
+			}
+		},
 		data() {
 			let isNvue = false;
 			// #ifdef APP-NVUE
@@ -109,6 +138,10 @@
 		// #endif
 		// #endif
 		methods: {
+			getStateText(state) {
+				state = Number(state)
+				return [this.initText, this.text, this.noneText][state - 1]
+			},
 			// #ifdef APP-NVUE
 			_animation() {
 				if (!this.$refs['fui_loadmore'] || this.stop) return;

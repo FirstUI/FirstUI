@@ -7,6 +7,11 @@ export default [{
 		vip: false,
 		page: 'color'
 	}, {
+		icon: 'card',
+		name: 'Text 文本',
+		vip: false,
+		page: 'text'
+	}, {
 		icon: 'icon',
 		name: 'Icon 图标',
 		vip: false,

@@ -1,6 +1,6 @@
 <template>
-	<view class="fui-button__wrap"
-		:style="{width: width,height: height,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: radius,background:getBackground}"
+	<view class="fui-button__wrap" :class="[!width || width==='100%' || width===true?'fui-button__flex-1':'']"
+		:style="{width: width,height: getHeight,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: getRadius,background:getBackground}"
 		@touchstart="handleStart" @touchend="handleClick" @touchcancel="handleEnd">
 		<button class="fui-button" :class="[
 				bold ? 'fui-text__bold' : '',
@@ -13,13 +13,13 @@
 				pc && !disabled?(plain || type==='link'?'fui-button__opacity-pc':'fui-button__active-pc'):''
 			]" :style="{
 				width: width,
-				height: height,
-				lineHeight: height,
+				height: getHeight,
+				lineHeight: getHeight,
 				background: disabled && disabledBackground ? disabledBackground : (plain ? 'transparent' : background),
-				borderWidth:!borderColor?'0':borderWidth,
+				borderWidth:!borderColor || !isNvue?'0':borderWidth,
 				borderColor: borderColor ? borderColor : disabled && disabledBackground ? disabledBackground : (background || 'transparent'),
-				borderRadius: radius,
-				fontSize: size + 'rpx',
+				borderRadius: getRadius,
+				fontSize: getSize,
 				color: getColor
 			}" :loading="loading" :form-type="formType" :open-type="openType" @getuserinfo="bindgetuserinfo"
 			@getphonenumber="bindgetphonenumber" @contact="bindcontact" @error="binderror"
@@ -27,9 +27,15 @@
 			<text class="fui-button__text"
 				:class="{'fui-btn__gray-color':!background && !disabledBackground && !plain && type==='gray' && color==='#fff','fui-text__bold':bold}"
 				v-if="text"
-				:style="{fontSize: size + 'rpx',lineHeight:size + 'rpx',color:color? (disabled && disabledBackground ? disabledColor : color):(type==='gray'?'#465CFF':'#FFFFFF')}">{{text}}</text>
+				:style="{fontSize: getSize,lineHeight:getSize,color:color? (disabled && disabledBackground ? disabledColor : color):(type==='gray'?'#465CFF':'#FFFFFF')}">{{text}}</text>
 			<slot></slot>
 		</button>
+		<!-- #ifndef APP-NVUE -->
+		<view v-if="borderColor" class="fui-button__thin-border"
+			:class="[time && (plain || type==='link') && !disabled ? 'fui-button__opacity' : '',disabled && !disabledBackground ? 'fui-button__opacity' : '']"
+			:style="{borderWidth:borderWidth,borderColor:borderColor ? borderColor : disabled && disabledBackground ? disabledBackground : (background || 'transparent'),borderRadius: getBorderRadius}">
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -82,7 +88,7 @@
 			// #ifndef APP-NVUE
 			borderWidth: {
 				type: String,
-				default: '1rpx'
+				default: '1px'
 			},
 			// #endif
 			borderColor: {
@@ -97,12 +103,12 @@
 			//高度
 			height: {
 				type: String,
-				default: '96rpx'
+				default: ''
 			},
 			//字体大小，单位rpx
 			size: {
 				type: [Number, String],
-				default: 32
+				default: 0
 			},
 			bold: {
 				type: Boolean,
@@ -118,7 +124,7 @@
 			//圆角
 			radius: {
 				type: String,
-				default: '16rpx'
+				default: ''
 			},
 			plain: {
 				type: Boolean,
@@ -188,10 +194,41 @@
 					}
 				}
 				return color;
+			},
+			getSize() {
+				const size = (uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.size) || 32
+				return `${this.size || size}rpx`
+			},
+			getHeight() {
+				const height = (uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.height) || '96rpx'
+				return this.height || height
+			},
+			// #ifndef APP-NVUE
+			getBorderRadius() {
+				let radius = (uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.radius) || '16rpx'
+				radius = this.radius || radius || '0'
+				if (~radius.indexOf('rpx')) {
+					radius = (Number(radius.replace('rpx', '')) * 2) + 'rpx'
+				} else if (~radius.indexOf('px')) {
+					radius = (Number(radius.replace('px', '')) * 2) + 'px'
+				} else if (~radius.indexOf('%')) {
+					radius = (Number(radius.replace('%', '')) * 2) + '%'
+				}
+				return radius
+			},
+			// #endif
+			getRadius() {
+				const radius = (uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.radius) || '16rpx'
+				return this.radius || radius
 			}
 		},
 		data() {
+			let isNvue = false
+			// #ifdef APP-NVUE
+			isNvue = true
+			// #endif
 			return {
+				isNvue: isNvue,
 				time: 0,
 				trigger: false,
 				pc: false
@@ -298,8 +335,24 @@
 		-webkit-user-select: none;
 		user-select: none;
 		/* #endif */
-
 	}
+
+	/* #ifndef APP-NVUE */
+	.fui-button__thin-border {
+		position: absolute;
+		width: 200%;
+		height: 200%;
+		transform-origin: 0 0;
+		transform: scale(0.5, 0.5) translateZ(0);
+		box-sizing: border-box;
+		left: 0;
+		top: 0;
+		border-radius: 32rpx;
+		border-style: solid;
+		pointer-events: none;
+	}
+
+	/* #endif */
 
 	/* #ifdef APP-NVUE */
 	.fui-button__nvue {
@@ -338,7 +391,7 @@
 		right: 0;
 		top: 0;
 		transform: none;
-		z-index: 1;
+		z-index: 2;
 		border-radius: 0;
 	}
 
@@ -359,7 +412,7 @@
 		right: 0;
 		top: 0;
 		transform: none;
-		z-index: 1;
+		z-index: 2;
 		border-radius: 0;
 	}
 
