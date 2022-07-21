@@ -15,6 +15,9 @@
 			<view class="fui-card__header-right" v-if="tag">
 				<text :style="{fontSize:tagSize+'rpx',color:tagColor}">{{tag}}</text>
 			</view>
+			<view class="fui-card__header-right" v-if="$slots.tag">
+				<slot name="tag"></slot>
+			</view>
 		</view>
 		<view class="fui-card__body">
 			<slot></slot>
