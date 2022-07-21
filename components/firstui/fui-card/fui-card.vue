@@ -22,7 +22,7 @@
 		<view class="fui-card__body">
 			<slot></slot>
 		</view>
-		<view class="fui-card__footer"
+		<view class="fui-card__footer" :class="{'fui-card__footer-line':footerLine}"
 			:style="{'border-bottom-left-radius':full?0:radius,'border-bottom-right-radius':full?0:radius}">
 			<slot name="footer"></slot>
 		</view>
@@ -82,6 +82,11 @@
 			},
 			//是否需要header底部线条
 			headerLine: {
+				type: Boolean,
+				default: true
+			},
+			//是否需要footer头部线条
+			footerLine: {
 				type: Boolean,
 				default: true
 			},
@@ -263,6 +268,31 @@
 		pointer-events: none;
 	}
 
+	/* #endif */
+	
+	.fui-card__footer-line {
+		position: relative;
+		/* #ifdef APP-NVUE */
+		border-top-width: 0.5px;
+		border-top-style: solid;
+		border-top-color: #EEEEEE;
+		/* #endif */
+	}
+	
+	/* #ifndef APP-NVUE */
+	.fui-card__footer-line::after {
+		content: '';
+		position: absolute;
+		border-top: 1px solid var(--fui-color-border, #EEEEEE);
+		-webkit-transform: scaleY(0.5);
+		transform: scaleY(0.5);
+		transform-origin: 0 100%;
+		top: 0;
+		right: 0;
+		left: 0;
+		pointer-events: none;
+	}
+	
 	/* #endif */
 
 	.fui-card__header-thumb {
