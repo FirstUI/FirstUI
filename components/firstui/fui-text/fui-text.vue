@@ -2,10 +2,10 @@
 	<view class="fui-text__wrap"
 		:class="[block?'fui-text__block':'fui-text__inline','fui-text__'+align,highlight && !disable?'fui-text__active':'']"
 		:style="{textAlign:align,paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0}"
-		@tap.stop="handleTap">
+		@tap="handleTap">
 		<slot></slot>
 		<text class="fui-text__content"
-			:style="{color:getColor,fontSize:getSize,textAlign:align,textDecoration:decoration,fontWeight:fontWeight}"
+			:style="{color:getColor,fontSize:getSize,lineHeight:lineHeight?getSize:'auto',textAlign:align,textDecoration:decoration,fontWeight:fontWeight}"
 			:class="[color?'':'fui-text__'+type]" :selectable="selectable" :userSelect="userSelect"
 			:decode="decode">{{getText(text, textType, format)}}</text>
 		<slot name="right"></slot>
@@ -15,7 +15,7 @@
 <script>
 	export default {
 		name: "fui-text",
-		emits:['click'],
+		emits: ['click'],
 		props: {
 			//样式类型：primary，success， warning，danger，purple，gray，black
 			type: {
@@ -30,7 +30,6 @@
 				type: [Number, String],
 				default: 0
 			},
-			//rpx | px
 			unit: {
 				type: String,
 				default: ''
@@ -52,6 +51,11 @@
 			decoration: {
 				type: String,
 				default: 'none'
+			},
+			//是否将行高设置与字体大小一致
+			lineHeight: {
+				type: Boolean,
+				default: false
 			},
 			padding: {
 				type: Array,

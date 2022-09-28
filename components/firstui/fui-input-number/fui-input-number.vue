@@ -6,7 +6,7 @@
 			</view>
 			<slot></slot>
 		</view>
-		<input type="number" v-model="inputValue" :disabled="disabled" @blur="blur" class="fui-number__input"
+		<input :type="type" v-model="inputValue" :disabled="disabled" @blur="blur" class="fui-number__input"
 			:style="{ color: color, fontSize: size + 'rpx', backgroundColor: backgroundColor, height: height + 'rpx', minHeight: height + 'rpx', width: width + 'rpx',borderRadius:radius+'rpx',marginLeft:margin+'rpx',marginRight:margin+'rpx' }" />
 		<view class="fui-number__plus" :style="{minWidth:signWidth+'rpx',minHeight:signWidth+'rpx'}"
 			:class="[disabled || inputValue >= max ? 'fui-number__disabled' : '']" @tap="plus">
@@ -38,6 +38,11 @@
 				default: 1
 			},
 			// #endif
+			//number、text（主要用与输入负号）
+			type: {
+				type: String,
+				default: 'number'
+			},
 			//最小值
 			min: {
 				type: Number,
@@ -139,6 +144,7 @@
 			// #endif
 			return {
 				inputValue: 0,
+				oldValue: 0,
 				isNvue: isNvue
 			};
 		},
@@ -154,8 +160,9 @@
 			},
 			// #endif
 			inputValue(newVal, oldVal) {
-				if (+newVal !== +oldVal) {
+				if (!isNaN(Number(newVal)) && Number(newVal) !== Number(oldVal)) {
 					const val = this.getValue(+newVal)
+					this.oldValue = val
 					this.$emit("change", {
 						value: val,
 						index: this.index,
@@ -171,24 +178,6 @@
 			}
 		},
 		methods: {
-			toFixed(num, s) {
-				let times = Math.pow(10, s)
-				let des = num * times + 0.5
-				des = parseInt(des, 10) / times
-				return Number(des + '')
-			},
-			getLen(val, step) {
-				let len = 0;
-				let lenVal = 0;
-				//浮点型
-				if (!Number.isInteger(step)) {
-					len = (step + '').split('.')[1].length
-				}
-				if (!Number.isInteger(val)) {
-					lenVal = (val + '').split('.')[1].length
-				}
-				return Math.max(len, lenVal);
-			},
 			getScale(val, step) {
 				let scale = 1;
 				let scaleVal = 1;
@@ -214,8 +203,6 @@
 				if (this.disabled || (this.inputValue == this.min && type === 'reduce') || (this.inputValue == this
 						.max && type === 'plus')) return;
 				const scale = this.getScale(Number(this.inputValue), Number(this.step));
-				const len = this.getLen(Number(this.inputValue), Number(this.step));
-
 				let num = Number(this.inputValue) * scale;
 				let step = this.step * scale;
 				if (type === 'reduce') {
@@ -223,7 +210,7 @@
 				} else if (type === 'plus') {
 					num += step;
 				}
-				let value = this.toFixed(num / scale, len);
+				let value = Number((num / scale).toFixed(String(scale).length - 1));
 				if (value < this.min) {
 					value = this.min;
 				} else if (value > this.max) {
@@ -238,17 +225,20 @@
 				this.calcNum('reduce');
 			},
 			blur: function(e) {
-				this.$emit('blur', e)
 				let value = e.detail.value;
-				if (value) {
+				if (value && !isNaN(Number(value))) {
 					if (~value.indexOf('.') && Number.isInteger(this.step) && Number.isInteger(Number(value))) {
 						value = value.split('.')[0];
 					}
 					value = this.getValue(value)
 				} else {
-					value = this.min;
+					value = this.oldValue;
 				}
-				this.inputValue = value;
+				setTimeout(() => {
+					e.detail.value = value
+					this.$emit('blur', e)
+					this.inputValue = value;
+				}, this.type === 'text' ? 100 : 0)
 			}
 		}
 	};

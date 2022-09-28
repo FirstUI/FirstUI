@@ -18,7 +18,7 @@
 			:style="{background:val?color:'#fff',border:val?`1px solid ${color}`:`1px solid ${borderColor}`}" v-else>
 			<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 				v-if="val"></view>
-			<switch class="fui-switch__hidden" @change="change" :name="name" :type="isNvue?'switch':'checkbox'"
+			<switch class="fui-switch__hidden" style="opacity: 0;position: absolute;" @change="change" :name="name" :type="isNvue?'switch':'checkbox'"
 				:checked="val" :disabled="disabled"></switch>
 		</view>
 	</view>
@@ -212,7 +212,7 @@
 	/* #endif */
 
 	/* #ifdef H5 || APP-VUE */
-	>>>.uni-switch-input {
+	::v-deep .uni-switch-input {
 		margin-right: 0 !important;
 	}
 
@@ -266,6 +266,8 @@
 		/* #ifdef APP-NVUE */
 		width: 100wx;
 		height: 100wx;
+		right: 0;
+		bottom: 0;
 		border-width: 0;
 		/* #endif */
 	}

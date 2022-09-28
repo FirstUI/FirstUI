@@ -1,21 +1,20 @@
 <template>
-	<view class="fui-button__wrap" :class="[!width || width==='100%' || width===true?'fui-button__flex-1':'']"
+	<view class="fui-button__wrap" :class="[!width || width==='100%' || width===true?'fui-button__flex-1':'',disabled && !disabledBackground ? 'fui-button__opacity' : '']"
 		:style="{width: width,height: getHeight,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: getRadius,background:getBackground}"
 		@touchstart="handleStart" @touchend="handleClick" @touchcancel="handleEnd">
 		<button class="fui-button" :class="[
 				bold ? 'fui-text__bold' : '',
 				time && (plain || type==='link') ? 'fui-button__opacity' : '',
-				disabled && !disabledBackground ? 'fui-button__opacity' : '',
 				!background && !disabledBackground && !plain?('fui-button__'+type):'',
 				!width || width==='100%' || width===true?'fui-button__flex-1':'',
 				time && !plain && type!=='link' ? 'fui-button__active' : '',
-				disabled?'':'fui-button__nvue',
-				pc && !disabled?(plain || type==='link'?'fui-button__opacity-pc':'fui-button__active-pc'):''
+				pc && !disabled?(plain || type==='link'?'fui-button__opacity-pc':'fui-button__active-pc'):'',
+				
 			]" :style="{
 				width: width,
 				height: getHeight,
 				lineHeight: getHeight,
-				background: disabled && disabledBackground ? disabledBackground : (plain ? 'transparent' : background),
+				background: disabled ? (disabledBackground || getTypeColor) : (plain ? 'transparent' : getBackground), 
 				borderWidth:!borderColor || !isNvue?'0':borderWidth,
 				borderColor: borderColor ? borderColor : disabled && disabledBackground ? disabledBackground : (background || 'transparent'),
 				borderRadius: getRadius,
@@ -158,11 +157,10 @@
 			}
 		},
 		computed: {
-			getBackground() {
+			getTypeColor() {
 				// #ifndef APP-NVUE
-				return 'transparent'
+				return '';
 				// #endif
-				// #ifdef APP-NVUE
 				let colors = {
 					primary: '#465CFF',
 					success: '#09BE4F',
@@ -172,7 +170,10 @@
 					purple: '#6831FF',
 					gray: '#F8F8F8'
 				}
-				let color = colors[this.type] || 'transparent'
+				return colors[this.type] || 'transparent'
+			},
+			getBackground() {
+				let color = this.getTypeColor
 				if (this.disabled || this.plain) {
 					color = 'transparent';
 				}
@@ -180,7 +181,6 @@
 					color = this.background
 				}
 				return color
-				// #endif
 			},
 			getColor() {
 				let color = '#fff'
@@ -196,16 +196,16 @@
 				return color;
 			},
 			getSize() {
-				const size = (uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.size) || 32
+				const size = (uni && uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.size) || 32
 				return `${this.size || size}rpx`
 			},
 			getHeight() {
-				const height = (uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.height) || '96rpx'
+				const height = (uni && uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.height) || '96rpx'
 				return this.height || height
 			},
 			// #ifndef APP-NVUE
 			getBorderRadius() {
-				let radius = (uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.radius) || '16rpx'
+				let radius = (uni && uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.radius) || '16rpx'
 				radius = this.radius || radius || '0'
 				if (~radius.indexOf('rpx')) {
 					radius = (Number(radius.replace('rpx', '')) * 2) + 'rpx'
@@ -218,7 +218,7 @@
 			},
 			// #endif
 			getRadius() {
-				const radius = (uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.radius) || '16rpx'
+				const radius = (uni && uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.radius) || '16rpx'
 				return this.radius || radius
 			}
 		},
@@ -314,6 +314,9 @@
 <style scoped>
 	.fui-button__wrap {
 		position: relative;
+		/* #ifndef APP-NVUE */
+		background: transparent !important;
+		/* #endif */
 	}
 
 	.fui-button {
@@ -350,13 +353,6 @@
 		border-radius: 32rpx;
 		border-style: solid;
 		pointer-events: none;
-	}
-
-	/* #endif */
-
-	/* #ifdef APP-NVUE */
-	.fui-button__nvue {
-		opacity: 1 !important;
 	}
 
 	/* #endif */
@@ -435,88 +431,45 @@
 
 	.fui-button__link {
 		border-color: transparent !important;
-		background: transparent !important;
+		background-color: transparent !important;
 	}
 
+	/* #ifndef APP-NVUE */
 	.fui-button__primary {
-		/* #ifdef APP-NVUE */
-		border-color: #465CFF !important;
-		background: #465CFF !important;
-		/* #endif */
-
-		/* #ifndef APP-NVUE */
 		border-color: var(--fui-color-primary, #465CFF) !important;
 		background: var(--fui-color-primary, #465CFF) !important;
-		/* #endif */
 	}
 
-	.fui-button__success {
-		/* #ifdef APP-NVUE */
-		border-color: #09BE4F !important;
-		background: #09BE4F !important;
-		/* #endif */
 
-		/* #ifndef APP-NVUE */
+	.fui-button__success {
 		border-color: var(--fui-color-success, #09BE4F) !important;
 		background: var(--fui-color-success, #09BE4F) !important;
-		/* #endif */
 	}
 
 	.fui-button__warning {
-		/* #ifdef APP-NVUE */
-		border-color: #FFB703 !important;
-		background: #FFB703 !important;
-		/* #endif */
-
-		/* #ifndef APP-NVUE */
 		border-color: var(--fui-color-warning, #FFB703) !important;
 		background: var(--fui-color-warning, #FFB703) !important;
-		/* #endif */
 	}
 
 	.fui-button__danger {
-		/* #ifdef APP-NVUE */
-		border-color: #FF2B2B !important;
-		background: #FF2B2B !important;
-		/* #endif */
-
-		/* #ifndef APP-NVUE */
 		border-color: var(--fui-color-danger, #FF2B2B) !important;
 		background: var(--fui-color-danger, #FF2B2B) !important;
-		/* #endif */
 	}
 
 	.fui-button__purple {
-		/* #ifdef APP-NVUE */
-		border-color: #6831FF !important;
-		background: #6831FF !important;
-		/* #endif */
-
-		/* #ifndef APP-NVUE */
 		border-color: var(--fui-color-purple, #6831FF) !important;
 		background: var(--fui-color-purple, #6831FF) !important;
-		/* #endif */
 	}
 
 	.fui-button__gray {
-		/* #ifdef APP-NVUE */
-		border-color: #F8F8F8 !important;
-		background: #F8F8F8 !important;
-		/* #endif */
-
-		/* #ifndef APP-NVUE */
 		border-color: var(--fui-bg-color-content, #F8F8F8) !important;
 		background: var(--fui-bg-color-content, #F8F8F8) !important;
 		color: var(--fui-color-primary, #465CFF) !important;
-		/* #endif */
 	}
 
 	.fui-btn__gray-color {
-		/* #ifdef APP-NVUE */
-		color: #465CFF !important;
-		/* #endif */
-		/* #ifndef APP-NVUE */
 		color: var(--fui-color-primary, #465CFF) !important;
-		/* #endif */
 	}
+
+	/* #endif */
 </style>

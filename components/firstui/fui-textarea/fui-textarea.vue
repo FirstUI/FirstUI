@@ -512,7 +512,7 @@
 	}
 
 	/* #ifdef MP */
-	::v-deep .fui-placeholder {
+	::v-deep .fui-textarea-placeholder {
 		color: var(--fui-color-minor, #ccc);
 		overflow: visible;
 	}

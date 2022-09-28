@@ -15,11 +15,11 @@
 			<view class="fui-input__required" :style="{color:requiredColor}" v-if="required">*</view>
 			<!-- #endif -->
 			<view class="fui-input__label" :style="{minWidth:labelWidth+'rpx'}" v-if="label">
-				<text :style="{fontSize:labelSize+'rpx',color:labelColor}">{{label}}</text>
+				<text :style="{fontSize:getLabelSize,color:labelColor}">{{label}}</text>
 			</view>
 			<slot name="left"></slot>
 			<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
-				:style="{fontSize:size+'rpx',color:color}" placeholder-class="fui-input__placeholder" :type="type"
+				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type"
 				:name="name" :value="val" :password="password" :placeholder="placeholder"
 				:placeholder-style="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
 				:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
@@ -82,7 +82,7 @@
 			//标题字体大小
 			labelSize: {
 				type: [Number, String],
-				default: 32
+				default: 0
 			},
 			labelColor: {
 				type: String,
@@ -157,6 +157,14 @@
 				type: [Number, String],
 				default: 140
 			},
+			min: {
+				type: [Number, String],
+				default: 'NaN'
+			},
+			max: {
+				type: [Number, String],
+				default: 'NaN'
+			},
 			cursorSpacing: {
 				type: Number,
 				default: 0,
@@ -197,67 +205,54 @@
 				type: Boolean,
 				default: false
 			},
-			//输入框字体大小 rpx
 			size: {
 				type: [Number, String],
-				default: 32
+				default: 0
 			},
-			//输入框字体颜色
 			color: {
 				type: String,
 				default: '#333'
 			},
-			// 是否显示 input 边框，为true则borderTop，borderBottom失效
 			inputBorder: {
 				type: Boolean,
 				default: false
 			},
-			//input是否显示为圆角
 			isFillet: {
 				type: Boolean,
 				default: false
 			},
-			//自定义圆角值，无边框时生效
 			radius: {
 				type: [Number, String],
 				default: -1
 			},
-			// 是否显示上边框
 			borderTop: {
 				type: Boolean,
 				default: false
 			},
-			//上边框left值，单位rpx
 			topLeft: {
 				type: [Number, String],
 				default: 0
 			},
-			//上边框right值，单位rpx
 			topRight: {
 				type: [Number, String],
 				default: 0
 			},
-			// 是否显示下边框
 			borderBottom: {
 				type: Boolean,
 				default: true
 			},
-			//下边框left值，单位rpx
 			bottomLeft: {
 				type: [Number, String],
 				default: 32
 			},
-			//下边框right值，单位rpx
 			bottomRight: {
 				type: [Number, String],
 				default: 0
 			},
-			//边框颜色，inputBorder为true时，非nvue端边框颜色通过css变量修改
 			borderColor: {
 				type: String,
 				default: '#EEEEEE'
 			},
-			// 是否自动去除两端的空格
 			trim: {
 				type: Boolean,
 				default: true
@@ -266,19 +261,16 @@
 				type: Boolean,
 				default: false
 			},
-			//输入框padding值：[上，右，下，左]
 			padding: {
 				type: Array,
 				default () {
 					return ['28rpx', '32rpx']
 				}
 			},
-			//输入框背景颜色
 			backgroundColor: {
 				type: String,
 				default: '#FFFFFF'
 			},
-			//输入框margin-top值 rpx
 			marginTop: {
 				type: [Number, String],
 				default: 0
@@ -305,6 +297,14 @@
 					styles += `border-radius:${this.radius}rpx;overflow:hidden;`
 				}
 				return styles
+			},
+			getSize() {
+				const size = (uni.$fui && uni.$fui.fuiInput && uni.$fui.fuiInput.size) || 32
+				return `${this.size || size}rpx`
+			},
+			getLabelSize() {
+				const labelSize = (uni.$fui && uni.$fui.fuiInput && uni.$fui.fuiInput.labelSize) || 32
+				return `${this.labelSize || labelSize}rpx`
 			}
 		},
 		watch: {
@@ -359,7 +359,8 @@
 				if (this.placeholderStyle) {
 					this.placeholderStyl = this.placeholderStyle
 				} else {
-					const size = uni.upx2px(this.size)
+					const _size = (uni.$fui && uni.$fui.fuiInput && uni.$fui.fuiInput.size) || 32
+					const size = uni.upx2px(this.size || _size)
 					this.placeholderStyl = `font-size:${size}px`
 				}
 			},
@@ -367,10 +368,23 @@
 				let value = event.detail.value;
 				if (this.trim) value = this.trimStr(value);
 				this.val = value;
-				if (this.modelModifiers.number || this.number) {
+				if (this.modelModifiers.number || this.number || this.type === 'digit' || this.type === 'number') {
 					let eVal = Number(value)
+					if (typeof eVal === 'number') {
+						const min = Number(this.min)
+						const max = Number(this.max)
+						if (typeof min === 'number' && eVal < min) {
+							eVal = min
+						} else if (typeof max === 'number' && max < eVal) {
+							eVal = max
+						}
+					}
 					value = isNaN(eVal) ? value : eVal
 				}
+				this.$nextTick(() => {
+					//当输入框为空时，输入框显示不赋值为0，返回值为0
+					event.detail.value !== '' && (this.val = value);
+				})
 				// TODO　兼容　vue2
 				this.$emit('input', value);
 				// TODO　兼容　vue3
@@ -388,6 +402,7 @@
 				this.$emit('confirm', e);
 			},
 			onClear(event) {
+				if (this.disabled) return;
 				uni.hideKeyboard()
 				this.val = '';
 				this.$emit('input', '');
@@ -449,8 +464,8 @@
 		/* #endif */
 		/* #ifndef APP-NVUE */
 		height: 1px;
-		-webkit-transform: scaleY(0.5);
-		transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5) translateZ(0);
+		transform: scaleY(0.5) translateZ(0);
 		transform-origin: 0 100%;
 		z-index: 1;
 		/* #endif */
@@ -558,7 +573,7 @@
 	}
 
 	/* #ifdef MP */
-	>>>.fui-input__placeholder {
+	::v-deep .fui-input__placeholder {
 		color: var(--fui-color-minor, #ccc);
 		overflow: visible;
 	}

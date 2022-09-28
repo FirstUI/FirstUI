@@ -1,5 +1,5 @@
 <template>
-	<view class="fui-label__box" :class="{'fui-label__full':full}"
+	<view class="fui-label__box" :class="{'fui-label__full':full,'fui-label__inline':inline}"
 		:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,marginTop:margin[0] || 0,marginRight:margin[1] || 0,marginBottom:margin[2] || margin[0] || 0,marginLeft:margin[3] || margin[1] || 0}"
 		@tap.stop="onClick">
 		<slot></slot>
@@ -26,6 +26,10 @@
 				}
 			},
 			full: {
+				type: Boolean,
+				default: false
+			},
+			inline: {
 				type: Boolean,
 				default: false
 			}
@@ -56,6 +60,12 @@
 		flex: 1;
 		/* #ifndef APP-NVUE */
 		width: 100%;
+		/* #endif */
+	}
+
+	.fui-label__inline {
+		/* #ifndef APP-NVUE */
+		display: inline-block;
 		/* #endif */
 	}
 </style>

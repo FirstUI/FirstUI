@@ -1,5 +1,5 @@
 <template>
-	<view class="fui-grid__wrap">
+	<view class="fui-grid__wrap" :class="[isShow?'fui-grid__wrap-show':'fui-grid__wrap-hidden']">
 		<view :id="elemId" ref="fui_grid" class="fui-grid" :class="{ 'fui-grid__border': showBorder }"
 			:style="{ 'border-left-color':borderColor,'border-top-color':borderColor}">
 			<slot></slot>
@@ -46,11 +46,17 @@
 			return {
 				elemId: elemId,
 				width: 0,
-				height: 0
+				height: 0,
+				isShow: false
 			};
 		},
 		created() {
 			this.children = []
+			let sys = uni.getSystemInfoSync()
+			this.width = (100 / this.columns) + '%'
+			if(this.square){
+				this.height = (sys.windowWidth-1) / this.columns + 'px'
+			}
 		},
 		watch: {
 			columns(val) {
@@ -75,6 +81,7 @@
 							item.width = width
 							item.height = height
 						})
+						this.isShow = true
 					})
 				}, 50)
 			},
@@ -137,6 +144,17 @@
 		/* #endif */
 		flex: 1;
 		flex-direction: column;
+		transition-property: opacity;
+		transition-duration: .2s;
+		transition-timing-function: ease-in-out;
+	}
+
+	.fui-grid__wrap-hidden {
+		opacity: 0;
+	}
+
+	.fui-grid__wrap-show {
+		opacity: 1;
 	}
 
 	.fui-grid {

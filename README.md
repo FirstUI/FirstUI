@@ -136,6 +136,72 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.7.0（2022-09-28）
+
+- 新增 WATERFALL 瀑布流加载 布局内容。
+
+- 新增 TOP TAB 顶部选项卡 布局内容。
+
+- 新增 NEWS LIST 新闻列表 布局内容。
+
+- 新增 PRODUCT LIST 商品列表 布局内容。
+
+- 新增 MAP 地图 布局内容-线路规划。
+
+- 新增 ROLL HORIZONTAL 横向滚动 布局内容。
+
+- 新增 UploadVideo 视频上传 组件（VIP组件）。
+
+- 新增 FormItem 表单项 组件（VIP组件）。
+
+- Label 标签 组件优化。
+
+- Card 卡片 组件优化，新增footerLine属性。
+
+- InputNumber 数字输入框 组件优化，修复最小值设为负数不生效的问题，新增type属性当设值为text则可输入负号小数点等。
+
+- Panel 面板 组件优化，新增属性配置数据源键值（key）。
+
+- Preview 表单预览 组件优化，新增属性配置数据源键值（key），修复部分兼容问题。
+
+- Input 输入框 组件优化，新增min和max属性，当type=number、type=digit、number属性为true时生效。
+
+- LicensePlate 车牌号键盘 组件优化，新增方法 changeKeyboard 切换键盘显示。
+
+- ImageCropper 图片裁剪 组件优化，修复已知bug。
+
+- Grid 宫格 组件优化。
+
+- Textarea 多行输入框组件已知问题优化。
+
+- Input 输入框 组件已知问题优化。
+
+- Text 文本 组件优化，新增部分属性（props）。
+
+- Button 按钮 组件优化，修复nvue端样式background加!important报错的问题。
+
+- Waterfall 瀑布流 组件优化，请参考【布局-瀑布流】示例做加载刷新操作。
+
+- DatePicker 日期时间选择器 组件优化，修复type=1时设置默认值失效的问题，修复区间选择设置起始日期文本出错的问题。
+
+- Landscape 压屏窗 组件优化，新增属性支持absolute定位，以便用于其他组件内。
+
+- Validator 表单验证（JS）组件优化，支持校验所有元素并返回所有错误信息。
+
+- Form 表单校验 组件优化，支持校验所有元素并返回所有错误信息。
+
+- Radio 单选框 组件优化，修复Nvue端vue3下可能显示不正确的问题。
+
+- Checkbox 复选框 组件优化，修复Nvue端vue3下可能显示不正确的问题。
+
+- Switch 开关 组件优化，修复Nvue端vue3下可能显示不正确的问题。
+
+- OverflowHidden 内容超出隐藏 组件优化，新增部分属性。
+
+- Lazyload 图片懒加载 组件优化，新增部分属性。
+
+- 修复部分已知问题。
+
 #### V1.6.0（2022-06-26）
 
 - 新增组件全局配置，目前仅针对部分常用组件处理，详见文档 [全局配置]。

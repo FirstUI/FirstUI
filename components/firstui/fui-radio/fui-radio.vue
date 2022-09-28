@@ -5,7 +5,7 @@
 		@tap.stop="radioChange">
 		<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 			v-if="val"></view>
-		<radio class="fui-radio__hidden" :color="color" :disabled="disabled" :value="value" :checked="val"></radio>
+		<radio class="fui-radio__hidden" style="opacity: 0;position: absolute;" :color="color" :disabled="disabled" :value="value" :checked="val"></radio>
 	</view>
 </template>
 
@@ -201,7 +201,6 @@
 
 	.fui-radio__hidden {
 		/* #ifndef APP-NVUE */
-		display: inline-block;
 		width: 100%;
 		height: 100%;
 		border: 0 none;

@@ -5,7 +5,7 @@
 		@tap.stop="checkboxChange">
 		<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 			v-if="val"></view>
-		<checkbox class="fui-checkbox__hidden" :color="color" :disabled="disabled" :value="value" :checked="val">
+		<checkbox class="fui-checkbox__hidden" style="opacity: 0;position: absolute;" :color="color" :disabled="disabled" :value="value" :checked="val">
 		</checkbox>
 	</view>
 </template>
@@ -204,7 +204,6 @@
 
 	.fui-checkbox__hidden {
 		/* #ifndef APP-NVUE */
-		display: inline-block;
 		width: 100%;
 		height: 100%;
 		border: 0 none;
@@ -220,7 +219,6 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		opacity: 0;
 		z-index: 2;
 	}
 
