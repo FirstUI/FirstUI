@@ -18,9 +18,9 @@
 					</view>
 				</scroll-view>
 				<swiper :current="tabIndex" class="fui-swiper__box" :duration="300" @change="tabChange"
-					:style="{height:height}">
+					:style="{height:height+'px'}">
 					<swiper-item class="fui-swiper__item" v-for="(tab, index) in tabs" :key="tab.id">
-						<scroll-view class="fui-scroll__box" scroll-y :style="{height:height}">
+						<scroll-view class="fui-scroll__box" scroll-y :style="{height:height+'px'}">
 							<view class="fui-list__view">
 								<fui-list-cell arrow :padding="[0,'32rpx']" :bottomBorder="false" radius="16rpx"
 									marginTop="24" v-for="(item,idx) in tab.data" :key="idx"
@@ -57,6 +57,19 @@
 			}
 		},
 		onLoad() {
+			setTimeout(() => {
+				let height = uni.getSystemInfoSync().windowHeight - uni.upx2px(538);
+				// #ifdef VUE3 
+				// #ifdef H5
+				height += 50
+				// #endif
+				// #endif
+				this.height = height;
+				// #ifdef MP
+				this.getStatus().then((res) => {})
+				// #endif
+			}, 50)
+			
 			setTimeout(() => {
 				this.height = uni.getSystemInfoSync().windowHeight - uni.upx2px(538) + 'px';
 				// #ifdef MP
