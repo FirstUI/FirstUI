@@ -105,19 +105,17 @@
 		display: block;
 		/* #endif */
 	}
-
+    /* #ifndef APP-NVUE */
 	.fui-row__box::before,
 	.fui-row__box::after {
 		display: table;
-		/* #ifndef APP-NVUE */
 		content: " ";
-		/* #endif */
+		
 	}
-
 	.fui-row__box::after {
 		clear: both;
 	}
-
+    /* #endif */
 	.fui-row__flex {
 		/* #ifndef APP-NVUE*/
 		display: flex !important;
@@ -133,9 +131,11 @@
 		align-items: flex-end;
 	}
 
+	/* #ifndef APP-NVUE */
 	.fui-row__before {
 		display: table
 	}
+	/* #endif */
 
 	.fui-row__end {
 		justify-content: flex-end;

@@ -37,18 +37,7 @@
 			styles: {
 				type: Object,
 				default () {
-					return {
-						position: 'fixed',
-						bottom: 0,
-						top: 0,
-						left: 0,
-						right: 0,
-						// #ifndef APP-NVUE
-						display: 'flex',
-						// #endif
-						'justify-content': 'center',
-						'align-items': 'center'
-					};
+					return {}
 				}
 			}
 		},
@@ -76,8 +65,22 @@
 		},
 		computed: {
 			stylesObject() {
-				let styles = {
-					...this.styles,
+				//默认值
+				const defStyles = {
+					position: 'fixed',
+					bottom: 0,
+					top: 0,
+					left: 0,
+					right: 0,
+					// #ifndef APP-NVUE
+					display: 'flex',
+					// #endif
+					'justify-content': 'center',
+					'align-items': 'center'
+				};
+				const mergeStyles = Object.assign({}, defStyles, this.styles);
+				const styles = {
+					...mergeStyles,
 					'transition-duration': this.duration / 1000 + 's'
 				};
 				let transfrom = '';

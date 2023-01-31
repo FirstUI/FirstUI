@@ -3,7 +3,8 @@
 		:style="{ zIndex: zIndex,background:maskBackground,alignItems:direction==='left'?'flex-start':'flex-end' }"
 		@tap.stop="handleClose" @touchmove.stop.prevent="stop" v-if="isShow || !isNvue" ref="fui_dwr_mk_ani">
 		<view ref="fui_dwr_ani" class="fui-drawer__popup" :class="['fui-drawer_'+direction,show?'fui-drawer__show':'']"
-			:style="{background: background}" @tap.stop="stop($event,true)">
+			:style="{background: background,borderTopLeftRadius:(direction==='right'? radius:0)+'rpx',borderBottomLeftRadius:(direction==='right'? radius:0)+'rpx',borderTopRightRadius:(direction==='left'? radius:0)+'rpx',borderBottomRightRadius:(direction==='left'? radius:0)+'rpx'}"
+			@tap.stop="stop($event,true)">
 			<slot></slot>
 		</view>
 	</view>
@@ -44,6 +45,11 @@
 			maskBackground: {
 				type: String,
 				default: 'rgba(0,0,0,.6)'
+			},
+			//圆角值，左侧打开时为右侧圆角，右侧打开时为左侧圆角
+			radius: {
+				type: [Number, String],
+				default: 0
 			}
 		},
 		data() {
@@ -165,8 +171,6 @@
 		display: flex;
 		/* #endif */
 		flex: 1;
-		/* #ifdef APP-NVUE */
-		/* #endif */
 		flex-direction: column;
 		overflow: hidden;
 	}

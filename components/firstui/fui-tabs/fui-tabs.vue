@@ -11,17 +11,35 @@
 					:style="{height:height+'rpx'}">
 					<view class="fui-tabs__ac-line"
 						:class="{'fui-tabs__line-short':short,'fui-tabs__slider-color':!sliderBackground}"
-						:style="{height:sliderHeight+'rpx',background:sliderBackground,borderRadius:sliderRadius==-1?sliderHeight+'rpx':sliderRadius+'rpx',bottom:bottom +'rpx',left:`-${padding}rpx`,right:`-${padding}rpx`,transform: `scale(${tabIndex===index?(isNvue?1:scale):(isNvue?0.00001:0)})`}" v-if="isSlider">
+						:style="{height:sliderHeight+'rpx',background:sliderBackground,borderRadius:sliderRadius==-1?sliderHeight+'rpx':sliderRadius+'rpx',bottom:bottom +'rpx',left:`-${padding}rpx`,right:`-${padding}rpx`,transform: `scale(${tabIndex===index?(isNvue?1:scale):(isNvue?0.00001:0)})`}"
+						v-if="isSlider">
 					</view>
 					<image class="fui-tabs__icon" :class="{'fui-tabs__icon-column':direction==='column'}"
 						:src="tabIndex===index && tab.selectedIcon?tab.selectedIcon:tab.icon" v-if="tab.icon">
 					</image>
-					<text class="fui-tabs__text"
-						:class="{'fui-tabs__selected-color':!selectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
-						:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?selectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,transform:`scale(${tabIndex===index && !isNvue?scale:1})`}">{{tab.name}}<text
+					<!-- #ifdef APP-NVUE -->
+					<view class="fui-tabs__text">
+						<text class="fui-tabs__text-nvue"
+							:class="{'fui-tabs__selected-color':!selectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
+							:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?selectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,height:height+'rpx',lineHeight:height+'rpx'}">{{tab.name}}</text>
+						<text
 							:class="{'fui-tabs__badge-color':!badgeBackground,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
 							:style="{color:badgeColor,background:badgeBackground}"
-							v-if="tab.badge">{{isDot?'':tab.badge}}</text></text>
+							v-if="tab.badge">{{isDot?'':tab.badge}}</text>
+					</view>
+
+					<!-- #endif -->
+					<!-- #ifndef APP-NVUE -->
+					<!--vue3中text嵌套text使用v-if会显示v-if文本-->
+					<view class="fui-tabs__text"
+						:class="{'fui-tabs__selected-color':!selectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
+						:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?selectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,transform:`scale(${tabIndex===index && !isNvue?scale:1})`}">
+						{{tab.name}}<text
+							:class="{'fui-tabs__badge-color':!badgeBackground,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
+							:style="{color:badgeColor,background:badgeBackground}"
+							v-if="tab.badge">{{isDot?'':tab.badge}}</text>
+					</view>
+					<!-- #endif -->
 				</view>
 			</view>
 		</view>
@@ -70,15 +88,18 @@
 				default: 28
 			},
 			//字体颜色
+			// #ifdef APP-NVUE
 			color: {
 				type: String,
-				// #ifdef APP-NVUE
 				default: '#7F7F7F'
-				// #endif
-				// #ifndef APP-NVUE
-				default: ''
-				// #endif
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			color: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			//选中前字重
 			fontWeight: {
 				type: [Number, String],
@@ -90,15 +111,18 @@
 				default: 32
 			},
 			//选中后字体颜色
+			// #ifdef APP-NVUE
 			selectedColor: {
 				type: String,
-				// #ifdef APP-NVUE
 				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
-				default: ''
-				// #endif
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			selectedColor: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			//选中后字重 
 			selectedFontWeight: {
 				type: [Number, String],
@@ -114,20 +138,23 @@
 				type: String,
 				default: '#fff'
 			},
+			// #ifdef APP-NVUE
 			badgeBackground: {
 				type: String,
-				// #ifdef APP-NVUE
 				default: '#FF2B2B'
-				// #endif
-				// #ifndef APP-NVUE
-				default: ''
-				// #endif
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			badgeBackground: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			isDot: {
 				type: Boolean,
 				default: false
 			},
-			isSlider:{
+			isSlider: {
 				type: Boolean,
 				default: true
 			},
@@ -137,15 +164,18 @@
 				default: 5
 			},
 			//滑块背景颜
+			// #ifdef APP-NVUE
 			sliderBackground: {
 				type: String,
-				// #ifdef APP-NVUE
 				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
-				default: ''
-				// #endif
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			sliderBackground: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			//滑块 radius
 			sliderRadius: {
 				type: [Number, String],
@@ -177,15 +207,18 @@
 				default: false
 			},
 			//isFixed或isSticky为true时，tabs top值 px
+			// #ifndef H5
 			top: {
 				type: [Number, String],
-				// #ifndef H5
 				default: 0
-				// #endif
-				// #ifdef H5
-				default: 44
-				// #endif
 			},
+			// #endif
+			// #ifdef H5
+			top: {
+				type: [Number, String],
+				default: 44
+			},
+			// #endif
 			//当数据不满一屏时，item项是否靠左对齐，默认均分铺满
 			alignLeft: {
 				type: Boolean,
@@ -202,8 +235,11 @@
 			}
 		},
 		watch: {
-			tabs(vals) {
-				this.initData(vals)
+			tabs: {
+				handler(vals) {
+					this.initData(vals)
+				},
+				deep: true
 			},
 			current(newVal, oldVal) {
 				this.switchTab(newVal);
@@ -379,10 +415,16 @@
 		justify-content: center;
 		/* #endif */
 		transition: transform 0.2s linear;
-		/* transform-origin: center center; */
 		position: relative;
 		z-index: 3;
 	}
+
+	/* #ifdef APP-NVUE */
+	.fui-tabs__text-nvue {
+		text-align: center;
+	}
+
+	/* #endif */
 
 	.fui-tabs__badge {
 		height: 36rpx;
@@ -395,13 +437,13 @@
 		min-width: 36rpx !important;
 		display: flex;
 		box-sizing: border-box;
+		position: absolute;
+		right: -32rpx;
+		top: -18rpx;
 		/* #endif */
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		position: absolute;
-		right: -32rpx;
-		top: -18rpx;
 		transform: scale(0.9);
 		z-index: 10;
 	}
@@ -415,16 +457,12 @@
 
 		/* #ifndef APP-NVUE */
 		display: inline-block;
-		/* #endif */
-		background-color: red;
-		/* #ifndef APP-NVUE */
-		border-radius: 50%;
-		/* #endif */
 		position: absolute;
 		right: -6px;
 		top: -3px;
+		border-radius: 50%;
+		/* #endif */
 		z-index: 10;
-		/* transform: scale(0.9); */
 	}
 
 	.fui-tabs__ac-line {

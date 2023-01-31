@@ -2,8 +2,8 @@
 	<view class="fui-avatar__wrap" :class="[width?'':'fui-avatar__size-'+size,radius===-1?'fui-avatar__'+shape:'']"
 		:style="wrapStyles" @tap="handleClick">
 		<image class="fui-avatar__img" :style="styles"
-			:class="[radius===-1?'fui-avatar__'+shape:'',width?'':'fui-avatar__size-'+size]" :src="src" :mode="mode"
-			v-if="src" :webp="webp" :lazy-load="lazyLoad"></image>
+			:class="[radius===-1?'fui-avatar__'+shape:'',width?'':'fui-avatar__size-'+size]" :src="showImg" :mode="mode"
+			v-if="src" :webp="webp" :lazy-load="lazyLoad" @error="handleError"></image>
 		<text class="fui-avatar__text" :class="[width?'':'fui-avatar__text-'+size]" v-if="!src && text"
 			:style="textStyles">{{text}}</text>
 		<slot></slot>
@@ -13,9 +13,13 @@
 <script>
 	export default {
 		name: "fui-avatar",
-		emits: ['click'],
+		emits: ['click', 'error'],
 		props: {
 			src: {
+				type: String,
+				default: ''
+			},
+			errorSrc: {
 				type: String,
 				default: ''
 			},
@@ -122,7 +126,29 @@
 				return styles;
 			}
 		},
+		watch:{
+		   src(val){
+			   this.src && (this.showImg = this.src);
+		   }	
+		},
+		data() {
+			return {
+				showImg: ''
+			}
+		},
+		created() {
+			this.src && (this.showImg = this.src);
+		},
 		methods: {
+			handleError(e) {
+				if (this.src) {
+					this.errorSrc && (this.showImg = this.errorSrc);
+					this.$emit('error', {
+						index: this.index,
+						params: this.params
+					})
+				}
+			},
 			handleClick() {
 				this.$emit('click', {
 					index: this.index,
@@ -138,11 +164,11 @@
 		position: relative;
 		/* #ifndef APP-NVUE */
 		display: inline-flex;
+		overflow: hidden;
 		/* #endif */
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		overflow: hidden;
 	}
 
 	.fui-avatar__img {

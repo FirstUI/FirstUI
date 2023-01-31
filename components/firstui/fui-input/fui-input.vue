@@ -18,15 +18,30 @@
 				<text :style="{fontSize:getLabelSize,color:labelColor}">{{label}}</text>
 			</view>
 			<slot name="left"></slot>
+			<!-- 小程序不支持v-bind="{'password':password}" -->
+			<!-- #ifdef APP-PLUS || H5 -->
+			<input v-bind="attribute" class="fui-input__self" :class="{'fui-input__text-right':textRight}"
+				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type"
+				:name="name" :value="val" :placeholder="placeholder" :placeholder-style="placeholderStyl"
+				:disabled="disabled || readonly" :cursor-spacing="cursorSpacing" :maxlength="maxlength" :focus="focused"
+				:confirm-type="confirmType" :confirm-hold="confirmHold" :cursor="cursor"
+				:selection-start="selectionStart" :selection-end="selectionEnd" :adjust-position="adjustPosition"
+				:hold-keyboard="holdKeyboard" :auto-blur="autoBlur" :enableNative="false" :always-embed="alwaysEmbed"
+				@focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm"
+				@keyboardheightchange="onKeyboardheightchange" />
+			<!-- #endif -->
+
+			<!-- #ifndef APP-PLUS || H5 -->
 			<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
 				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type"
-				:name="name" :value="val" :password="password" :placeholder="placeholder"
-				:placeholder-style="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
+				:name="name" :value="val" :placeholder="placeholder" :password="password"
+				:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
 				:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
 				:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
 				:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur"
 				:enableNative="false" :always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur" @input="onInput"
 				@confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
+			<!-- #endif -->
 			<view class="fui-input__clear-wrap" :style="{background:clearColor}" v-if="clearable && val != ''"
 				@tap.stop="onClear">
 				<view class="fui-input__clear">
@@ -150,6 +165,10 @@
 				default: false
 			},
 			disabled: {
+				type: Boolean,
+				default: false
+			},
+			readonly:{
 				type: Boolean,
 				default: false
 			},
@@ -280,7 +299,8 @@
 			return {
 				placeholderStyl: '',
 				focused: false,
-				val: ''
+				val: '',
+				attribute: {}
 			}
 		},
 		computed: {
@@ -323,6 +343,18 @@
 			// #endif
 			value(newVal) {
 				this.val = newVal
+			},
+			password:{
+				handler(val){
+					if (val) {
+						this.attribute = {
+							password: true
+						}
+					} else {
+						this.attribute = {}
+					}
+				},
+				immediate:true
 			}
 		},
 		created() {
@@ -369,27 +401,30 @@
 				if (this.trim) value = this.trimStr(value);
 				this.val = value;
 				if (this.modelModifiers.number || this.number || this.type === 'digit' || this.type === 'number') {
-					let eVal = Number(value)
-					if (typeof eVal === 'number') {
+					const currentVal = Number(value)
+					let eVal = this.type === 'digit' ? value : currentVal
+					if (typeof currentVal === 'number') {
 						const min = Number(this.min)
 						const max = Number(this.max)
-						if (typeof min === 'number' && eVal < min) {
+						if (typeof min === 'number' && currentVal < min) {
 							eVal = min
-						} else if (typeof max === 'number' && max < eVal) {
+						} else if (typeof max === 'number' && max < currentVal) {
 							eVal = max
 						}
 					}
 					value = isNaN(eVal) ? value : eVal
 				}
 				this.$nextTick(() => {
-					//当输入框为空时，输入框显示不赋值为0，返回值为0
+					//当输入框为空时，输入框显示不赋值为0
 					event.detail.value !== '' && (this.val = value);
 				})
+				//如果为空时返回0 ，当双向绑定会将输入框赋值0
+				const inputValue = event.detail.value !== '' ? value : ''
 				// TODO　兼容　vue2
-				this.$emit('input', value);
+				this.$emit('input', inputValue);
 				// TODO　兼容　vue3
 				// #ifdef VUE3
-				this.$emit('update:modelValue', value)
+				this.$emit('update:modelValue', inputValue)
 				// #endif
 			},
 			onFocus(event) {
@@ -402,7 +437,7 @@
 				this.$emit('confirm', e);
 			},
 			onClear(event) {
-				if (this.disabled) return;
+				if (this.disabled && !this.readonly) return;
 				uni.hideKeyboard()
 				this.val = '';
 				this.$emit('input', '');

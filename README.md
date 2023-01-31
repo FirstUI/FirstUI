@@ -136,6 +136,61 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.8.0（2023-01-31）
+
+- UploadVideo 视频上传 组件优化，修复H5端无法播放非https地址视频的问题。
+
+- Layout 栅格布局 组件优化，修复Nvue端css编译报错的问题。
+
+- Input 输入框 组件优化，修复input组件type=digit时，小数部分无法录入0问题。
+
+- Input 输入框 组件优化，App与H5端password属性使用v-bind动态绑定，为false时，不添加password属性。
+
+- Input 输入框 组件优化， 新增 readonly 属性，与disabled不同的是readonly属性保留了清空按钮使用，readonly优先级高于disabled。
+
+- Form 表单校验 组件 与 FormItem 表单项优化，可在Form组件设置部分props统一控制FormItem中部分样式，优先级：FormItem组件props > Form组件props > 全局属性。
+
+- Picker 选择器 组件优化，修复多级联动选择时设置默认值可能部分列不生效问题。
+
+- DatePicker 日期时间选择器 组件优化，新增属性valueEnd，优化区间选择时默认值设置，起始日期与结束日期默认值分别使用属性 value 与 valueEnd，设置默认值后可直接点击确认按钮返回。
+
+- Calendar 日历 组件优化，新增属性 isMultiple，用于控制是否一次性加载一年的日历数据。
+
+- Upload 图片上传 组件优化，新增默认插槽用于自定义上传加号图标。
+
+- UploadVideo 视频上传 组件优化，新增默认插槽用于自定义上传加号图标。
+
+- Switch 开关 组件优化。
+
+- Cascader 级联选择器 组件优化。
+
+- Drag 拖拽排序 组件优化，修复编译到微信小程序端内容超过一屏页面无法滚动的问题。
+
+- Avatar 头像 组件优化，新增图片加载出错时 @error 事件以及新增属性 errorSrc 配置图片加载失败时的默认图。
+
+- Table 表格 组件优化，修复vue3下事件未声明报警告的问题。
+
+- Table 表格 组件增加列渲染方法，可根据当前列数据设置单元格内的文本颜色。
+
+- Table 表格 header属性增加align配置，优先级大于属性align。
+
+- DataTag 标签选择组件优化，新增默认选中示例。
+
+- DataTag 标签选择组件优化，新增multipleMin属性，仅多选时有效，当选择数小于最小值时不可反选。
+
+- DataTag 标签选择组件优化，当options传值为对象数组时，对象中新增属性 isAll 可设置其中一个为全选按钮标签，与其他标签操作互斥，仅多选时有效。
+
+- Drawer 抽屉 组件优化，新增radius属性设置圆角值。
+
+- Modal 模态框 组件优化，修复已知问题，新增padding属性。
+
+- Tabs 标签页 组件优化，修复vue3 + Nvue下文字可能不显示的问题。
+
+- Request 网络请求 组件 优化，get请求支持参数值为数组，详见文档。
+
+- Animation 动画 组件 属性styles参数传值优化，默认值写入组件方法内部，styles仅做替换合并使用。
+
+
 #### V1.7.0（2022-09-28）
 
 - 新增 WATERFALL 瀑布流加载 布局内容。

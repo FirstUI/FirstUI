@@ -135,6 +135,7 @@
 	/* #ifndef APP-NVUE */
 	.fui-switch__input {
 		display: inline-block;
+		margin: 0;
 	}
 
 	/* #endif */
@@ -192,7 +193,7 @@
 		height: 30px;
 		border-radius: 15px;
 		background-color: #fff;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+		box-shadow: 0 0 3px rgba(0, 0, 0, .4);
 		transition: transform .3s
 	}
 
@@ -250,8 +251,8 @@
 
 	.fui-switch__hidden {
 		position: absolute;
-		top: 0;
-		left: 0;
+		top: -1px;
+		left: -1px;
 		opacity: 0;
 		z-index: 2;
 		/* #ifndef APP-NVUE */
