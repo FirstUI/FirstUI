@@ -6,11 +6,15 @@
 		</view>
 		<view class="fui-page__bd">
 			<view class="fui-section__title">基本使用</view>
-			<fui-input borderTop placeholder="请输入用户名"></fui-input>
+			<fui-input borderTop placeholder="请输入用户名" @input="input"></fui-input>
 			<fui-input :bottomLeft="0" placeholder="请输入手机号码" maxlength="11"></fui-input>
 			<view class="fui-section__title">带标题</view>
 			<fui-input label="标题" borderTop placeholder="这是一个输入框"></fui-input>
 			<fui-input label="标题文字" :bottomLeft="0" placeholder="请输入文本"></fui-input>
+			<view class="fui-section__title">密码框</view>
+			<fui-input borderTop :padding="['20rpx','32rpx']" placeholder="请输入密码" :password="password" @input="input">
+				<fui-icon :name="password?'invisible':'visible'" color="#B2B2B2" :size="50" @click="change"></fui-icon>
+			</fui-input>
 			<view class="fui-section__title">带清除按钮、双向绑定</view>
 			<fui-input label="标题" :bottomLeft="0" borderTop placeholder="请输入文本" clearable v-model="text"></fui-input>
 			<view class="fui-section__title">显示边框</view>
@@ -58,11 +62,22 @@
 	export default {
 		data() {
 			return {
-				text: ''
+				text: '',
+				password: true
+			}
+		},
+		watch: {
+			text(val) {
+				console.log(val)
 			}
 		},
 		methods: {
-
+			input(e) {
+				console.log(e)
+			},
+			change() {
+				this.password = !this.password
+			}
 		}
 	}
 </script>

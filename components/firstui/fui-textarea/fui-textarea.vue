@@ -1,9 +1,9 @@
 <template>
-	<view :class="{'fui-textarea__border':textareaBorder}" :style="{marginTop:marginTop+'rpx',borderColor:borderColor}"
-		@tap="fieldClick">
+	<view :class="{'fui-textarea__border':textareaBorder && !isRadius}"
+		:style="{marginTop:marginTop+'rpx',borderColor:borderColor}" @tap="fieldClick">
 		<view class="fui-textarea__wrap" :class="{'fui-textarea__flex-start':flexStart}"
-			:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,backgroundColor:backgroundColor}">
-			<view v-if="borderTop && !textareaBorder"
+			:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,backgroundColor:backgroundColor,borderRadius:radius+'rpx'}">
+			<view v-if="borderTop && !textareaBorder && !isRadius"
 				:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}"
 				class="fui-textarea__border-top">
 			</view>
@@ -39,7 +39,7 @@
 				</view>
 			</view>
 			<slot></slot>
-			<view v-if="borderBottom  && !textareaBorder"
+			<view v-if="borderBottom  && !textareaBorder && !isRadius"
 				:style="{background:borderColor,left:bottomLeft+'rpx',right:bottomRight+'rpx'}"
 				class="fui-textarea__border-bottom"></view>
 		</view>
@@ -240,6 +240,10 @@
 				type: String,
 				default: '#eaeef1'
 			},
+			radius: {
+				type: [String, Number],
+				default: 0
+			},
 			// 是否自动去除两端的空格
 			trim: {
 				type: Boolean,
@@ -287,7 +291,8 @@
 				placeholderStyl: '',
 				count: 0,
 				focused: false,
-				val: ''
+				val: '',
+				isRadius: false
 			};
 		},
 		watch: {
@@ -308,6 +313,13 @@
 			value(newVal) {
 				this.val = this.getVal(newVal)
 				this.count = this.getCount(String(this.val).length)
+			},
+			radius(val) {
+				if (this.radius && this.radius !== true && Number(this.radius) > 0) {
+					this.isRadius = true
+				} else {
+					this.isRadius = false
+				}
 			}
 		},
 		created() {
@@ -326,6 +338,9 @@
 			this.fieldPlaceholderStyle()
 		},
 		mounted() {
+			if (this.radius && this.radius !== true && Number(this.radius) > 0) {
+				this.isRadius = true
+			}
 			this.$nextTick(() => {
 				this.focused = this.focus
 			})

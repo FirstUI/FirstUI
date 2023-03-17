@@ -9,10 +9,12 @@
 				<view class="fui-tabs__text-wrap"
 					:class="{'fui-tabs__wrap-disabled':tab.disabled,'fui-tabs__item-column':direction==='column' && tab.icon}"
 					:style="{height:height+'rpx'}">
-					<view class="fui-tabs__ac-line"
-						:class="{'fui-tabs__line-short':short,'fui-tabs__slider-color':!sliderBackground}"
-						:style="{height:sliderHeight+'rpx',background:sliderBackground,borderRadius:sliderRadius==-1?sliderHeight+'rpx':sliderRadius+'rpx',bottom:bottom +'rpx',left:`-${padding}rpx`,right:`-${padding}rpx`,transform: `scale(${tabIndex===index?(isNvue?1:scale):(isNvue?0.00001:0)})`}"
-						v-if="isSlider">
+					<view class="fui-tabs__line-wrap" :class="{'fui-tabs__line-center':center}"
+						:style="{bottom:bottom +'rpx',left:`-${padding}rpx`,right:`-${padding}rpx`}" v-if="isSlider">
+						<view class="fui-tabs__ac-line"
+							:class="{'fui-tabs__line-short':short,'fui-tabs__full':!short,'fui-tabs__slider-color':!sliderBackground}"
+							:style="{height:sliderHeight+'rpx',background:sliderBackground,borderRadius:sliderRadius==-1?sliderHeight+'rpx':sliderRadius+'rpx',transform: `scale(${tabIndex===index?(isNvue?1:scale):(isNvue?0.00001:0)})`}">
+						</view>
 					</view>
 					<image class="fui-tabs__icon" :class="{'fui-tabs__icon-column':direction==='column'}"
 						:src="tabIndex===index && tab.selectedIcon?tab.selectedIcon:tab.icon" v-if="tab.icon">
@@ -196,6 +198,11 @@
 				type: Boolean,
 				default: true
 			},
+			//滑块是否居中显示
+			center: {
+				type: Boolean,
+				default: false
+			},
 			//是否固定
 			isFixed: {
 				type: Boolean,
@@ -235,11 +242,8 @@
 			}
 		},
 		watch: {
-			tabs: {
-				handler(vals) {
-					this.initData(vals)
-				},
-				deep: true
+			tabs(vals) {
+				this.initData(vals)
 			},
 			current(newVal, oldVal) {
 				this.switchTab(newVal);
@@ -465,15 +469,31 @@
 		z-index: 10;
 	}
 
-	.fui-tabs__ac-line {
+	.fui-tabs__line-wrap {
 		position: absolute;
 		border-radius: 2px;
 		z-index: 2;
+		flex: 1;
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+	}
+
+	.fui-tabs__line-center {
+		justify-content: center;
+	}
+
+	.fui-tabs__ac-line {
 		transition: transform 0.2s linear;
 	}
 
 	.fui-tabs__line-short {
 		width: 45rpx !important;
+	}
+
+	.fui-tabs__line-center {
+		left: 0;
 	}
 
 	/* #ifndef APP-NVUE */

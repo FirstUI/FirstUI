@@ -126,6 +126,7 @@
 				return color;
 			},
 			checkboxChange(e) {
+				console.log(1)
 				if (this.disabled) return;
 				this.val = !this.val;
 				this.$emit('change', {
@@ -210,6 +211,7 @@
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
+		pointer-events: none;
 		/* #endif */
 		/* #ifdef APP-NVUE */
 		width: 100wx;

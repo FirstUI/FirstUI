@@ -7,6 +7,8 @@
 		<view class="fui-page__bd">
 			<view class="fui-section__title">基础使用</view>
 			<fui-tabs :tabs="tabs" @change="change"></fui-tabs>
+			<view class="fui-section__title">滑块居中显示</view>
+			<fui-tabs :tabs="tabs" center @change="change"></fui-tabs>
 			<view class="fui-section__title">改变颜色</view>
 			<fui-tabs :tabs="tabs" selectedColor="#FFB703" sliderBackground="#FFB703"></fui-tabs>
 			<view class="fui-section__title">滑块与内容同宽</view>
