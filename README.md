@@ -136,6 +136,31 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.9.1（2023-04-04）
+
+- SwipeAction 滑动菜单 组件优化，修复Nvue端滑动关闭时报错的问题。
+
+- InputNumber 数字输入框 组件优化，去除谷歌浏览器pc端自带默认箭头。
+
+- Select 选择器 组件优化，修复Nvue端编译部分机型可能会出现header高度不正确的问题。
+
+- Switch 开关 组件优化，修复vue3下编译到H5可能点击不能触发选中的问题。
+
+- Modal 模态框 组件优化，修复Nvue下Android端点击按钮不触发事件的问题。
+
+- SwipeAction 滑动菜单 组件优化，修复vue3下H5端禁用滑动失效的问题。
+
+- Drag 拖拽排序 组件优化，修复vue3下wxs方法无法与data数据混用导致事件失效的问题，此bug为uni-app编译问题，后续若官方修复再进行优化调整。
+
+- Select 选择器 组件优化，item项图片新增属性设置背景色和裁剪、缩放方式。
+
+- Grid 宫格 组件优化，item项（fui-grid-item）新增click事件，原fui-grid组件事件不变。
+
+- DatePicker 日期时间选择器 组件优化，修复设置 最小值（minDate）和 最大值（maxDate）显示不正确的问题。
+
+- BubbleBox 气泡框 组件优化，position 值为 absolute 时，支持设置left（right）、top（bottom）值。
+
+
 #### V1.9.0（2023-03-17）
 
 - 新增 聊天模板 A，项目包含验证码登录、注册、选择国家或地区、输入验证码、聊天列表、聊天、联系人、个人中心、个人信息、通知等页面（物料）。

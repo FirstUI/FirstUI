@@ -306,6 +306,13 @@
 		text-align: center;
 		font-weight: 500;
 	}
+	
+	/* #ifdef H5 */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	    -webkit-appearance: none;
+	} 
+	/* #endif */
 
 	.fui-number__disabled {
 		opacity: 0.6;

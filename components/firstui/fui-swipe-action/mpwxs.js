@@ -25,9 +25,13 @@ export default {
 		}
 	},
 	mounted() {
-		this.isShow = this.show
-		this.isDisabled = this.disabled
-		this.thresholdVal = Number(this.threshold)
+		this.$nextTick(() => {
+			setTimeout(() => {
+				this.isShow = this.show
+				this.isDisabled = this.disabled
+				this.thresholdVal = Number(this.threshold)
+			}, 10)
+		})
 	},
 	methods: {
 		closeSwipe(e) {
@@ -37,7 +41,7 @@ export default {
 		change(e) {
 			this.$emit('change', {
 				isOpen: e.open === 'right',
-				param:this.param
+				param: this.param
 			})
 			if (this.isShow !== e.open) {
 				this.isShow = e.open

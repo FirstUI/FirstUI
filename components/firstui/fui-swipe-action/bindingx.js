@@ -9,7 +9,7 @@ export default {
 	},
 	watch: {
 		show(newVal) {
-			// if (this.autoClose) return
+			if (this.autoClose) return
 			if (this.stop) return
 			this.stop = true
 			if (newVal) {
@@ -55,6 +55,7 @@ export default {
 			})
 		},
 		touchstart(e) {
+			if (this.disabled) return
 			// 每次只触发一次，避免多次监听造成闪烁
 			if (this.stop) return
 			this.stop = true
@@ -62,7 +63,7 @@ export default {
 				this.group.closeAuto(this)
 			}
 
-			const rightWidth = this.button.right.width
+			const rightWidth = this.button.right.width || 0
 			let expression = this.range(this.x, -rightWidth, 0)
 			let rightExpression = this.range(this.x + rightWidth, 0, rightWidth)
 
@@ -93,7 +94,7 @@ export default {
 		},
 		bindTiming(x) {
 			const left = this.x
-			const rightWidth = this.button.right.width
+			const rightWidth = this.button.right.width || 0
 			const threshold = Number(this.threshold)
 			if (!this.isopen) {
 				if (left < -threshold) {
@@ -102,7 +103,7 @@ export default {
 					this.open(false)
 				}
 			} else {
-				if ((x < threshold && x > 0) || (x + leftWidth < -threshold)) {
+				if ((x < threshold && x > 0) || (x < -threshold)) {
 					this.open(true)
 				} else {
 					this.open(false)
@@ -120,7 +121,7 @@ export default {
 		},
 		animation(type) {
 			const time = 300
-			const rightWidth = this.button.right.width
+			const rightWidth = this.button.right.width || 0
 			if (this.eventpan && this.eventpan.token) {
 				BindingX.unbind({
 					token: this.eventpan.token,

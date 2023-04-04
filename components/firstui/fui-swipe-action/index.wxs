@@ -24,7 +24,11 @@ function getDom(ins, ownerInstance) {
 		return;
 	}
 	if (isH5 || isPC()) {
-		state.rightWidth = rightDom['$el'].offsetWidth || 0
+		if (rightDom['$el']) {
+			state.rightWidth = rightDom['$el'].offsetWidth || 0
+		} else {
+			state.rightWidth = 0
+		}
 	} else {
 		var rightStyles = rightDom.getBoundingClientRect()
 		state.rightWidth = rightStyles.width || 0

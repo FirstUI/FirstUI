@@ -11,6 +11,7 @@
 <script>
 	export default {
 		name: "fui-grid-item",
+		emits: ['click'],
 		inject: ['grid'],
 		// #ifdef MP-WEIXIN
 		options: {
@@ -79,11 +80,13 @@
 				}
 			},
 			handleClick() {
-				this.grid.handleClick({
+				const e = {
 					detail: {
 						index: this.index
 					}
-				})
+				}
+				this.grid && this.grid.handleClick(e)
+				this.$emit('click', e)
 			}
 		}
 	}
