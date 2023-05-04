@@ -1,5 +1,6 @@
 <template>
-	<view class="fui-button__wrap" :class="[!width || width==='100%' || width===true?'fui-button__flex-1':'',disabled && !disabledBackground ? 'fui-button__opacity' : '']"
+	<view class="fui-button__wrap"
+		:class="[!width || width==='100%' || width===true?'fui-button__flex-1':'',disabled && !disabledBackground ? 'fui-button__opacity' : '']"
 		:style="{width: width,height: getHeight,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: getRadius,background:getBackground}"
 		@touchstart="handleStart" @touchend="handleClick" @touchcancel="handleEnd">
 		<button class="fui-button" :class="[
@@ -20,9 +21,10 @@
 				borderRadius: getRadius,
 				fontSize: getSize,
 				color: getColor
-			}" :loading="loading" :form-type="formType" :open-type="openType" @getuserinfo="bindgetuserinfo"
+			}" :loading="loading" :form-type="formType" :open-type="openType" :app-parameter="appParameter" @getuserinfo="bindgetuserinfo"
 			@getphonenumber="bindgetphonenumber" @contact="bindcontact" @error="binderror"
-			@opensetting="bindopensetting" :disabled="disabled" :scope="scope" @tap.stop="handleTap">
+			@opensetting="bindopensetting" @chooseavatar="bindchooseavatar" @launchapp="bindlaunchapp"
+			:disabled="disabled" :scope="scope" @tap.stop="handleTap">
 			<text class="fui-button__text"
 				:class="{'fui-btn__gray-color':!background && !disabledBackground && !plain && type==='gray' && color==='#fff','fui-text__bold':bold}"
 				v-if="text"
@@ -148,6 +150,10 @@
 			//支付宝小程序 
 			//当 open-type 为 getAuthorize 时，可以设置 scope 为：phoneNumber、userInfo
 			scope: {
+				type: String,
+				default: ''
+			},
+			appParameter: {
 				type: String,
 				default: ''
 			},
@@ -306,6 +312,16 @@
 				detail = {}
 			} = {}) {
 				this.$emit('opensetting', detail);
+			},
+			bindchooseavatar({
+				detail = {}
+			} = {}) {
+				this.$emit('chooseavatar', detail);
+			},
+			bindlaunchapp({
+				detail = {}
+			} = {}) {
+				this.$emit('launchapp', detail);
 			}
 		}
 	};
@@ -316,6 +332,7 @@
 		position: relative;
 		/* #ifndef APP-NVUE */
 		background: transparent !important;
+		flex-direction: row;
 		/* #endif */
 	}
 

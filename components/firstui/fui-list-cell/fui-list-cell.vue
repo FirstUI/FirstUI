@@ -189,8 +189,8 @@
 		/* #endif */
 		/* #ifndef APP-NVUE */
 		height: 1px;
-		-webkit-transform: scaleY(0.5);
-		transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5) translateZ(0);
+		transform: scaleY(0.5) translateZ(0);
 		transform-origin: 0 100%;
 		z-index: 1;
 		/* #endif */

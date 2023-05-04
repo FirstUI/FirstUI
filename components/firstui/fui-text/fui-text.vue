@@ -6,8 +6,8 @@
 		<slot></slot>
 		<text class="fui-text__content"
 			:style="{color:getColor,fontSize:getSize,lineHeight:lineHeight?getSize:'auto',textAlign:align,textDecoration:decoration,fontWeight:fontWeight}"
-			:class="[color?'':'fui-text__'+type]" :selectable="selectable" :userSelect="userSelect"
-			:decode="decode">{{getText(text, textType, format)}}</text>
+			:class="[color?'':'fui-text__'+type,unShrink?'fui-text__unshrink':'']" :selectable="selectable"
+			:userSelect="userSelect" :decode="decode">{{getText(text, textType, format)}}</text>
 		<slot name="right"></slot>
 	</view>
 </template>
@@ -102,6 +102,10 @@
 				default: false
 			},
 			disable: {
+				type: Boolean,
+				default: false
+			},
+			unShrink: {
 				type: Boolean,
 				default: false
 			},
@@ -210,6 +214,10 @@
 
 	.fui-text__block {
 		display: flex;
+	}
+
+	.fui-text__unshrink {
+		flex-shrink: 0;
 	}
 
 

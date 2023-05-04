@@ -58,20 +58,7 @@
 		},
 		onLoad() {
 			setTimeout(() => {
-				let height = uni.getSystemInfoSync().windowHeight - uni.upx2px(538);
-				// #ifdef VUE3 
-				// #ifdef H5
-				height += 50
-				// #endif
-				// #endif
-				this.height = height;
-				// #ifdef MP
-				this.getStatus().then((res) => {})
-				// #endif
-			}, 50)
-			
-			setTimeout(() => {
-				this.height = uni.getSystemInfoSync().windowHeight - uni.upx2px(538) + 'px';
+				this.height = uni.getSystemInfoSync().windowHeight - uni.upx2px(538);
 				// #ifdef MP
 				this.getStatus().then((res) => {})
 				// #endif

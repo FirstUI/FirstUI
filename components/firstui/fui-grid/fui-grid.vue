@@ -95,7 +95,7 @@
 			},
 			getWidth(fn) {
 				let isNoSupported = false
-				// #ifdef MP-BAIDU || MP-TOUTIAO || MP-QQ
+				// #ifdef MP-BAIDU || MP-TOUTIAO || MP-QQ || MP-KUAISHOU || MP-JD || MP-360 || MP-LARK
 				isNoSupported = true
 				// #endif
 

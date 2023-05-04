@@ -60,7 +60,7 @@ export default {
 			if (this.stop) return
 			this.stop = true
 			if (this.autoClose) {
-				this.group.closeAuto(this)
+				this.group && this.group.closeAuto(this)
 			}
 
 			const rightWidth = this.button.right.width || 0

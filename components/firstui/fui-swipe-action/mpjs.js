@@ -46,7 +46,7 @@ export default {
 		},
 		closeSwipe(e) {
 			if (!this.autoClose) return
-			this.group.closeAuto(this)
+			this.group && this.group.closeAuto(this)
 		},
 		//解决 ios 13 点击区域错位的问题
 		appTouchStart(e) {

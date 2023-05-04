@@ -2,8 +2,8 @@
     "name" : "FirstUI",
     "appid" : "__UNI__99AF40E",
     "description" : "FirstUI组件库是一款轻量、简洁、高效、全面的移动端组件库。",
-    "versionName" : "1.9.1",
-    "versionCode" : 191,
+    "versionName" : "1.9.5",
+    "versionCode" : 195,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -52,7 +52,8 @@
     "mp-weixin" : {
         "appid" : "",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "es6" : false
         },
         "usingComponents" : true
     },

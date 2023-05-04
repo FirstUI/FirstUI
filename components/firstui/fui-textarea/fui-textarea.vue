@@ -571,6 +571,9 @@
 	}
 
 	.fui-textarea__counter {
+		/* #ifndef APP-NVUE */
+		width: 100%;
+		/* #endif */
 		padding-top: 8rpx;
 		text-align: right;
 		/* #ifdef APP-NVUE */

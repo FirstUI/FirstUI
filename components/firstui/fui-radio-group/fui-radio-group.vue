@@ -5,7 +5,7 @@
 	</radio-group>
 	<!-- #endif -->
 
-	<!-- #ifdef MP-WEIXIN || MP-BAIDU || MP-QQ  -->
+	<!-- #ifdef MP-WEIXIN || MP-BAIDU || MP-QQ || MP-KUAISHOU || MP-JD || MP-360 || MP-LARK  -->
 	<fui-form-field :name="name" :value="val">
 		<slot></slot>
 	</fui-form-field>

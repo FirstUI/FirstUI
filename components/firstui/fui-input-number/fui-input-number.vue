@@ -305,13 +305,15 @@
 	.fui-number__input {
 		text-align: center;
 		font-weight: 500;
+		border-width: 0;
 	}
-	
+
 	/* #ifdef H5 */
-	input::-webkit-outer-spin-button,
-	input::-webkit-inner-spin-button {
-	    -webkit-appearance: none;
-	} 
+	::-webkit-inner-spin-button,
+	::-webkit-outer-spin-button{
+		-webkit-appearance: none;
+		margin: 0;
+	}
 	/* #endif */
 
 	.fui-number__disabled {

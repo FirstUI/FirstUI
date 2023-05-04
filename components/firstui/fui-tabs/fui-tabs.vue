@@ -482,6 +482,7 @@
 
 	.fui-tabs__line-center {
 		justify-content: center;
+		left: 0;
 	}
 
 	.fui-tabs__ac-line {
@@ -490,10 +491,6 @@
 
 	.fui-tabs__line-short {
 		width: 45rpx !important;
-	}
-
-	.fui-tabs__line-center {
-		left: 0;
 	}
 
 	/* #ifndef APP-NVUE */

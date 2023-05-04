@@ -36,7 +36,7 @@ export default {
 	methods: {
 		closeSwipe(e) {
 			if (!this.autoClose) return
-			this.group.closeAuto(this)
+			this.group && this.group.closeAuto(this)
 		},
 		change(e) {
 			this.$emit('change', {
