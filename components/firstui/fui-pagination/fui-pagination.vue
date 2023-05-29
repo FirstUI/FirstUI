@@ -270,7 +270,9 @@
 				this.change('pageNumber')
 			},
 			change(e) {
-				this.getPageNumber()
+				if (this.pageType == 2) {
+					this.getPageNumber()
+				}
 				this.$emit('change', {
 					type: e,
 					current: this.currentIndex

@@ -1,5 +1,5 @@
 <template>
-	<view class="fui-avatar__wrap" :class="[width?'':'fui-avatar__size-'+size,radius===-1?'fui-avatar__'+shape:'']"
+	<view class="fui-avatar__wrap" :class="[width?'':'fui-avatar__size-'+size,radius===-1?'fui-avatar__'+shape:'',block?'fui-avatar__block':'fui-avatar__inline']"
 		:style="wrapStyles" @tap="handleClick">
 		<image class="fui-avatar__img" :style="styles"
 			:class="[radius===-1?'fui-avatar__'+shape:'',width?'':'fui-avatar__size-'+size]" :src="showImg" :mode="mode"
@@ -93,6 +93,10 @@
 				type: [Number, String],
 				default: 0
 			},
+			block: {
+				type: Boolean,
+				default: false
+			},
 			//在列表中的索引值
 			index: {
 				type: Number,
@@ -126,10 +130,10 @@
 				return styles;
 			}
 		},
-		watch:{
-		   src(val){
-			   this.src && (this.showImg = this.src);
-		   }	
+		watch: {
+			src(val) {
+				this.src && (this.showImg = this.src);
+			}
 		},
 		data() {
 			return {
@@ -163,13 +167,24 @@
 	.fui-avatar__wrap {
 		position: relative;
 		/* #ifndef APP-NVUE */
-		display: inline-flex;
 		overflow: hidden;
 		/* #endif */
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
 	}
+
+	/* #ifndef APP-NVUE */
+	.fui-avatar__block {
+		display: flex;
+	}
+
+	.fui-avatar__inline {
+		display: inline-flex;
+		vertical-align: middle;
+	}
+
+	/* #endif */
 
 	.fui-avatar__img {
 		flex: 1;
