@@ -1,12 +1,13 @@
 <template>
 	<!-- #ifndef APP-NVUE -->
-	<text :style="{ color: color, fontSize: size + unit, fontWeight: fontWeight}" class="fui-icon"
-		:class="[!color && !primary?'fui-icon__color':'',primary && !color?'fui-icon__active-color':'',disabled?'fui-icon__not-allowed':'',customPrefix,customPrefix?name:'']"
+	<text :style="{ color:getColor, fontSize: getSize, fontWeight: fontWeight}" class="fui-icon"
+		:class="[!getColor && !primary?'fui-icon__color':'',primary && (!color || color===true)?'fui-icon__active-color':'',disabled?'fui-icon__not-allowed':'',customPrefix,customPrefix?name:'']"
 		@click="handleClick">{{ icons[name] || '' }}</text>
 	<!-- #endif -->
 	<!-- #ifdef APP-NVUE -->
-	<text :style="{ color: color, fontSize: size + unit, fontWeight: fontWeight}" class="fui-icon"
-		:class="[customPrefix]" @click="handleClick">{{ customPrefix?name:icons[name] }}</text>
+	<text
+		:style="{ color: primary && (!color || color===true)?primaryColor:getColor, fontSize: getSize,lineHeight:getSize, fontWeight: fontWeight}"
+		class="fui-icon" :class="[customPrefix]" @click="handleClick">{{ customPrefix?name:icons[name] }}</text>
 	<!-- #endif -->
 </template>
 
@@ -36,25 +37,17 @@
 			},
 			size: {
 				type: [Number, String],
-				default: 64
+				default: 0
 			},
 			//rpx | px
 			unit: {
 				type: String,
-				default: 'rpx'
+				default: ''
 			},
-			// #ifdef APP-NVUE
-			color: {
-				type: String,
-				default: '#333333'
-			},
-			// #endif
-			// #ifndef APP-NVUE
 			color: {
 				type: String,
 				default: ''
 			},
-			// #endif
 			//字重
 			fontWeight: {
 				type: [Number, String],
@@ -73,10 +66,32 @@
 				type: String,
 				default: ''
 			},
-			//是否显示为主色调，color为空时有效。nvue不支持【内部使用】
+			//是否显示为主色调，color为空时有效。【内部使用】
 			primary: {
 				type: Boolean,
 				default: false
+			}
+		},
+		computed: {
+			getSize() {
+				const size = (uni.$fui && uni.$fui.fuiIcon && uni.$fui.fuiIcon.size) || 64
+				const unit = (uni.$fui && uni.$fui.fuiIcon && uni.$fui.fuiIcon.unit) || 'rpx'
+				return (this.size || size) + (this.unit || unit)
+			},
+			primaryColor() {
+				const app = uni && uni.$fui && uni.$fui.color;
+				return (app && app.primary) || '#465CFF';
+			},
+			getColor() {
+				const app = uni && uni.$fui && uni.$fui.fuiIcon;
+				let color = this.color || (app && app.color)
+
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					color = '#333333'
+				}
+				// #endif
+				return color;
 			}
 		},
 		data() {

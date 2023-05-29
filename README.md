@@ -136,6 +136,184 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.9.8（2023-05-29）
+
+- 新增 MovableView 可移动的视图容器 组件。
+
+- 新增 HorizontalScroll 横向滚动的视图容器 组件。
+
+- 全局配置 fui-config 新增部分内容，详见文档。
+
+- 优化 vue3 下，Nvue中使用Vuex的相关API报错的问题。
+
+- Waterfall 瀑布流 组件优化，新增属性设置图片高度。当图片高度已知且固定时可直接设置值，可有效缩短渲染时间。
+
+- Button 按钮 组件优化，优化vue3下结合原生表单提交问题。
+
+- FormField 表单数据传递 组件优化，移除vue3下behaviors限制。
+
+- CheckBox 复选框组件 优化，优化vue3下结合原生表单提交获取值问题。
+
+- Radio 单选框 组件优化，优化vue3下结合原生表单提交获取值问题。
+
+- Switch 开关 组件优化，移除vue3下behaviors限制。
+
+- Textarea 多行输入框 组件优化，移除vue3下behaviors限制。
+
+- Input 输入框 组件优化，移除vue3下behaviors限制。
+
+- Button 按钮 组件优化， 新增 btnSize 属性设置按钮大小，优先级高于 width 和 height 属性。
+
+- Form 表单校验 组件 与 FormItem 表单项组件优化，新增属性 labelWeight 设置label 字重，默认使用全局配置。
+
+- Textarea 多行输入框 组件优化，属性 textareaBorder 为 true 时，支持设置边框颜色，支持设置圆角时显示边框。
+
+- Input 输入框 组件优化，属性 inputBorder 为 true 时，支持设置边框颜色，支持设置圆角时显示边框。
+
+- Rate 评分 组件优化，优化组件嵌套在 Drawer 抽屉 组件中使用时距离计算错误的问题，当使用非FirstUI 抽屉组件时需调用setParentWidth方法修正，详见文档。
+
+- Picker 选择器 组件优化，修复已知问题。
+
+- DatePicker 日期时间选择器 组件优化，修复已知问题。
+
+- SearchBar 搜索栏 组件优化，新增默认插槽可自定左侧展示内容，如返回箭头。
+
+- OverflowHidden 内容超出隐藏 组件示例优化。
+
+- DatePicker 日期时间选择器 组件优化，区间选择时逻辑调整，未选则时点击确认按钮会默认赋值当前选项。
+
+- Table 表格 组件优化，新增多选功能，详见文档。
+
+- Avatar 头像 组件优化，新增 block 属性设置是否为块状元素，修复当为行内元素时外层容器底部可能出现间隙的问题。
+
+- Steps 步骤条 组件优化，新增属性设置当前步骤的状态及颜色，新增属性设置线条是否加粗。
+
+- Fab 浮动按钮 组件优化，新增属性isDrag设置是否可以拖拽移动位置。
+
+- Upload 图片上传 组件优化，新增扩展方法进行上传，为了更好的满足更多场景需求，详见文档及示例。
+
+- UploadVideo 视频上传 组件优化，新增扩展方法进行上传，为了更好的满足更多场景需求，详见文档及示例。
+
+- SearchBar 搜索栏 组件优化，修复H5及部分平台点击一次无法弹起键盘的问题，修复设置value值初始化错误的问题。
+
+- Gallery 画廊 组件优化，修复描述文本可能不显示的问题。
+
+- BubbleBox 气泡框 组件优化，right 属性默认值改为0。
+
+- Select 选择器 组件优化，修复已知问题。
+
+- Alert 警告框 组件优化，Nvue端type主色默认使用 fui-config 中配置的颜色。
+
+- Badge 徽章 组件优化，Nvue端type主色默认使用 fui-config 中配置的颜色。
+
+- Button 按钮 组件优化，Nvue端type主色默认使用 fui-config 中配置的颜色。
+
+- Calendar 日历 组件优化，主色默认使用 fui-config 中配置的颜色。
+
+- Cascader 级联选择器 组件优化，Nvue 端主色默认使用 fui-config 中配置的颜色。
+
+- CheckBox 复选框组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Circle 圆形进度条 组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- CountdownVerify 验证码倒计时 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- DataTag 标签选择组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- DatePicker 日期时间选择器 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Dialog 对话框 组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- DigitalKeyboard 数字键盘 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- DigitalRoller 数字滚轮 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- DropdownList 下拉菜单 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- DropdownMenu 下拉菜单 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Fab 浮动按钮 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Footer 页脚 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Form 表单校验 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- FormItem 表单项组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- IndexList 索引列表 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Input 输入框 组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- LicensePlate 车牌号键盘 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Link 超链接 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- LoadMore 加载更多 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Modal 模态框 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- NoticeBar 通告栏 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Pagination 分页器 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Picker 选择器 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Progress 进度条 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- PuzzleVerify 滑块拼图验证 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Radio 单选框 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Rate 评分 组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- Result 结果页 组件优化，Nvue端 type 主色默认使用全局配置（fui-config）颜色。
+ 
+- RotateVerify 旋转验证 组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- SearchBar 搜索栏 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- SegmentedControl 分段器 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Select 选择器 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- SingleInput 单输入框组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- SlideVerify 滑动验证 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Slider 滑块 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- SliderCaptcha 滑块拼图验证 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Steps 步骤条 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- SwipeAction 滑动菜单 组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- SwiperDot 轮播图指示点组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Switch 开关 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Tabbar 标签栏 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Table 表格 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Tabs 标签页 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Tag 标签 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Text 文本 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Textarea 多行输入框组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- UploadVideo 视频上传 组件优化，主色默认使用全局配置（fui-config）颜色。
+
+- Vtabs 纵向选项卡 组件优化，Nvue端主色默认使用全局配置（fui-config）颜色。
+
+- Icon 图标 组件优化，全局配置中新增color配置。
+
+- List 列表 组件优化，新增全局配置。
+
+- 优化部分已知问题。
+
 #### V1.9.5（2023-05-04）
 
 - 新增 Link 超链接 组件。

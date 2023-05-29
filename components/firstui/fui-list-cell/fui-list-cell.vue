@@ -1,13 +1,13 @@
 <template>
 	<view class="fui-list__cell" :class="{'fui-highlight':highlight,'fui-list__cell-background':!background}"
-		:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,background:background,marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx',borderRadius:radius}"
+		:style="{paddingTop:getPadding[0] || 0,paddingRight:getPadding[1] || 0,paddingBottom:getPadding[2] || getPadding[0] || 0,paddingLeft:getPadding[3] || getPadding[1] || 0,background:background,marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx',borderRadius:radius}"
 		@tap="handleClick">
-		<view v-if="topBorder" :style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}"
-			class="fui-cell__border-top" :class="{'fui-cell__border-color':!borderColor}"></view>
+		<view v-if="topBorder" :style="{background:getBorderColor,left:topLeft+'rpx',right:topRight+'rpx'}"
+			class="fui-cell__border-top" :class="{'fui-cell__border-color':!getBorderColor}"></view>
 		<slot></slot>
-		<view v-if="bottomBorder" :style="{background:borderColor,left:bottomLeft+'rpx',right:bottomRight+'rpx'}"
-			class="fui-cell__border-bottom" :class="{'fui-cell__border-color':!borderColor}"></view>
-		<view class="fui-cell__arrow" v-if="arrow" :style="{'border-color':arrowColor}">
+		<view v-if="bottomBorder" :style="{background:getBorderColor,left:getBottomLeft+'rpx',right:bottomRight+'rpx'}"
+			class="fui-cell__border-bottom" :class="{'fui-cell__border-color':!getBorderColor}"></view>
+		<view class="fui-cell__arrow" v-if="arrow" :style="{'border-color':getArrowColor}">
 		</view>
 	</view>
 </template>
@@ -21,7 +21,7 @@
 			padding: {
 				type: Array,
 				default () {
-					return ['32rpx', '32rpx']
+					return []
 				}
 			},
 			//margin-top 单位rpx
@@ -59,7 +59,7 @@
 			},
 			arrowColor: {
 				type: String,
-				default: '#B2B2B2'
+				default: ''
 			},
 			//是否显示上边框
 			topBorder: {
@@ -72,18 +72,10 @@
 				default: true
 			},
 			//边框颜色，非nvue下传值则全局默认样式失效
-			// #ifdef APP-NVUE
-			borderColor: {
-				type: String,
-				default: '#EEEEEE'
-			},
-			// #endif
-			// #ifndef APP-NVUE
 			borderColor: {
 				type: String,
 				default: ''
 			},
-			// #endif
 			//上边框left值，单位rpx
 			topLeft: {
 				type: [Number, String],
@@ -97,7 +89,7 @@
 			//下边框left值，单位rpx
 			bottomLeft: {
 				type: [Number, String],
-				default: 32
+				default: 0
 			},
 			//下边框right值，单位rpx
 			bottomRight: {
@@ -112,6 +104,37 @@
 			index: {
 				type: Number,
 				default: 0
+			}
+		},
+		computed: {
+			getPadding() {
+				let padding = this.padding
+				if (Array.isArray(padding) && padding.length === 0) {
+					const app = uni && uni.$fui && uni.$fui.fuiListCell;
+					padding = app && app.padding;
+					if (!padding || (Array.isArray(padding) && padding.length === 0)) {
+						padding = ['32rpx', '32rpx']
+					}
+				}
+				return padding;
+			},
+			getArrowColor() {
+				const app = uni && uni.$fui && uni.$fui.fuiListCell;
+				return this.arrowColor || (app && app.arrowColor) || '#B2B2B2'
+			},
+			getBorderColor() {
+				let color = this.borderColor;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.fuiListCell;
+					color = (app && app.borderColor) || '#EEEEEE'
+				}
+				// #endif
+				return color;
+			},
+			getBottomLeft() {
+				const app = uni && uni.$fui && uni.$fui.fuiListCell;
+				return this.bottomLeft || (app && app.bottomLeft) || 32
 			}
 		},
 		methods: {
@@ -200,6 +223,7 @@
 	.fui-cell__border-color {
 		background-color: var(--fui-color-border, #EEEEEE) !important;
 	}
+
 	.fui-list__cell-background {
 		background-color: var(--fui-bg-color, #fff);
 	}

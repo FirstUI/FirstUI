@@ -1,48 +1,50 @@
 <template>
-	<view :class="{'fui-textarea__border':textareaBorder && !isRadius}"
-		:style="{marginTop:marginTop+'rpx',borderColor:borderColor}" @tap="fieldClick">
-		<view class="fui-textarea__wrap" :class="{'fui-textarea__flex-start':flexStart}"
-			:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,backgroundColor:backgroundColor,borderRadius:radius+'rpx'}">
-			<view v-if="borderTop && !textareaBorder && !isRadius"
-				:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}"
-				class="fui-textarea__border-top">
-			</view>
-			<!-- #ifdef APP-NVUE -->
-			<view class="fui-textarea__required" v-if="required && !flexStart">
-				<text :style="{color:requiredColor,paddingTop:'2rpx'}">*</text>
-			</view>
-			<text class="fui-textarea__required" :style="{color:requiredColor,top:requiredTop}"
-				v-if="required && flexStart">*</text>
-			<!-- #endif -->
-			<!-- #ifndef APP-NVUE -->
-			<view class="fui-textarea__required" :class="{'fui-required__flex-start':flexStart}"
-				:style="{color:requiredColor,top:flexStart?requiredTop:'50%'}" v-if="required">*</view>
-			<!-- #endif -->
-			<view class="fui-textarea__label" :style="{minWidth:labelWidth+'rpx'}" v-if="label">
-				<text :style="{fontSize:labelSize+'rpx',color:labelColor}">{{label}}</text>
-			</view>
-			<slot name="left"></slot>
-			<view class="fui-textarea__flex-1">
-				<textarea class="fui-textarea__self" :class="{'fui-text__right':textRight}"
-					:style="{height:height,minHeight:minHeight,fontSize:size+'rpx',color:color}"
-					placeholder-class="fui-textarea-placeholder" :name="name" :value="val" :placeholder="placeholder"
-					:placeholderStyle="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
-					:maxlength="maxlength" :focus="focused" :auto-height="autoHeight" :fixed="fixed"
-					:show-confirm-bar="showConfirmBar" :cursor="cursor" :selection-start="selectionStart"
-					:selection-end="selectionEnd" :adjust-position="adjustPosition" :hold-keyboard="holdKeyboard"
-					:disable-default-padding="disableDefaultPadding" :enableNative="false" :show-count="false"
-					@focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm" @linechange="onLinechange"
-					@keyboardheightchange="onKeyboardheightchange"></textarea>
-				<view class="fui-textarea__counter" v-if="isCounter">
-					<text
-						:style="{fontSize:counterSize+'rpx',color:counterColor}">{{maxlength!=-1?`${count}/${maxlength}`:count}}</text>
-				</view>
-			</view>
-			<slot></slot>
-			<view v-if="borderBottom  && !textareaBorder && !isRadius"
-				:style="{background:borderColor,left:bottomLeft+'rpx',right:bottomRight+'rpx'}"
-				class="fui-textarea__border-bottom"></view>
+	<view class="fui-textarea__wrap"
+		:class="{'fui-textarea__flex-start':flexStart,'fui-textarea__border-nvue':textareaBorder}"
+		:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,background:backgroundColor,borderRadius:radius+'rpx',borderColor:borderColor,marginTop:marginTop+'rpx'}"
+		@tap="fieldClick">
+		<view v-if="borderTop && !textareaBorder"
+			:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}" class="fui-textarea__border-top">
 		</view>
+		<!-- #ifndef APP-NVUE -->
+		<view class="fui-textarea__border" :style="{borderRadius:getRadius,borderColor:borderColor}"
+			v-if="textareaBorder"></view>
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<view class="fui-textarea__required" v-if="required && !flexStart">
+			<text :style="{color:getRequiredColor,paddingTop:'2rpx'}">*</text>
+		</view>
+		<text class="fui-textarea__required" :style="{color:getRequiredColor,top:requiredTop}"
+			v-if="required && flexStart">*</text>
+		<!-- #endif -->
+		<!-- #ifndef APP-NVUE -->
+		<view class="fui-textarea__required" :class="{'fui-required__flex-start':flexStart}"
+			:style="{color:getRequiredColor,top:flexStart?requiredTop:'50%'}" v-if="required">*</view>
+		<!-- #endif -->
+		<view class="fui-textarea__label" :style="{minWidth:labelWidth+'rpx'}" v-if="label">
+			<text :style="{fontSize:labelSize+'rpx',color:labelColor}">{{label}}</text>
+		</view>
+		<slot name="left"></slot>
+		<view class="fui-textarea__flex-1">
+			<textarea class="fui-textarea__self" :class="{'fui-text__right':textRight}"
+				:style="{height:height,minHeight:minHeight,fontSize:size+'rpx',color:color}"
+				placeholder-class="fui-textarea-placeholder" :name="name" :value="val" :placeholder="placeholder"
+				:placeholderStyle="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
+				:maxlength="maxlength" :focus="focused" :auto-height="autoHeight" :fixed="fixed"
+				:show-confirm-bar="showConfirmBar" :cursor="cursor" :selection-start="selectionStart"
+				:selection-end="selectionEnd" :adjust-position="adjustPosition" :hold-keyboard="holdKeyboard"
+				:disable-default-padding="disableDefaultPadding" :enableNative="false" :show-count="false"
+				@focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm" @linechange="onLinechange"
+				@keyboardheightchange="onKeyboardheightchange"></textarea>
+			<view class="fui-textarea__counter" v-if="isCounter">
+				<text
+					:style="{fontSize:counterSize+'rpx',color:counterColor}">{{maxlength!=-1?`${count}/${maxlength}`:count}}</text>
+			</view>
+		</view>
+		<slot></slot>
+		<view v-if="borderBottom  && !textareaBorder"
+			:style="{background:borderColor,left:bottomLeft+'rpx',right:bottomRight+'rpx'}"
+			class="fui-textarea__border-bottom"></view>
 	</view>
 </template>
 
@@ -50,15 +52,13 @@
 	export default {
 		name: "fui-textarea",
 		emits: ['input', 'update:modelValue', 'focus', 'blur', 'confirm', 'click', 'linechange', 'keyboardheightchange'],
-		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		//加group是为了避免在表单中使用时给组件加value属性
 		behaviors: ['wx://form-field-group'],
 		// #endif
-		// #ifdef MP-BAIDU || MP-QQ
+		// #ifdef MP-BAIDU || MP-QQ || H5
 		//如果在这些平台不需要也能识别，则删除
 		behaviors: ['uni://form-field'],
-		// #endif
 		// #endif
 		// #ifdef MP-WEIXIN
 		options: {
@@ -74,7 +74,7 @@
 			},
 			requiredColor: {
 				type: String,
-				default: '#FF2B2B'
+				default: ''
 			},
 			requiredTop: {
 				type: String,
@@ -235,7 +235,7 @@
 				type: [Number, String],
 				default: 0
 			},
-			//边框颜色，inputBorder为true时，非nvue端边框颜色通过css变量修改
+			//边框颜色
 			borderColor: {
 				type: String,
 				default: '#eaeef1'
@@ -286,13 +286,25 @@
 				default: 28
 			}
 		},
+		computed: {
+			getRadius() {
+				return Number(this.radius) * 2 + 'rpx'
+			},
+			getRequiredColor() {
+				let color = this.requiredColor;
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.danger) || '#FF2B2B';
+				}
+				return color;
+			}
+		},
 		data() {
 			return {
 				placeholderStyl: '',
 				count: 0,
 				focused: false,
-				val: '',
-				isRadius: false
+				val: ''
 			};
 		},
 		watch: {
@@ -313,13 +325,6 @@
 			value(newVal) {
 				this.val = this.getVal(newVal)
 				this.count = this.getCount(String(this.val).length)
-			},
-			radius(val) {
-				if (this.radius && this.radius !== true && Number(this.radius) > 0) {
-					this.isRadius = true
-				} else {
-					this.isRadius = false
-				}
 			}
 		},
 		created() {
@@ -338,9 +343,6 @@
 			this.fieldPlaceholderStyle()
 		},
 		mounted() {
-			if (this.radius && this.radius !== true && Number(this.radius) > 0) {
-				this.isRadius = true
-			}
 			this.$nextTick(() => {
 				this.focused = this.focus
 			})
@@ -417,6 +419,7 @@
 		flex: 1;
 		align-items: center;
 		position: relative;
+		border-width: 0;
 	}
 
 	.fui-textarea__flex-start {
@@ -534,21 +537,18 @@
 
 	/* #endif */
 
+	/* #ifdef APP-NVUE */
+	.fui-textarea__border-nvue {
+		border-style: solid;
+		border-width: 0.5px;
+	}
+
+	/* #endif */
+
+	/* #ifndef APP-NVUE */
 	.fui-textarea__border {
 		border-radius: 4rpx;
 		position: relative;
-		/* #ifdef APP-NVUE */
-		border-style: solid;
-		border-width: 0.5px;
-		/* #endif */
-		/* #ifndef APP-NVUE */
-		border-width: 0;
-		/* #endif */
-	}
-
-	/* #ifndef APP-NVUE */
-	.fui-textarea__border::after {
-		content: ' ';
 		position: absolute;
 		height: 200%;
 		width: 200%;

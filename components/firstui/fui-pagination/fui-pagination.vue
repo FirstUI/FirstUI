@@ -10,7 +10,7 @@
 		</view>
 		<view class="fui-pagination__num" v-if="isPage && pageType==1">
 			<text :class="{'fui-pagination__active-color':!currentColor}"
-				:style="{color:currentColor,fontSize:pageFontSize+'rpx'}">{{currentIndex}}</text>
+				:style="{color:getCurrentColor,fontSize:pageFontSize+'rpx'}">{{currentIndex}}</text>
 			<text :class="{'fui-pagination__color':!pageColor}"
 				:style="{color:pageColor,fontSize:pageFontSize+'rpx'}">/{{maxPage || 0}}</text>
 		</view>
@@ -18,7 +18,7 @@
 		<view class="fui-page__number" v-if="isPage && pageType==2">
 			<view class="fui-page__num-item" :class="{'fui-pagination__bg':!activeBgColor && currentIndex===item}"
 				v-for="(item,index) in pageNumber" :key="index"
-				:style="{background:currentIndex===item?activeBgColor:pageBgColor,borderRadius:radius+'rpx'}"
+				:style="{background:currentIndex===item?getActiveBgColor:pageBgColor,borderRadius:radius+'rpx'}"
 				@tap.stop="handleClick(item,index)">
 				<text class="fui-page__num-text" :class="{'fui-pagination__color':!color && currentIndex!==item}"
 					:style="{color:currentIndex===item?activeColor:pageColor}">{{item}}</text>
@@ -100,23 +100,21 @@
 			//当前页码字体颜色
 			currentColor: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
 				default: ''
-				// #endif
 			},
 			//页码字体颜色
+			// #ifdef APP-NVUE
 			pageColor: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#333'
-				// #endif
-				// #ifndef APP-NVUE
-				default: ''
-				// #endif
+				default: '#333',
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			pageColor: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			//页码字体大小
 			pageFontSize: {
 				type: [Number, String],
@@ -138,12 +136,7 @@
 			},
 			activeBgColor: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
 				default: ''
-				// #endif
 			},
 			activeColor: {
 				type: String,
@@ -169,6 +162,26 @@
 					maxPage = Math.ceil(total / pageSize)
 				}
 				return maxPage
+			},
+			getCurrentColor() {
+				let color = this.currentColor;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color;
+			},
+			getActiveBgColor() {
+				let color = this.activeBgColor;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color;
 			}
 		},
 		watch: {
@@ -270,9 +283,7 @@
 				this.change('pageNumber')
 			},
 			change(e) {
-				if (this.pageType == 2) {
-					this.getPageNumber()
-				}
+				this.getPageNumber()
 				this.$emit('change', {
 					type: e,
 					current: this.currentIndex

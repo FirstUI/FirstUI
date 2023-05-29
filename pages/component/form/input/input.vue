@@ -17,10 +17,11 @@
 			</fui-input>
 			<view class="fui-section__title">带清除按钮、双向绑定</view>
 			<fui-input label="标题" :bottomLeft="0" borderTop placeholder="请输入文本" clearable v-model="text"></fui-input>
-			<view class="fui-section__title">显示边框</view>
+			<view class="fui-section__title">显示边框/设置圆角</view>
 			<view class="fui-page__spacing">
 				<fui-input label="标题" inputBorder placeholder="请输入文本"></fui-input>
 				<fui-input :marginTop="24" isFillet inputBorder placeholder="请输入文本"></fui-input>
+				<fui-input :marginTop="24" :radius="24" border-color="#FFB703" inputBorder placeholder="请输入文本"></fui-input>
 			</view>
 			<view class="fui-section__title">必填项</view>
 			<fui-input required label="标题" borderTop placeholder="请输入文本"></fui-input>

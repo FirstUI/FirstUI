@@ -21,13 +21,15 @@
 			<view class="fui-section__title">使用v-model：{{val}}</view>
 			<fui-input-number v-model="val"></fui-input-number>
 			<view class="fui-section__title">设置最小值和最大值</view>
-			<fui-input-number :min="2" :max="9"></fui-input-number>
+			<fui-input-number :min="-9" :max="9"></fui-input-number>
 			<view class="fui-section__title">设置步长（步长0.1)</view>
 			<fui-input-number :step="0.1"></fui-input-number>
 			<view class="fui-section__title">禁用状态</view>
 			<fui-input-number disabled></fui-input-number>
 			<view class="fui-section__title">事件获取数字框的值: {{inputVal}}</view>
 			<fui-input-number @change="change"></fui-input-number>
+			<view class="fui-section__title">支持输入负号</view>
+			<fui-input-number type="text" :min="-99"></fui-input-number>
 		</view>
 	</view>
 </template>

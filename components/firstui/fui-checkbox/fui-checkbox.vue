@@ -1,11 +1,12 @@
 <template>
 	<view class="fui-checkbox__input"
-		:class="{'fui-checkbox__disabled':disabled,'fui-checkbox__color':!color && val && !isCheckMark}"
+		:class="{'fui-checkbox__disabled':disabled,'fui-checkbox__color':!getColor && val && !isCheckMark}"
 		:style="{backgroundColor:getBackgroundColor(val,isCheckMark),borderColor:getBorderColor(val,isCheckMark),zoom:isNvue?1:scaleRatio,transform:`scale(${isNvue?scaleRatio:1})`,borderRadius:borderRadius}"
 		@tap.stop="checkboxChange">
 		<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 			v-if="val"></view>
-		<checkbox class="fui-checkbox__hidden" style="opacity: 0;position: absolute;" :color="color" :disabled="disabled" :value="value" :checked="val">
+		<checkbox class="fui-checkbox__hidden" style="opacity: 0;position: absolute;" :color="getColor"
+			:disabled="disabled" :value="value" :checked="val">
 		</checkbox>
 	</view>
 </template>
@@ -35,27 +36,25 @@
 			//checkbox选中背景颜色
 			color: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
 				default: ''
-				// #endif
 			},
 			//checkbox未选中时边框颜色
 			borderColor: {
 				type: String,
 				default: '#ccc'
 			},
+			// #ifdef APP-NVUE
 			borderRadius: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '40rpx'
-				// #endif
-				// #ifndef APP-NVUE
-				default: '50%'
-				// #endif
+				default: '40px'
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			borderRadius: {
+				type: String,
+				default: '50%'
+			},
+			// #endif
 			//是否只展示对号，无边框背景
 			isCheckMark: {
 				type: Boolean,
@@ -88,7 +87,7 @@
 			this.label = this.getParent('fui-label')
 			if (this.label) {
 				this.label.childrens.push(this);
-			} 
+			}
 		},
 		watch: {
 			checked(newVal) {
@@ -98,6 +97,18 @@
 				if (this.group) {
 					this.group.changeValue(this.val, this);
 				}
+			}
+		},
+		computed: {
+			getColor() {
+				let color = this.color;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color;
 			}
 		},
 		data() {
@@ -112,21 +123,20 @@
 		},
 		methods: {
 			getBackgroundColor(val, isCheckMark) {
-				let color = val ? this.color : '#fff'
+				let color = val ? this.getColor : '#fff'
 				if (isCheckMark) {
 					color = 'transparent'
 				}
 				return color;
 			},
 			getBorderColor(val, isCheckMark) {
-				let color = val ? this.color : this.borderColor;
+				let color = val ? this.getColor : this.borderColor;
 				if (isCheckMark) {
 					color = 'transparent'
 				}
 				return color;
 			},
 			checkboxChange(e) {
-				console.log(1)
 				if (this.disabled) return;
 				this.val = !this.val;
 				this.$emit('change', {

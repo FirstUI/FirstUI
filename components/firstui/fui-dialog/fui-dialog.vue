@@ -20,6 +20,7 @@
 	// #ifdef APP-NVUE
 	const animation = uni.requireNativePlugin('animation');
 	// #endif
+	const primaryColor = (uni && uni.$fui && uni.$fui.color && uni.$fui.color.primary) || '#465CFF';
 	export default {
 		name: 'fui-dialog',
 		emits: ['click', 'close'],
@@ -51,7 +52,7 @@
 						text: '取消'
 					}, {
 						text: '确定',
-						color: '#465CFF'
+						color: primaryColor
 					}]
 				}
 			},
@@ -145,7 +146,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.fui-dialog__wrap {
 		position: fixed;
 		z-index: 1000;

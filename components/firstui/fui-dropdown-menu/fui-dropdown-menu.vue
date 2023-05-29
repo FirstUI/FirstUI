@@ -14,8 +14,8 @@
 						:class="{'fui-ddm__reverse':isReverse,'fui-ddm__item-line':splitLine && itemList.length-1!==index}"
 						v-for="(model,index) in itemList" :key="index" @tap.stop="itemClick(index)">
 						<view class="fui-ddm__checkbox"
-							:class="{'fui-is__checkmark':isCheckMark,'fui-ddm__checkbox-color':(!checkboxColor || checkboxColor=='true') && model.checked && !isCheckMark}"
-							:style="{background:model.checked && !isCheckMark ?checkboxColor:'transparent',borderColor:model.checked && !isCheckMark ?checkboxColor:borderColor}"
+							:class="{'fui-is__checkmark':isCheckMark,'fui-ddm__checkbox-color':(!checkboxColor || checkboxColor===true) && model.checked && !isCheckMark}"
+							:style="{background:model.checked && !isCheckMark ?getChkColor:'transparent',borderColor:model.checked && !isCheckMark ?getChkColor:borderColor}"
 							v-if="isCheckbox">
 							<view class="fui-ddm__checkmark"
 								:style="{borderBottomColor:checkmarkColor,borderRightColor:checkmarkColor}"
@@ -89,12 +89,7 @@
 			//选择框选中后颜色
 			checkboxColor: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
 				default: ''
-				// #endif
 			},
 			//选择框未选中时边框颜色
 			borderColor: {
@@ -208,6 +203,16 @@
 				}
 				// #endif
 				return styles
+			},
+			getChkColor() {
+				let color = this.checkboxColor;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color;
 			}
 		},
 		created() {
@@ -499,7 +504,7 @@
 
 	.fui-is__checkmark {
 		border-width: 0 !important;
-		background: transparent !important;
+		background-color: transparent !important;
 	}
 
 	.fui-ddm__checkmark {

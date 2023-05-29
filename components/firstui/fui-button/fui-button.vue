@@ -1,18 +1,18 @@
 <template>
 	<view class="fui-button__wrap"
-		:class="[!width || width==='100%' || width===true?'fui-button__flex-1':'',disabled && !disabledBackground ? 'fui-button__opacity' : '']"
-		:style="{width: width,height: getHeight,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: getRadius,background:getBackground}"
+		:class="[!getWidth || getWidth==='100%' || getWidth===true?'fui-button__flex-1':'',disabled && !disabledBackground ? 'fui-button__opacity' : '']"
+		:style="{width: getWidth,height: getHeight,marginTop:margin[0] || 0,	marginRight:margin[1]||0,marginBottom:margin[2] || margin[0]||0,marginLeft:margin[3] || margin[1]||0,borderRadius: getRadius,background:getBackground}"
 		@touchstart="handleStart" @touchend="handleClick" @touchcancel="handleEnd">
 		<button class="fui-button" :class="[
 				bold ? 'fui-text__bold' : '',
 				time && (plain || type==='link') ? 'fui-button__opacity' : '',
 				!background && !disabledBackground && !plain?('fui-button__'+type):'',
-				!width || width==='100%' || width===true?'fui-button__flex-1':'',
+				!getWidth || getWidth==='100%' || getWidth===true?'fui-button__flex-1':'',
 				time && !plain && type!=='link' ? 'fui-button__active' : '',
 				pc && !disabled?(plain || type==='link'?'fui-button__opacity-pc':'fui-button__active-pc'):'',
 				
 			]" :style="{
-				width: width,
+				width: getWidth,
 				height: getHeight,
 				lineHeight: getHeight,
 				background: disabled ? (disabledBackground || getTypeColor) : (plain ? 'transparent' : getBackground), 
@@ -21,10 +21,10 @@
 				borderRadius: getRadius,
 				fontSize: getSize,
 				color: getColor
-			}" :loading="loading" :form-type="formType" :open-type="openType" :app-parameter="appParameter" @getuserinfo="bindgetuserinfo"
-			@getphonenumber="bindgetphonenumber" @contact="bindcontact" @error="binderror"
-			@opensetting="bindopensetting" @chooseavatar="bindchooseavatar" @launchapp="bindlaunchapp"
-			:disabled="disabled" :scope="scope" @tap.stop="handleTap">
+			}" :loading="loading" :form-type="formType" :open-type="openType" :app-parameter="appParameter"
+			@getuserinfo="bindgetuserinfo" @getphonenumber="bindgetphonenumber" @contact="bindcontact"
+			@error="binderror" @opensetting="bindopensetting" @chooseavatar="bindchooseavatar"
+			@launchapp="bindlaunchapp" :disabled="disabled" :scope="scope" @tap.stop="handleTap">
 			<text class="fui-button__text"
 				:class="{'fui-btn__gray-color':!background && !disabledBackground && !plain && type==='gray' && color==='#fff','fui-text__bold':bold}"
 				v-if="text"
@@ -44,10 +44,11 @@
 	export default {
 		name: 'fui-button',
 		emits: ['click', 'getuserinfo', 'contact', 'getphonenumber', 'error', 'opensetting'],
-		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		behaviors: ['wx://form-field-button'],
 		// #endif
+		// #ifdef MP-BAIDU || MP-QQ
+		behaviors: ['uni://form-field'],
 		// #endif
 		props: {
 			//样式类型：primary，success， warning，danger，link，purple，gray
@@ -93,6 +94,11 @@
 			},
 			// #endif
 			borderColor: {
+				type: String,
+				default: ''
+			},
+			//按钮大小，优先级高于width和height，medium、small、mini
+			btnSize: {
 				type: String,
 				default: ''
 			},
@@ -167,13 +173,14 @@
 				// #ifndef APP-NVUE
 				return '';
 				// #endif
+				const app = uni && uni.$fui && uni.$fui.color
 				let colors = {
-					primary: '#465CFF',
-					success: '#09BE4F',
-					warning: '#FFB703',
-					danger: '#FF2B2B',
+					primary: (app && app.primary) || '#465CFF',
+					success: (app && app.success) || '#09BE4F',
+					warning: (app && app.warning) || '#FFB703',
+					danger: (app && app.danger) || '#FF2B2B',
 					link: 'transparent',
-					purple: '#6831FF',
+					purple: (app && app.purple) || '#6831FF',
 					gray: '#F8F8F8'
 				}
 				return colors[this.type] || 'transparent'
@@ -196,18 +203,44 @@
 					if (this.disabled && this.disabledBackground) {
 						color = this.disabledColor || '#FFFFFF'
 					} else {
-						color = this.type === 'gray' ? '#465CFF' : '#FFFFFF'
+						const app = uni && uni.$fui && uni.$fui.color;
+						const primary = (app && app.primary) || '#465CFF';
+						color = this.type === 'gray' ? primary : '#FFFFFF'
 					}
 				}
 				return color;
 			},
 			getSize() {
-				const size = (uni && uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.size) || 32
-				return `${this.size || size}rpx`
+				let size = this.size || (uni && uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.size) || 32
+				if (this.btnSize === 'small') {
+					size = size > 28 ? 28 : size;
+				} else if (this.btnSize === 'mini') {
+					size = size > 28 ? 24 : size;
+				}
+				return `${size}rpx`
+			},
+			getWidth() {
+				//medium 400*84 / small 200*84/ mini 120 * 64
+				let width = this.width;
+				if (this.btnSize && this.btnSize !== true) {
+					width = {
+						'medium': '400rpx',
+						'small': '200rpx',
+						'mini': '120rpx'
+					} [this.btnSize] || width
+				}
+				return width
 			},
 			getHeight() {
-				const height = (uni && uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.height) || '96rpx'
-				return this.height || height
+				let height = this.height || (uni && uni.$fui && uni.$fui.fuiButton && uni.$fui.fuiButton.height) || '96rpx'
+				if (this.btnSize && this.btnSize !== true) {
+					height = {
+						'medium': '84rpx',
+						'small': '72rpx',
+						'mini': '64rpx'
+					} [this.btnSize] || height
+				}
+				return height
 			},
 			// #ifndef APP-NVUE
 			getBorderRadius() {

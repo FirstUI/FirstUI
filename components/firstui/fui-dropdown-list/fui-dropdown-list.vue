@@ -11,8 +11,8 @@
 						:class="{'fui-ddl__reverse':isReverse,'fui-ddl__item-line':splitLine && itemList.length-1!==index}"
 						v-for="(model,index) in itemList" :key="index" @tap.stop.prevent="itemClick($event,index)">
 						<view class="fui-ddl__checkbox"
-							:class="{'fui-is__checkmark':isCheckMark,'fui-ddl__checkbox-color':(!checkboxColor || checkboxColor=='true') && model.checked && !isCheckMark}"
-							:style="{background:model.checked && !isCheckMark ?checkboxColor:'transparent',borderColor:model.checked && !isCheckMark ?checkboxColor:borderColor}"
+							:class="{'fui-is__checkmark':isCheckMark,'fui-ddl__checkbox-color':(!checkboxColor || checkboxColor===true) && model.checked && !isCheckMark}"
+							:style="{background:model.checked && !isCheckMark ?getChkColor:'transparent',borderColor:model.checked && !isCheckMark ?getChkColor:borderColor}"
 							v-if="isCheckbox">
 							<view class="fui-ddl__checkmark"
 								:style="{borderBottomColor:checkmarkColor,borderRightColor:checkmarkColor}"
@@ -22,8 +22,7 @@
 							<view class="fui-ddl__icon-box"
 								:class="{'fui-ddl__icon-ml':!isReverse && isCheckbox,'fui-ddl__icon-mr':isReverse}"
 								:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="model.src">
-								<image :src="model.src"
-									:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}"></image>
+								<image :src="model.src" :style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}"></image>
 							</view>
 							<text class="fui-ddl__item-text"
 								:class="{'fui-ddl__text-pl':!isReverse && (isCheckbox || model.src),'fui-ddl__text-pr':isReverse && (isCheckbox || model.src)}"
@@ -80,12 +79,7 @@
 			},
 			checkboxColor: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
 				default: ''
-				// #endif
 			},
 			borderColor: {
 				type: String,
@@ -154,6 +148,16 @@
 					styles += `width:${width}rpx;`
 				}
 				return styles
+			},
+			getChkColor() {
+				let color = this.checkboxColor;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color;
 			}
 		},
 		data() {
@@ -293,7 +297,9 @@
 
 	.fui-dropdown__list {
 		box-shadow: 0 0 10rpx rgba(2, 4, 38, 0.05);
+		/* #ifndef APP-NVUE */
 		overflow: hidden;
+		/* #endif */
 	}
 
 	/* #ifndef APP-NVUE */
@@ -406,7 +412,7 @@
 
 	.fui-is__checkmark {
 		border-width: 0 !important;
-		background: transparent !important;
+		background-color: transparent !important;
 	}
 
 	.fui-ddl__checkmark {

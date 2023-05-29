@@ -55,11 +55,16 @@ page {
 	/*禁用态的透明度 */
 	--fui-opacity-disabled: 0.5;
 
-	/* 图片、图标尺寸 */
+	/* 图标尺寸 */
 	--fui-img-size-sm: 48rpx;
 	--fui-img-size-base: 56rpx;
 	--fui-img-size-middle: 64rpx;
-	--fui-img-size-lg: 64rpx;
+	--fui-img-size-lg: 96rpx;
+
+	/* 图片尺寸 */
+	--fui-img-sm: 60rpx;
+	--fui-img-base: 120rpx;
+	--fui-img-lg: 240rpx;
 
 	/* Border Radius */
 	--fui-border-radius-sm: 16rpx;
@@ -77,55 +82,4 @@ page {
 	--fui-spacing-col-base: 16rpx;
 	--fui-spacing-col-lg: 24rpx;
 }
-
-/* 暗黑模式下颜色变量 */
-@media(prefers-color-scheme: dark) {
-	page {
-		/* 行为相关颜色 */
-		--fui-color-primary: #465CFF;
-		--fui-color-success: #09BE4F;
-		--fui-color-warning: #FFB703;
-		--fui-color-danger: #FF2B2B;
-		--fui-color-purple: #6831FF;
-
-		/* 文字基本颜色、其他辅助色 */
-		/* 用于重量级文字信息、标题 */
-		--fui-color-title: #D1D1D1;
-		/* 用于普通级段落信息、引导词 */
-		--fui-color-section: #A3A3A3;
-		/* 用于次要标题内容 */
-		--fui-color-subtitle: #8C8C8C;
-		/* 用于底部标签、描述、次要文字信息 */
-		--fui-color-label: #8D8D8D;
-		/* 用于辅助、次要信息、禁用文字等。如：待输入状态描述文字，已点击按钮文字 */
-		--fui-color-minor: #5E5E5E;
-		--fui-color-white: #FFFFFF;
-		/* 链接颜色 */
-		--fui-color-link: #465CFF;
-
-
-		/* 背景颜色 */
-		--fui-bg-color: #1B1B1B;
-		/* 页面背景底色 */
-		--fui-bg-color-grey: #111111;
-		/* 内容模块底色 */
-		--fui-bg-color-content: #222222;
-		--fui-bg-color-red: #222222;
-		--fui-bg-color-yellow: #222222;
-		--fui-bg-color-purple: #222222;
-		--fui-bg-color-green: #222222;
-		/* 点击背景色 */
-		--fui-bg-color-hover: rgba(255, 255, 255, 0.2);
-		/* 遮罩颜色 */
-		--fui-bg-color-mask: rgba(0, 0, 0, 0.6);
-
-
-		/* 边框颜色 */
-		--fui-color-border: #242424;
-
-		/* 阴影颜色 */
-		--fui-color-shadow: rgba(17, 17, 17, 0.5);
-	}
-}
-
 /* #endif */

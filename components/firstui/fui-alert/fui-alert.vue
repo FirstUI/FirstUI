@@ -124,11 +124,12 @@
 		},
 		methods: {
 			getColor(type) {
-				const color = "#465CFF"
+				const app = uni && uni.$fui && uni.$fui.color
+				const color = (app && app.primary) || "#465CFF"
 				const colors = {
-					'success': '#09BE4F',
-					'warn': '#FFB703',
-					'clear': '#FF2B2B'
+					'success': (app && app.success) || '#09BE4F',
+					'warn': (app && app.warning) || '#FFB703',
+					'clear': (app && app.danger) || '#FF2B2B'
 				}
 				return colors[type] ? colors[type] : color;
 			},
@@ -192,7 +193,9 @@
 	.fui-alert__content {
 		flex: 1;
 		flex-direction: column;
+		/* #ifndef APP-NVUE */
 		overflow: hidden;
+		/* #endif */
 	}
 
 	.fui-alert__text {

@@ -1,77 +1,77 @@
 <template>
-	<view :class="{'fui-input__border':inputBorder,'fui-radius__fillet':isFillet}" :style="getStyles" @tap="fieldClick">
-		<view class="fui-input__wrap"
-			:class="{'fui-radius__fillet':isFillet,'fui-input__border-radius':inputBorder && !isFillet}"
-			:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,backgroundColor:backgroundColor}">
-			<view v-if="borderTop && !inputBorder"
-				:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}" class="fui-input__border-top">
-			</view>
-			<!-- #ifdef APP-NVUE -->
-			<view class="fui-input__required" v-if="required">
-				<text :style="{color:requiredColor}">*</text>
-			</view>
-			<!-- #endif -->
-			<!-- #ifndef APP-NVUE -->
-			<view class="fui-input__required" :style="{color:requiredColor}" v-if="required">*</view>
-			<!-- #endif -->
-			<view class="fui-input__label" :style="{minWidth:labelWidth+'rpx'}" v-if="label">
-				<text :style="{fontSize:getLabelSize,color:labelColor}">{{label}}</text>
-			</view>
-			<slot name="left"></slot>
-			<!-- 小程序不支持v-bind="{'password':password}" -->
-			<!-- #ifdef APP-PLUS || H5 -->
-			<input v-bind="attribute" class="fui-input__self" :class="{'fui-input__text-right':textRight}"
-				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type"
-				:name="name" :value="val" :placeholder="placeholder" :placeholder-style="placeholderStyl"
-				:disabled="disabled || readonly" :cursor-spacing="cursorSpacing" :maxlength="maxlength" :focus="focused"
-				:confirm-type="confirmType" :confirm-hold="confirmHold" :cursor="cursor"
-				:selection-start="selectionStart" :selection-end="selectionEnd" :adjust-position="adjustPosition"
-				:hold-keyboard="holdKeyboard" :auto-blur="autoBlur" :enableNative="false" :always-embed="alwaysEmbed"
-				@focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm"
-				@keyboardheightchange="onKeyboardheightchange" />
-			<!-- #endif -->
-
-			<!-- #ifndef APP-PLUS || H5 -->
-			<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
-				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type"
-				:name="name" :value="val" :placeholder="placeholder" :password="password"
-				:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
-				:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
-				:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
-				:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur"
-				:enableNative="false" :always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur" @input="onInput"
-				@confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
-			<!-- #endif -->
-			<view class="fui-input__clear-wrap" :style="{background:clearColor}" v-if="clearable && val != ''"
-				@tap.stop="onClear">
-				<view class="fui-input__clear">
-					<view class="fui-input__clear-a"></view>
-				</view>
-				<view class="fui-input__clear">
-					<view class="fui-input__clear-b"></view>
-				</view>
-			</view>
-			<slot></slot>
-			<view v-if="borderBottom  && !inputBorder"
-				:style="{background:borderColor,left:bottomLeft+'rpx',right:bottomRight+'rpx'}"
-				class="fui-input__border-bottom"></view>
+	<!-- <view :class="{'fui-input__border':inputBorder,'fui-radius__fillet':isFillet}" :style="getStyles" @tap="fieldClick"> -->
+	<view class="fui-input__wrap" :class="{'fui-input__border-nvue':inputBorder}"
+		:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,background:backgroundColor,marginTop:marginTop+'rpx',borderRadius:getRadius,borderColor:borderColor}"
+		@tap="fieldClick">
+		<view v-if="borderTop && !inputBorder" :style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}"
+			class="fui-input__border-top">
 		</view>
+		<!-- #ifndef APP-NVUE -->
+		<view class="fui-input__border" :style="{borderRadius:getBorderRadius,borderColor:borderColor}"
+			v-if="inputBorder"></view>
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<view class="fui-input__required" v-if="required">
+			<text :style="{color:requiredColor || dangerColor}">*</text>
+		</view>
+		<!-- #endif -->
+		<!-- #ifndef APP-NVUE -->
+		<view class="fui-input__required" :style="{color:requiredColor || dangerColor}" v-if="required">*</view>
+		<!-- #endif -->
+		<view class="fui-input__label" :style="{minWidth:labelWidth+'rpx'}" v-if="label">
+			<text :style="{fontSize:getLabelSize,color:labelColor}">{{label}}</text>
+		</view>
+		<slot name="left"></slot>
+		<!-- 小程序不支持v-bind="{'password':password}" -->
+		<!-- #ifdef APP-PLUS || H5 -->
+		<input v-bind="attribute" class="fui-input__self" :class="{'fui-input__text-right':textRight}"
+			:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
+			:value="val" :placeholder="placeholder" :placeholder-style="placeholderStyl"
+			:disabled="disabled || readonly" :cursor-spacing="cursorSpacing" :maxlength="maxlength" :focus="focused"
+			:confirm-type="confirmType" :confirm-hold="confirmHold" :cursor="cursor" :selection-start="selectionStart"
+			:selection-end="selectionEnd" :adjust-position="adjustPosition" :hold-keyboard="holdKeyboard"
+			:auto-blur="autoBlur" :enableNative="false" :always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur"
+			@input="onInput" @confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
+		<!-- #endif -->
+
+		<!-- #ifndef APP-PLUS || H5 -->
+		<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
+			:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
+			:value="val" :placeholder="placeholder" :password="password" :placeholder-style="placeholderStyl"
+			:disabled="disabled || readonly" :cursor-spacing="cursorSpacing" :maxlength="maxlength" :focus="focused"
+			:confirm-type="confirmType" :confirm-hold="confirmHold" :cursor="cursor" :selection-start="selectionStart"
+			:selection-end="selectionEnd" :adjust-position="adjustPosition" :hold-keyboard="holdKeyboard"
+			:auto-blur="autoBlur" :enableNative="false" :always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur"
+			@input="onInput" @confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
+		<!-- #endif -->
+		<view class="fui-input__clear-wrap" :style="{background:clearColor}" v-if="clearable && val != ''"
+			@tap.stop="onClear">
+			<view class="fui-input__clear">
+				<view class="fui-input__clear-a"></view>
+			</view>
+			<view class="fui-input__clear">
+				<view class="fui-input__clear-b"></view>
+			</view>
+		</view>
+		<slot></slot>
+		<view v-if="borderBottom  && !inputBorder"
+			:style="{background:borderColor,left:bottomLeft+'rpx',right:bottomRight+'rpx'}"
+			class="fui-input__border-bottom"></view>
 	</view>
+	<!-- </view> -->
 </template>
 
 <script>
 	export default {
 		name: "fui-input",
 		emits: ['input', 'update:modelValue', 'focus', 'blur', 'confirm', 'click', 'keyboardheightchange'],
-		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		//加group是为了避免在表单中使用时给组件加value属性
 		behaviors: ['wx://form-field-group'],
 		// #endif
-		// #ifdef MP-BAIDU || MP-QQ
+		// #ifdef MP-BAIDU || MP-QQ || H5
 		//如果在这些平台不需要也能识别，则删除
 		behaviors: ['uni://form-field'],
-		// #endif
 		// #endif
 		// #ifdef MP-WEIXIN
 		options: {
@@ -87,7 +87,7 @@
 			},
 			requiredColor: {
 				type: String,
-				default: '#FF2B2B'
+				default: ''
 			},
 			//左侧标题
 			label: {
@@ -168,7 +168,7 @@
 				type: Boolean,
 				default: false
 			},
-			readonly:{
+			readonly: {
 				type: Boolean,
 				default: false
 			},
@@ -242,7 +242,7 @@
 			},
 			radius: {
 				type: [Number, String],
-				default: -1
+				default: 8
 			},
 			borderTop: {
 				type: Boolean,
@@ -304,19 +304,19 @@
 			}
 		},
 		computed: {
-			getStyles() {
-				let styles = `margin-top:${this.marginTop}rpx;`
-
-				// #ifdef APP-NVUE
-				if (this.inputBorder) {
-					styles += `border-color:${this.borderColor};`
+			getRadius() {
+				let radius = this.radius + 'rpx'
+				if (this.isFillet) {
+					radius = '120px'
 				}
-				// #endif
-
-				if (!this.inputBorder && !this.borderTop && !this.borderBottom && this.radius != -1) {
-					styles += `border-radius:${this.radius}rpx;overflow:hidden;`
+				return radius;
+			},
+			getBorderRadius() {
+				let radius = Number(this.radius) * 2 + 'rpx'
+				if (this.isFillet) {
+					radius = '240px'
 				}
-				return styles
+				return radius;
 			},
 			getSize() {
 				const size = (uni.$fui && uni.$fui.fuiInput && uni.$fui.fuiInput.size) || 32
@@ -325,6 +325,10 @@
 			getLabelSize() {
 				const labelSize = (uni.$fui && uni.$fui.fuiInput && uni.$fui.fuiInput.labelSize) || 32
 				return `${this.labelSize || labelSize}rpx`
+			},
+			dangerColor() {
+				const app = uni && uni.$fui && uni.$fui.color;
+				return (app && app.danger) || '#FF2B2B';
 			}
 		},
 		watch: {
@@ -344,8 +348,8 @@
 			value(newVal) {
 				this.val = newVal
 			},
-			password:{
-				handler(val){
+			password: {
+				handler(val) {
 					if (val) {
 						this.attribute = {
 							password: true
@@ -354,7 +358,7 @@
 						this.attribute = {}
 					}
 				},
-				immediate:true
+				immediate: true
 			}
 		},
 		created() {
@@ -471,6 +475,7 @@
 		flex: 1;
 		align-items: center;
 		position: relative;
+		border-width: 0;
 	}
 
 	.fui-input__border-top {
@@ -615,25 +620,16 @@
 
 	/* #endif */
 
-	.fui-input__border {
-		border-radius: 8rpx;
-		position: relative;
-		/* #ifdef APP-NVUE */
-		border-style: solid;
+	/* #ifdef APP-NVUE */
+	.fui-input__border-nvue {
 		border-width: 0.5px;
-		/* #endif */
-		/* #ifndef APP-NVUE */
-		border-width: 0;
-		/* #endif */
+		border-style: solid;
 	}
 
-	.fui-input__border-radius {
-		border-radius: 8rpx;
-	}
+	/* #endif */
 
 	/* #ifndef APP-NVUE */
-	.fui-input__border::after {
-		content: ' ';
+	.fui-input__border {
 		position: absolute;
 		height: 200%;
 		width: 200%;
@@ -646,14 +642,7 @@
 		pointer-events: none;
 	}
 
-	.fui-radius__fillet::after {
-		border-radius: 200px !important;
-	}
-
 	/* #endif */
-	.fui-radius__fillet {
-		border-radius: 100px !important;
-	}
 
 	.fui-input__text-right {
 		text-align: right;

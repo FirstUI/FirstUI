@@ -21,6 +21,10 @@
 			<fui-button radius="0">方形按钮</fui-button>
 			<fui-button radius="96rpx" :margin="['24rpx']">圆形按钮</fui-button>
 			<view class="fui-section__title">按钮大小</view>
+			<fui-button btn-size="medium">medium</fui-button>
+			<fui-button type="warning" :margin="['24rpx']" btn-size="small">small</fui-button>
+			<fui-button type="danger" btn-size="mini">mini</fui-button>
+			<view class="fui-section__title">自定义按钮大小</view>
 			<fui-button plain color="#465CFF" borderColor="#465CFF">默认大小</fui-button>
 			<fui-button type="purple" :margin="['24rpx']" width="224rpx" height="84rpx" :size="28">小型按钮</fui-button>
 			<fui-button type="danger" width="200rpx" height="72rpx" :size="28">小型按钮</fui-button>
@@ -45,7 +49,8 @@
 		},
 		methods: {
 			btnClick() {
-				console.log('click~')
+				this.fui.toast('click~')
+				// console.log('click~')
 			}
 		}
 	}

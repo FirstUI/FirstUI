@@ -197,22 +197,22 @@
 
 	/* #ifndef APP-NVUE */
 	@-webkit-keyframes rotate {
-		from {
-			transform: rotatez(0deg);
+		0% {
+			transform: rotate(0deg);
 		}
-
-		to {
-			transform: rotatez(360deg);
+		
+		100% {
+			transform: rotate(360deg);
 		}
 	}
 
 	@keyframes rotate {
-		from {
-			transform: rotatez(0deg);
+		0% {
+			transform: rotate(0deg);
 		}
-
-		to {
-			transform: rotatez(360deg);
+		
+		100% {
+			transform: rotate(360deg);
 		}
 	}
 

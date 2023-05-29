@@ -5,7 +5,7 @@
 				:class="{'fui-link__color':!item.color}" hover-class="fui-link-hover" hover-stop-propagation
 				:open-type="item.openType || 'navigate'" :url="item.url" :delta="item.delta"><text
 					class="fui-link__text" :class="{'fui-link__text-border':index===navigate.length-1}"
-					:style="{color:item.color || '#465CFF',fontSize:(item.size || 28)+'rpx',borderColor:borderColor,lineHeight:(item.size || 28)+'rpx'}">{{item.text}}</text>
+					:style="{color:item.color || linkColor,fontSize:(item.size || 28)+'rpx',borderColor:borderColor,lineHeight:(item.size || 28)+'rpx'}">{{item.text}}</text>
 			</navigator>
 		</view>
 		<view class="fui-footer__text" :class="{'fui-as__safe-weex':iphoneX && safeArea}">
@@ -60,6 +60,12 @@
 			safeArea: {
 				type: Boolean,
 				default: true
+			}
+		},
+		computed: {
+			linkColor() {
+				const app = uni && uni.$fui && uni.$fui.color;
+				return (app && app.link) || '#465CFF';
 			}
 		},
 		data() {
@@ -137,7 +143,8 @@
 	}
 
 	/* #ifndef APP-NVUE */
-	.fui-link__color text {
+	.fui-link__color text,
+	.fui-link__color {
 		color: var(--fui-color-link, #465CFF) !important;
 	}
 

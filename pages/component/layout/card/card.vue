@@ -16,14 +16,16 @@
 			<view class="fui-section__title">推荐布局</view>
 			<fui-card :src="src2" imageRadius="50%" title="First UI" color="#465CFF" tag="23小时前" :headerLine="false" showBorder>
 				<view class="fui-list__item">
-					<image class="fui-cover" src="/static/images/cooperate/light/img_banner_3x.png" mode="widthFix">
+					<image class="fui-cover" :src="`${resUrl}/cooperate/light/img_banner_3x.png`" mode="widthFix">
 					</image>
 					<view class="fui-list__title">First UI重磅上线，一款轻量、全面、可靠的移动端组件库。</view>
 				</view>
 			</fui-card>
 			<view class="fui-section__title">推荐布局</view>
 			<fui-card>
-				<image class="fui-cover" src="/static/images/cooperate/dark/img_banner_3x.png" mode="widthFix"></image>
+				<view class="fui-list__item">
+					<image class="fui-cover" :src="`${resUrl}/cooperate/dark/img_banner_3x.png`" mode="widthFix"></image>
+				</view>
 				<view class="fui-card__title">
 					First UI重磅上线，一款轻量、全面、可靠的移动端组件库。
 				</view>
@@ -36,6 +38,7 @@
 	export default {
 		data() {
 			return {
+				resUrl:this.fui.resUrl(),
 				src: '/static/images/common/icon_tabbar_3x.png',
 				src2: '/static/images/common/img_logo.png'
 			}
@@ -67,7 +70,10 @@
 	}
 
 	.fui-list__item {
+		width: 100%;
+		height: 385rpx;
 		position: relative;
+		background: #eee;
 	}
 
 	.fui-cover {

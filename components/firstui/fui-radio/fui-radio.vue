@@ -1,11 +1,11 @@
 <template>
 	<view class="fui-radio__input"
-		:class="{'fui-radio__disabled':disabled,'fui-radio__color':!color && val && !isCheckMark}"
+		:class="{'fui-radio__disabled':disabled,'fui-radio__color':!getColor && val && !isCheckMark}"
 		:style="{backgroundColor:getBackgroundColor(val,isCheckMark),borderColor:getBorderColor(val,isCheckMark),zoom:isNvue?1:scaleRatio,transform:`scale(${isNvue?scaleRatio:1})`,borderRadius:borderRadius}"
 		@tap.stop="radioChange">
 		<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 			v-if="val"></view>
-		<radio class="fui-radio__hidden" style="opacity: 0;position: absolute;" :color="color" :disabled="disabled" :value="value" :checked="val"></radio>
+		<radio class="fui-radio__hidden" style="opacity: 0;position: absolute;" :color="getColor" :disabled="disabled" :value="value" :checked="val"></radio>
 	</view>
 </template>
 
@@ -32,12 +32,7 @@
 			//radio选中背景颜色
 			color: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
 				default: ''
-				// #endif
 			},
 			//radio未选中时边框颜色
 			borderColor: {
@@ -97,6 +92,18 @@
 				}
 			}
 		},
+		computed: {
+			getColor() {
+				let color = this.color;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color;
+			}
+		},
 		data() {
 			let isNvue = false;
 			// #ifdef APP-NVUE
@@ -109,14 +116,14 @@
 		},
 		methods: {
 			getBackgroundColor(val, isCheckMark) {
-				let color = val ? this.color : '#fff'
+				let color = val ? this.getColor : '#fff'
 				if (isCheckMark) {
 					color = 'transparent'
 				}
 				return color;
 			},
 			getBorderColor(val, isCheckMark) {
-				let color = val ? this.color : this.borderColor;
+				let color = val ? this.getColor : this.borderColor;
 				if (isCheckMark) {
 					color = 'transparent'
 				}

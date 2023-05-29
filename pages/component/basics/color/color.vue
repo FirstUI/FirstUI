@@ -7,7 +7,7 @@
 		<view class="fui-page__bd fui-page__spacing">
 			<block v-for="(item,index) in colors" :key="item.key">
 				<view class="fui-section__title">{{item.text}}</view>
-				<view  v-for="(model,idx) in item.data" :key="idx"
+				<view @tap="getColor($event,model.gradual || model.value)" v-for="(model,idx) in item.data" :key="idx"
 					class="fui-color__item fui-page__spacing fui-align__center"
 					:style="{background:model.gradual || model.value,color:model.color}">
 					<text>{{model.text}}</text>
@@ -19,15 +19,37 @@
 </template>
 
 <script>
+	// #ifdef MP-BAIDU
+	import {
+		mapState
+	} from 'vuex'
+	// #endif
 	import colors from './color.js';
+	import $fui from '@/components/firstui/fui-clipboard';
 	export default {
 		data() {
 			return {
 				colors: colors
 			}
 		},
+		// #ifdef MP-BAIDU
+		computed: mapState(['status']),
+		// #endif
 		methods: {
-			
+			getColor(e, color) {
+				// #ifdef MP-BAIDU
+				if (this.status == 1) {
+					$fui.getClipboardData(color, res => {
+						this.fui.toast('颜色复制成功');
+					}, e);
+				}
+				// #endif
+				// #ifndef MP-BAIDU
+				$fui.getClipboardData(color, res => {
+					this.fui.toast('颜色复制成功');
+				}, e);
+				// #endif
+			}
 		}
 	}
 </script>

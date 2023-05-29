@@ -12,7 +12,7 @@
 			<view class="fui-section__title">调整高度、必填</view>
 			<!-- #ifndef MP-TOUTIAO -->
 			<fui-textarea required height="40rpx" label="标题" placeholder="请输入内容"></fui-textarea>
-			<!-- #endif -->  
+			<!-- #endif -->
 			<!-- #ifdef MP-TOUTIAO -->
 			<fui-textarea required height="40rpx" label="标题"></fui-textarea>
 			<!-- #endif -->
@@ -22,6 +22,11 @@
 			<view class="fui-textarea__box">
 				<fui-textarea textareaBorder placeholder="请输入简介"></fui-textarea>
 			</view>
+			<view class="fui-section__title">设置圆角</view>
+			<view class="fui-textarea__box">
+				<fui-textarea :radius="24" background-color="#f8f8f8" placeholder="请输入内容"></fui-textarea>
+			</view>
+
 		</view>
 	</view>
 </template>

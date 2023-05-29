@@ -29,15 +29,18 @@
 				type: String,
 				default: ''
 			},
+			// #ifdef APP-NVUE
 			color: {
 				type: String,
-				// #ifdef APP-NVUE
 				default: '#333333'
-				// #endif
-				// #ifndef APP-NVUE
-				default: ''
-				// #endif
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			color: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			size: {
 				type: [Number, String],
 				default: 32
@@ -46,15 +49,18 @@
 				type: String,
 				default: ''
 			},
+			// #ifdef APP-NVUE
 			descrColor: {
 				type: String,
-				// #ifdef APP-NVUE
 				default: '#B2B2B2'
-				// #endif
-				// #ifndef APP-NVUE
-				default: ''
-				// #endif
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			descrColor: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			descrSize: {
 				type: [Number, String],
 				default: 24

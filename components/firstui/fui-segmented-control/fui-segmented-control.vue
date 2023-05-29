@@ -2,11 +2,11 @@
 	<view class="fui-segmented__control" :class="{'fui-segmented__disabled':disabled}"
 		:style="{marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}">
 		<view class="fui-segmented__item" v-for="(item,index) in vals" :key="index"
-			:style="{borderTopLeftRadius:index===0?radius+'rpx':'0',borderBottomLeftRadius:index===0?radius+'rpx':'0',borderTopRightRadius:index===values.length - 1?radius+'rpx':'0',borderBottomRightRadius:index===values.length - 1?radius+'rpx':'0',borderColor:type==='button'?color:'transparent',background:currentIndex===index && type==='button'?color:'transparent',height:height+'rpx'}"
+			:style="{borderTopLeftRadius:index===0?radius+'rpx':'0',borderBottomLeftRadius:index===0?radius+'rpx':'0',borderTopRightRadius:index===values.length - 1?radius+'rpx':'0',borderBottomRightRadius:index===values.length - 1?radius+'rpx':'0',borderColor:type==='button'?getColor:'transparent',background:currentIndex===index && type==='button'?getColor:'transparent',height:height+'rpx'}"
 			:class="{'fui-segmented__first':index===0 && type==='button','fui-seg__item-bg':currentIndex===index && !color && type==='button','fui-seg__item-border':!color && type==='button','fui-segmented__item-border':type==='button'}"
 			@click="handleClick(index)">
 			<text
-				:style="{fontSize:size+'rpx',color:currentIndex===index?activeColor:color,fontWeight:bold && currentIndex===index ?600:400}"
+				:style="{fontSize:size+'rpx',color:currentIndex===index?activeColor:getColor,fontWeight:bold && currentIndex===index ?600:400}"
 				:class="{'fui-segmented__disabled':item.disabled,'fui-seg__text-color':!color && currentIndex!==index}">{{item.name}}</text>
 			<view class="fui-segmented__item-line" v-if="currentIndex===index && type==='text'"
 				:style="{background:activeColor}"></view>
@@ -36,13 +36,7 @@
 			},
 			color: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#465CFF'
-				// #endif
-
-				// #ifndef APP-NVUE
 				default: ''
-				// #endif
 			},
 			activeColor: {
 				type: String,
@@ -75,6 +69,18 @@
 			marginBottom: {
 				type: [Number, String],
 				default: 0
+			}
+		},
+		computed:{
+			getColor(){
+				let color = this.color
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color
 			}
 		},
 		data() {

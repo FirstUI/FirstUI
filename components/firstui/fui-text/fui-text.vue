@@ -116,22 +116,24 @@
 		},
 		computed: {
 			getSize() {
-				const size = (uni.$fui && uni.$fui.fuiText && uni.$fui.fuiText.size) || 32
-				const unit = (uni.$fui && uni.$fui.fuiText && uni.$fui.fuiText.unit) || 'rpx'
+				const size = (uni && uni.$fui && uni.$fui.fuiText && uni.$fui.fuiText.size) || 32
+				const unit = (uni && uni.$fui && uni.$fui.fuiText && uni.$fui.fuiText.unit) || 'rpx'
 				return (this.size || size) + (this.unit || unit)
 			},
 			getColor() {
 				let color = this.color || ''
 				// #ifdef APP-NVUE
 				if (!color && this.type) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					const text = uni && uni.$fui && uni.$fui.fuiText;
 					color = {
-						primary: '#465CFF',
-						success: '#09BE4F',
-						warning: '#FFB703',
-						danger: '#FF2B2B',
-						purple: '#6831FF',
+						primary: (app && app.primary) || '#465CFF',
+						success: (app && app.success) || '#09BE4F',
+						warning: (app && app.warning) || '#FFB703',
+						danger: (app && app.danger) || '#FF2B2B',
+						purple: (app && app.purple) || '#6831FF',
 						gray: '#B2B2B2',
-						black: '#181818'
+						black: (text && text.color) || '#181818'
 					} [this.type]
 				}
 				// #endif

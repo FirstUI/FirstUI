@@ -10,6 +10,14 @@
 </template>
 
 <script>
+	function hexToRGB(hex) {
+		if (hex.length === 4) {
+			let text = hex.substring(1, 4);
+			hex = '#' + text + text;
+		}
+		let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		return result ? `${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)}` : '241,244,250';
+	}
 	export default {
 		name: "fui-tag",
 		emits: ['click'],
@@ -103,22 +111,16 @@
 			// #ifdef APP-NVUE
 			isNvue = true
 			// #endif
+			const app = uni && uni.$fui && uni.$fui.color;
 			return {
 				isNvue: isNvue,
 				// #ifdef APP-NVUE
 				dark: {
-					'primary': '#465CFF',
-					'success': '#09BE4F',
-					'warning': '#FFB703',
-					'danger': '#FF2B2B',
-					'purple': '#6831FF'
-				},
-				light: {
-					'primary': '#F1F4FA',
-					'success': 'rgba(9, 190, 79, .05)',
-					'warning': 'rgba(255, 183, 3, .1)',
-					'danger': 'rgba(255, 43, 43, .05)',
-					'purple': 'rgba(104, 49, 255, .05)'
+					primary: (app && app.primary) || '#465CFF',
+					success: (app && app.success) || '#09BE4F',
+					warning: (app && app.warning) || '#FFB703',
+					danger: (app && app.danger) || '#FF2B2B',
+					purple: (app && app.purple) || '#6831FF',
 				}
 				// #endif
 			}
@@ -130,7 +132,7 @@
 				if (!background) {
 					switch (this.theme) {
 						case 'light':
-							background = this.light[this.type]
+							background = `rgba(${hexToRGB(this.dark[this.type])},.05)`
 							break;
 						case 'dark':
 							background = this.dark[this.type]
@@ -161,7 +163,7 @@
 				// #ifdef APP-NVUE
 				if (!borderColor) {
 					if (this.theme === 'light') {
-						borderColor = this.light[this.type]
+						borderColor = `rgba(${hexToRGB(this.dark[this.type])},.05)`
 					} else {
 						borderColor = this.dark[this.type]
 					}

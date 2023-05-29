@@ -12,8 +12,8 @@
 					<view class="fui-tabs__line-wrap" :class="{'fui-tabs__line-center':center}"
 						:style="{bottom:bottom +'rpx',left:`-${padding}rpx`,right:`-${padding}rpx`}" v-if="isSlider">
 						<view class="fui-tabs__ac-line"
-							:class="{'fui-tabs__line-short':short,'fui-tabs__full':!short,'fui-tabs__slider-color':!sliderBackground}"
-							:style="{height:sliderHeight+'rpx',background:sliderBackground,borderRadius:sliderRadius==-1?sliderHeight+'rpx':sliderRadius+'rpx',transform: `scale(${tabIndex===index?(isNvue?1:scale):(isNvue?0.00001:0)})`}">
+							:class="{'fui-tabs__line-short':short,'fui-tabs__full':!short,'fui-tabs__slider-color':!getSliderBgColor}"
+							:style="{height:sliderHeight+'rpx',background:getSliderBgColor,borderRadius:sliderRadius==-1?sliderHeight+'rpx':sliderRadius+'rpx',transform: `scale(${tabIndex===index?(isNvue?1:scale):(isNvue?0.00001:0)})`}">
 						</view>
 					</view>
 					<image class="fui-tabs__icon" :class="{'fui-tabs__icon-column':direction==='column'}"
@@ -22,11 +22,11 @@
 					<!-- #ifdef APP-NVUE -->
 					<view class="fui-tabs__text">
 						<text class="fui-tabs__text-nvue"
-							:class="{'fui-tabs__selected-color':!selectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
-							:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?selectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,height:height+'rpx',lineHeight:height+'rpx'}">{{tab.name}}</text>
+							:class="{'fui-tabs__selected-color':!getSelectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
+							:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?getSelectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,height:height+'rpx',lineHeight:height+'rpx'}">{{tab.name}}</text>
 						<text
-							:class="{'fui-tabs__badge-color':!badgeBackground,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
-							:style="{color:badgeColor,background:badgeBackground}"
+							:class="{'fui-tabs__badge-color':!getBadgeBgColor,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
+							:style="{color:badgeColor,background:getBadgeBgColor}"
 							v-if="tab.badge">{{isDot?'':tab.badge}}</text>
 					</view>
 
@@ -34,11 +34,11 @@
 					<!-- #ifndef APP-NVUE -->
 					<!--vue3中text嵌套text使用v-if会显示v-if文本-->
 					<view class="fui-tabs__text"
-						:class="{'fui-tabs__selected-color':!selectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
-						:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?selectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,transform:`scale(${tabIndex===index && !isNvue?scale:1})`}">
+						:class="{'fui-tabs__selected-color':!getSelectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
+						:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?getSelectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,transform:`scale(${tabIndex===index && !isNvue?scale:1})`}">
 						{{tab.name}}<text
-							:class="{'fui-tabs__badge-color':!badgeBackground,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
-							:style="{color:badgeColor,background:badgeBackground}"
+							:class="{'fui-tabs__badge-color':!getBadgeBgColor,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
+							:style="{color:badgeColor,background:getBadgeBgColor}"
 							v-if="tab.badge">{{isDot?'':tab.badge}}</text>
 					</view>
 					<!-- #endif -->
@@ -113,18 +113,10 @@
 				default: 32
 			},
 			//选中后字体颜色
-			// #ifdef APP-NVUE
-			selectedColor: {
-				type: String,
-				default: '#465CFF'
-			},
-			// #endif
-			// #ifndef APP-NVUE
 			selectedColor: {
 				type: String,
 				default: ''
 			},
-			// #endif
 			//选中后字重 
 			selectedFontWeight: {
 				type: [Number, String],
@@ -140,18 +132,10 @@
 				type: String,
 				default: '#fff'
 			},
-			// #ifdef APP-NVUE
-			badgeBackground: {
-				type: String,
-				default: '#FF2B2B'
-			},
-			// #endif
-			// #ifndef APP-NVUE
 			badgeBackground: {
 				type: String,
 				default: ''
 			},
-			// #endif
 			isDot: {
 				type: Boolean,
 				default: false
@@ -166,18 +150,10 @@
 				default: 5
 			},
 			//滑块背景颜
-			// #ifdef APP-NVUE
-			sliderBackground: {
-				type: String,
-				default: '#465CFF'
-			},
-			// #endif
-			// #ifndef APP-NVUE
 			sliderBackground: {
 				type: String,
 				default: ''
 			},
-			// #endif
 			//滑块 radius
 			sliderRadius: {
 				type: [Number, String],
@@ -251,6 +227,38 @@
 		},
 		created() {
 			this.initData(this.tabs)
+		},
+		computed:{
+			getSelectedColor(){
+				let color = this.selectedColor
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color
+			},
+			getSliderBgColor(){
+				let color = this.sliderBackground
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color
+			},
+			getBadgeBgColor(){
+				let color = this.badgeBackground
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.danger) || '#FF2B2B';
+				}
+				// #endif
+				return color
+			}
 		},
 		data() {
 			let isNvue = false;

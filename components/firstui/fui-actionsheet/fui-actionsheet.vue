@@ -214,7 +214,8 @@
 				let models = ['iphonex', 'iphonexr', 'iphonexsmax', 'iphone11', 'iphone11pro', 'iphone11promax',
 					'iphone12', 'iphone12mini', 'iphone12pro', 'iphone12promax', 'iphone13', 'iphone13mini',
 					'iphone13pro', 'iphone13promax', 'iphone14', 'iphone14mini',
-					'iphone14pro', 'iphone14promax'
+					'iphone14pro', 'iphone14promax', 'iphone15', 'iphone15mini',
+					'iphone15pro', 'iphone15promax'
 				]
 				const model = res.model.replace(/\s/g, "").toLowerCase()
 				const newModel = model.split('<')[0]
@@ -305,11 +306,12 @@
 	.fui-actionsheet__btn {
 		/* #ifndef APP-NVUE */
 		width: 100%;
+		box-sizing: content-box;
 		/* #endif */
-		flex: 1;
 		height: 100rpx;
 		/* #ifdef APP-NVUE */
 		line-height: 100rpx;
+		flex: 1;
 		/* #endif */
 		/* #ifndef APP-NVUE */
 		display: flex;

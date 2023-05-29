@@ -2,7 +2,7 @@
 	<view class="fui-loadmore__wrap" :class="['fui-loadmore__'+direction]" :style="{height:height+'rpx'}">
 		<view class="fui-loadmore__icon" ref="fui_loadmore"
 			:class="{'fui-loadmore__border-left':!isNvue && !activeColor}"
-			:style="{width:iconWidth+'rpx',height:iconWidth+'rpx','border-left-color':activeColor,'border-right-color':iconColor,'border-top-color':iconColor,'border-bottom-color':iconColor}"
+			:style="{width:iconWidth+'rpx',height:iconWidth+'rpx','border-left-color':getActiveColor,'border-right-color':iconColor,'border-top-color':iconColor,'border-bottom-color':iconColor}"
 			v-if="!src && state==2">
 		</view>
 		<image class="fui-loadmore__icon-ani" ref="fui_loadmore" :src="src"
@@ -60,12 +60,7 @@
 			//loading图标高亮部分颜色
 			activeColor: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: "#465CFF"
-				// #endif
-				// #ifndef APP-NVUE
 				default: ""
-				// #endif
 			},
 			//loading 图标的宽度，单位rpx
 			iconWidth: {
@@ -102,6 +97,18 @@
 					}
 					// #endif
 				})
+			}
+		},
+		computed: {
+			getActiveColor() {
+				let color = this.activeColor;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color;
 			}
 		},
 		data() {

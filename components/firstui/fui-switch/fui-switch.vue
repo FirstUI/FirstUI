@@ -2,23 +2,24 @@
 	<view class="fui-switch__input" :style="{zoom:isNvue?1:scaleRatio,transform:`scale(${isNvue?scaleRatio:1})`}">
 		<!-- #ifdef APP-NVUE -->
 		<switch v-if="type==='switch'" @change="change" :name="name" :checked="val" :disabled="disabled"
-			:color="color || '#465CFF'">
+			:color="getColor">
 		</switch>
 		<!-- #endif -->
 		<!-- #ifndef APP-NVUE -->
 		<view class="fui-switch__input-def" :style="{background:val?color:'#dfdfdf',borderColor:val?color:borderColor}"
 			:class="{'fui-switch__input--checked':val,'fui-checkbox__disabled':disabled,'fui-switch__color':val && !color}"
 			v-if="type==='switch'">
-			<switch class="fui-switch__hidden" @change="change" :name="name" :checked="val" :disabled="disabled"
-				:color="color">
+			<switch class="fui-switch__hidden" :class="{'fui-pointer__events':isLabel}" @change="change" :name="name"
+				:checked="val" :disabled="disabled" :color="color">
 			</switch>
 		</view>
 		<!-- #endif -->
-		<view class="fui-checkbox__self" :class="{'fui-checkbox__disabled':disabled,'fui-switch__color':!color && val}"
-			:style="{background:val?color:'#fff',border:val?`1px solid ${color}`:`1px solid ${borderColor}`}" v-else>
+		<view class="fui-checkbox__self" :class="{'fui-checkbox__disabled':disabled,'fui-switch__color':!getColor && val}"
+			:style="{background:val?getColor:'#fff',border:val?`1px solid ${getColor}`:`1px solid ${borderColor}`}" v-else>
 			<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 				v-if="val"></view>
-			<switch class="fui-switch__hidden" style="opacity: 0;position: absolute;" @change="change" :name="name" :type="isNvue?'switch':'checkbox'"
+			<switch class="fui-switch__hidden" :class="{'fui-pointer__events':isLabel}"
+				style="opacity: 0;position: absolute;" @change="change" :name="name" :type="isNvue?'switch':'checkbox'"
 				:checked="val" :disabled="disabled"></switch>
 		</view>
 	</view>
@@ -28,13 +29,11 @@
 	export default {
 		name: "fui-switch",
 		emits: ['change'],
-		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		behaviors: ['wx://form-field-group'],
 		// #endif
-		// #ifdef MP-BAIDU || MP-QQ
+		// #ifdef MP-BAIDU || MP-QQ || H5
 		behaviors: ['uni://form-field'],
-		// #endif
 		// #endif
 		props: {
 			//开关选择器名称
@@ -58,12 +57,7 @@
 			//switch选中颜色
 			color: {
 				type: String,
-				// #ifdef APP-NVUE
-				default: '#465CFF'
-				// #endif
-				// #ifndef APP-NVUE
 				default: ''
-				// #endif
 			},
 			//边框颜色，type=checkbox时生效
 			borderColor: {
@@ -80,6 +74,18 @@
 				default: 1
 			}
 		},
+		computed: {
+			getColor() {
+				let color = this.color;
+				// #ifdef APP-NVUE
+				if (!color || color === true) {
+					const app = uni && uni.$fui && uni.$fui.color;
+					color = (app && app.primary) || '#465CFF';
+				}
+				// #endif
+				return color;
+			}
+		},
 		data() {
 			let isNvue = false;
 			// #ifdef APP-NVUE
@@ -87,7 +93,8 @@
 			// #endif
 			return {
 				val: false,
-				isNvue: isNvue
+				isNvue: isNvue,
+				isLabel: false
 			};
 		},
 		watch: {
@@ -99,6 +106,7 @@
 			this.val = this.checked;
 			this.label = this.getParent();
 			if (this.label) {
+				this.isLabel = true
 				this.label.childrens.push(this)
 			}
 		},
@@ -272,6 +280,13 @@
 		border-width: 0;
 		/* #endif */
 	}
+
+	/* #ifdef H5 */
+	.fui-pointer__events {
+		pointer-events: none;
+	}
+
+	/* #endif */
 
 	.fui-checkbox__disabled {
 		opacity: 0.6;

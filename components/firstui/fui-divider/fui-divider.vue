@@ -1,6 +1,6 @@
 <template>
 	<view class="fui-divider__wrap" :style="{ height: height + 'rpx' }">
-		<view class="fui-divider__line" :style="{ width: width, background: dividerColor,top:Number(height)/2+'rpx'}">
+		<view class="fui-divider__line" :style="{ width: width, background: dividerColor,top:getTop}">
 		</view>
 		<view class="fui-divider__text-box" :style="{backgroundColor: backgroundColor}">
 			<slot></slot>
@@ -53,6 +53,11 @@
 				type: String,
 				default: '#F1F4FA'
 			}
+		},
+		computed: {
+			getTop() {
+				return Number(this.height) / 2 + 'rpx'
+			}
 		}
 	};
 </script>
@@ -82,8 +87,8 @@
 		height: 1px;
 		top: 50%;
 		left: 50%;
-		-webkit-transform: scaleY(0.5) translate3d(-50%,-50%,0);
-		transform: scaleY(0.5) translate3d(-50%,-50%,0);
+		-webkit-transform: scaleY(0.5) translate3d(-50%, -50%, 0);
+		transform: scaleY(0.5) translate3d(-50%, -50%, 0);
 		/* #endif */
 	}
 

@@ -70,6 +70,7 @@
 	import mpwxs from './mpwxs.js'
 	import mpjs from './mpjs.js'
 	import bindingx from './bindingx.js'
+	const dangerColor = (uni && uni.$fui && uni.$fui.color && uni.$fui.color.danger) || '#FF2B2B'
 	export default {
 		name: "fui-swipe-action",
 		mixins: [mpwxs, mpjs, bindingx],
@@ -80,7 +81,7 @@
 				default () {
 					return [{
 						text: '删除',
-						background: '#FF2B2B'
+						background: dangerColor
 					}]
 				}
 			},

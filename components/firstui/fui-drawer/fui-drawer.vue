@@ -59,7 +59,8 @@
 			// #endif
 			return {
 				isNvue: isNvue,
-				isShow: false
+				isShow: false,
+				width: 0
 			}
 		},
 		// #ifdef APP-NVUE
@@ -76,7 +77,37 @@
 			}
 		},
 		// #endif
+		mounted() {
+			setTimeout(() => {
+				this._getSize((width) => {
+					this.width = width
+				})
+			}, 100)
+		},
 		methods: {
+			_getSize(callback) {
+				// #ifndef APP-NVUE
+				uni.createSelectorQuery()
+					// #ifndef MP-ALIPAY
+					.in(this)
+					// #endif
+					.select('.fui-drawer__popup')
+					.boundingClientRect()
+					.exec(ret => {
+						if (ret) {
+							callback && callback(ret[0].width || 0)
+						}
+					})
+				// #endif
+				// #ifdef APP-NVUE
+				dom.getComponentRect(this.$refs['fui_dwr_ani'], (ret) => {
+					const size = ret.size
+					if (size) {
+						callback && callback(size.width)
+					}
+				})
+				// #endif
+			},
 			handleClose(e) {
 				if (!this.maskClosable) return;
 				this.$emit('close', {});

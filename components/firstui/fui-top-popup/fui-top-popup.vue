@@ -147,9 +147,9 @@
 		/* #ifndef APP-NVUE */
 		transition: all ease-in-out .2s;
 		visibility: hidden;
+		overflow: hidden;
 		/* #endif */
 		opacity: 0;
-		overflow: hidden;
 	}
 
 	/* #ifndef APP-NVUE */
@@ -165,6 +165,7 @@
 		transform: translate3d(0, -100%, 0);
 		transition: all 0.3s ease-in-out;
 		min-height: 20rpx;
+		overflow: hidden;
 		/* #endif */
 		flex: 1;
 		/* #ifdef APP-NVUE */
@@ -173,7 +174,6 @@
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
 		/* #endif */
-		overflow: hidden;
 	}
 
 	/* #ifndef APP-NVUE */

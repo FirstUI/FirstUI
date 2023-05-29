@@ -1,12 +1,12 @@
 <template>
-	<!-- #ifdef APP-PLUS || H5 || MP-ALIPAY || MP-TOUTIAO -->
+	<!-- #ifdef APP-PLUS || H5 || MP-ALIPAY || MP-TOUTIAO|| MP-KUAISHOU || MP-JD || MP-360 || MP-LARK -->
 	<checkbox-group :name="name">
 		<slot></slot>
 	</checkbox-group>
 	<!-- #endif -->
 
-	<!-- #ifdef MP-WEIXIN || MP-BAIDU || MP-QQ || MP-KUAISHOU || MP-JD || MP-360 || MP-LARK -->
-	<fui-form-field :name="name" :value="vals">
+	<!-- #ifdef MP-WEIXIN || MP-BAIDU || MP-QQ -->
+	<fui-form-field :name="name" v-model="vals">
 		<slot></slot>
 	</fui-form-field>
 	<!-- #endif -->
@@ -16,10 +16,11 @@
 	export default {
 		name: "fui-checkbox-group",
 		emits: ['change', 'input', 'update:modelValue'],
-		// #ifndef VUE3
 		// #ifdef MP-WEIXIN
 		behaviors: ['wx://form-field-group'],
 		// #endif
+		// #ifdef MP-BAIDU || MP-QQ || H5
+		behaviors: ['uni://form-field'],
 		// #endif
 		props: {
 			name: {
