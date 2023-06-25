@@ -1,6 +1,6 @@
 <template>
 	<view class="fui-collapse__item">
-		<view @click="onClick(!isOpen)" class="fui-collapse-item__title" :class="{'fui-collapse__disabled':disabled}"
+		<view @tap.stop="onClick(!isOpen)" class="fui-collapse-item__title" :class="{'fui-collapse__disabled':disabled}"
 			:style="{background:background}">
 			<view class="fui-collapse__title">
 				<slot></slot>

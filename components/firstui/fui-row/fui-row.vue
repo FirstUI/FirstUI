@@ -8,7 +8,7 @@
 <script>
 	export default {
 		name: "fui-row",
-		componentName:'fuiRow',
+		componentName: 'fuiRow',
 		props: {
 			//是否为flex布局
 			isFlex: {
@@ -105,17 +105,23 @@
 		display: block;
 		/* #endif */
 	}
-    /* #ifndef APP-NVUE */
-	.fui-row__box::before,
+
+	/* #ifndef APP-NVUE */
+	.fui-row__box::before {
+		display: table;
+		content: " ";
+	}
+
 	.fui-row__box::after {
 		display: table;
 		content: " ";
-		
 	}
+
 	.fui-row__box::after {
 		clear: both;
 	}
-    /* #endif */
+
+	/* #endif */
 	.fui-row__flex {
 		/* #ifndef APP-NVUE*/
 		display: flex !important;
@@ -135,6 +141,7 @@
 	.fui-row__before {
 		display: table
 	}
+
 	/* #endif */
 
 	.fui-row__end {

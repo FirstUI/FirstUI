@@ -12,6 +12,7 @@
 
 <script>
 	// #ifdef APP-NVUE
+	const dom = weex.requireModule('dom');
 	const animation = uni.requireNativePlugin('animation');
 	// #endif
 	/*顶部状态栏部分可使用fui-status-bar组件占位*/

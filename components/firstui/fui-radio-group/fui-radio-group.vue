@@ -67,6 +67,7 @@
 				// #endif
 			},
 			changeValue(value, target) {
+				if (value === this.val) return;
 				this.val = value;
 				this.childrens.forEach(item => {
 					if (item !== target) {

@@ -19,7 +19,7 @@
 			"mp-baidu": {
 				"disableScroll": true
 			}
-		} 
+		}
 
 	}, {
 		"path": "pages/tabbar/layout/layout",
@@ -620,6 +620,16 @@
 					"allowsBounceVertical": "YES"
 				}
 			}
+		}, {
+			"path": "layout/section/section",
+			"style": {
+				// #ifdef H5
+				"titleNView": false,
+				// #endif
+				"navigationBarTitleText": "标题栏",
+				"enablePullDownRefresh": false
+			}
+
 		}]
 	}],
 	"easycom": {

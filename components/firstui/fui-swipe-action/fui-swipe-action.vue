@@ -1,6 +1,6 @@
 <template>
 	<!-- #ifdef APP-VUE || MP-WEIXIN || H5 -->
-	<view class="fui-swipe__action-wrap">
+	<view class="fui-swipe__action-wrap" :style="{marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}">
 		<view class="fui-swipe__action-inner" :show="isShow" :change:show="handler.showChange" :threshold="thresholdVal"
 			:change:threshold="handler.thresholdChange" :disabled="isDisabled" :change:disabled="handler.disabledChange"
 			@touchstart="handler.touchstart" @touchmove="handler.touchmove" @touchend="handler.touchend"
@@ -24,7 +24,8 @@
 	<!-- #endif -->
 
 	<!-- #ifdef APP-NVUE -->
-	<view class="fui-swipe__action-wrap" ref="fui_swipea_wrap" @horizontalpan="touchstart" @touchend="touchend">
+	<view class="fui-swipe__action-wrap" :style="{marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}"
+		ref="fui_swipea_wrap" @horizontalpan="touchstart" @touchend="touchend">
 		<view class="fui-swipe__action-right" ref="fui_swipea_buttons">
 			<slot name="buttons">
 				<view class="fui-swipe__action-btn" :style="{background:item.background}"
@@ -41,7 +42,7 @@
 	<!-- #endif -->
 
 	<!-- #ifndef APP-PLUS|| MP-WEIXIN  ||  H5 -->
-	<view class="fui-swipe__action-wrap">
+	<view class="fui-swipe__action-wrap" :style="{marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}">
 		<view class="fui-swipe__action-inner" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend"
 			:style="{transform:moveLeft}" :class="{'fui-swipe__action-ani':ani}">
 			<view class="fui-swipe__action-left">
@@ -108,6 +109,16 @@
 			autoClose: {
 				type: Boolean,
 				default: true
+			},
+			//1.9.9+
+			marginTop: {
+				type: [Number, String],
+				default: 0
+			},
+			//1.9.9+
+			marginBottom: {
+				type: [Number, String],
+				default: 0
 			},
 			param: {
 				type: [Number, String],

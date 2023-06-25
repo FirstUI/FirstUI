@@ -4,10 +4,10 @@
 		:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,background:backgroundColor,borderRadius:radius+'rpx',borderColor:borderColor,marginTop:marginTop+'rpx'}"
 		@tap="fieldClick">
 		<view v-if="borderTop && !textareaBorder"
-			:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}" class="fui-textarea__border-top">
+			:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}" class="fui-textarea__border-top" :class="{'fui-textarea__background':!borderColor}">
 		</view>
 		<!-- #ifndef APP-NVUE -->
-		<view class="fui-textarea__border" :style="{borderRadius:getRadius,borderColor:borderColor}"
+		<view class="fui-textarea__border" :class="{'fui-textarea__bordercolor':!borderColor}" :style="{borderRadius:getRadius,borderColor:borderColor}"
 			v-if="textareaBorder"></view>
 		<!-- #endif -->
 		<!-- #ifdef APP-NVUE -->
@@ -44,7 +44,7 @@
 		<slot></slot>
 		<view v-if="borderBottom  && !textareaBorder"
 			:style="{background:borderColor,left:bottomLeft+'rpx',right:bottomRight+'rpx'}"
-			class="fui-textarea__border-bottom"></view>
+			class="fui-textarea__border-bottom" :class="{'fui-textarea__background':!borderColor}"></view>
 	</view>
 </template>
 
@@ -236,10 +236,18 @@
 				default: 0
 			},
 			//边框颜色
+			// #ifdef APP-NVUE
 			borderColor: {
 				type: String,
-				default: '#eaeef1'
+				default: '#EEEEEE'
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			borderColor: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			radius: {
 				type: [String, Number],
 				default: 0
@@ -356,7 +364,7 @@
 					this.placeholderStyl = this.placeholderStyle
 				} else {
 					const size = uni.upx2px(this.size)
-					this.placeholderStyl = `font-size:${size}px`
+					this.placeholderStyl = `fontSize:${size}px;`
 				}
 			},
 			getCount(len) {
@@ -562,6 +570,13 @@
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
 		user-select: none;
+	}
+	.fui-textarea__bordercolor{
+	  border-color:var(--fui-color-border, #EEEEEE) !important;
+	}
+	
+	.fui-textarea__background{
+	  background: var(--fui-color-border, #EEEEEE) !important;
 	}
 
 	/* #endif */

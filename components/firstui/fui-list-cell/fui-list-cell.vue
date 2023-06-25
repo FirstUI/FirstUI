@@ -89,7 +89,7 @@
 			//下边框left值，单位rpx
 			bottomLeft: {
 				type: [Number, String],
-				default: 0
+				default: -1
 			},
 			//下边框right值，单位rpx
 			bottomRight: {
@@ -134,7 +134,12 @@
 			},
 			getBottomLeft() {
 				const app = uni && uni.$fui && uni.$fui.fuiListCell;
-				return this.bottomLeft || (app && app.bottomLeft) || 32
+				let left = this.bottomLeft;
+				const c_left = app && app.bottomLeft
+				if (left === -1) {
+					left = (c_left === undefined || c_left === null) ? 32 : c_left
+				}
+				return left
 			}
 		},
 		methods: {

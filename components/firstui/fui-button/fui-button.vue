@@ -27,8 +27,7 @@
 			@launchapp="bindlaunchapp" :disabled="disabled" :scope="scope" @tap.stop="handleTap">
 			<text class="fui-button__text"
 				:class="{'fui-btn__gray-color':!background && !disabledBackground && !plain && type==='gray' && color==='#fff','fui-text__bold':bold}"
-				v-if="text"
-				:style="{fontSize: getSize,lineHeight:getSize,color:color? (disabled && disabledBackground ? disabledColor : color):(type==='gray'?'#465CFF':'#FFFFFF')}">{{text}}</text>
+				v-if="text" :style="{fontSize: getSize,lineHeight:getSize,color:getColor}">{{text}}</text>
 			<slot></slot>
 		</button>
 		<!-- #ifndef APP-NVUE -->
@@ -97,7 +96,7 @@
 				type: String,
 				default: ''
 			},
-			//按钮大小，优先级高于width和height，medium、small、mini
+			//V1.9.8+ 按钮大小，优先级高于width和height，medium、small、mini
 			btnSize: {
 				type: String,
 				default: ''

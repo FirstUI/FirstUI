@@ -55,6 +55,11 @@ export default [{
 		name: 'Card 卡片',
 		vip: false,
 		page: 'card'
+	}, {
+		icon: 'label',
+		name: 'Section 标题栏',
+		vip: false,
+		page: 'section'
 	}]
 }, {
 	id: 'form',

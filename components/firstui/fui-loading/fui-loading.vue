@@ -1,5 +1,6 @@
 <template>
-	<view :class="{'fui-loading__mask':(isMask || isNvue) && isFixed}">
+	<view :class="{'fui-loading__mask':(isMask || isNvue) && isFixed}"
+		:style="{backgroundColor:isFixed?maskBgColor:'transparent'}">
 		<view class="fui-loading fui-loading__wrap" :class="{'fui-loading__fixed':isFixed && !isNvue}"
 			:style="{ backgroundColor: backgroundColor,position:isFixed && !isNvue?'fixed':'static' }"
 			v-if="type === 'col'">
@@ -68,10 +69,15 @@
 				type: Boolean,
 				default: true
 			},
-			//是否需要透明遮罩，非nvue有效，nvue默认带遮罩，isFixed为true时生效
+			//是否需要遮罩，非nvue有效，nvue默认带遮罩，isFixed为true时生效
 			isMask: {
 				type: Boolean,
 				default: false
+			},
+			//v1.9.9+
+			maskBgColor: {
+				type: String,
+				default: 'transparent'
 			}
 		},
 		data() {
@@ -200,7 +206,7 @@
 		0% {
 			transform: rotate(0deg);
 		}
-		
+
 		100% {
 			transform: rotate(360deg);
 		}
@@ -210,7 +216,7 @@
 		0% {
 			transform: rotate(0deg);
 		}
-		
+
 		100% {
 			transform: rotate(360deg);
 		}
@@ -223,7 +229,6 @@
 		top: 0;
 		right: 0;
 		bottom: 0;
-		background-color: rgba(0, 0, 0, 0);
 		z-index: 1002;
 
 		/* #ifdef APP-NVUE */

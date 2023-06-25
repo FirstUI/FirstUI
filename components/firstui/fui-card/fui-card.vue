@@ -5,7 +5,7 @@
 		:style="{marginTop:margin[0] || 0,marginRight:margin[1] || 0,marginBottom:margin[2] || margin[0] || 0,marginLeft:margin[3] || margin[1] || 0,background:background,borderRadius:radius,'box-shadow':shadow,borderColor:isNvue?borderColor:'transparent'}"
 		:elevation="showBorder?'0px':elevation" @tap="handleClick">
 		<view class="fui-card__header" v-if="tag || title || src" :class="{'fui-card__header-line':headerLine}"
-			:style="{'border-top-left-radius':full?0:radius,'border-top-right-radius':full?0:radius,'border-bottom-color':isNvue?lineColor:'transparent',paddingTop:padding[0] || 0,paddingRight:padding[1]||0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0}">
+			:style="{'border-top-left-radius':full?0:radius,'border-top-right-radius':full?0:radius,'border-bottom-color':isNvue && headerLine?lineColor:'transparent',paddingTop:padding[0] || 0,paddingRight:padding[1]||0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0}">
 			<view class="fui-card__header-left">
 				<image :src="src" class="fui-card__header-thumb" mode="widthFix" v-if="src"
 					:style="{height:height+'rpx',width:width+'rpx',borderRadius:imageRadius}"></image>
@@ -15,14 +15,11 @@
 			<view class="fui-card__header-right" v-if="tag">
 				<text :style="{fontSize:tagSize+'rpx',color:tagColor}">{{tag}}</text>
 			</view>
-			<view class="fui-card__header-right" v-if="$slots.tag">
-				<slot name="tag"></slot>
-			</view>
 		</view>
-		<view class="fui-card__body">
+		<view class="fui-card__body" :class="{'fui-card__header-line':footerLine}">
 			<slot></slot>
 		</view>
-		<view class="fui-card__footer" :class="{'fui-card__footer-line':footerLine}"
+		<view class="fui-card__footer"
 			:style="{'border-bottom-left-radius':full?0:radius,'border-bottom-right-radius':full?0:radius}">
 			<slot name="footer"></slot>
 		</view>
@@ -85,15 +82,15 @@
 				type: Boolean,
 				default: true
 			},
-			//是否需要footer头部线条
+			//是否需要内容与footer之间线条
 			footerLine: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 			//header 底部线条颜色，仅nvue有效，非nvue改变颜色使用css变量
 			lineColor: {
 				type: String,
-				default: ''
+				default: '#EEEEEE'
 			},
 			//header padding值：[上、右、下、左]
 			padding: {
@@ -172,8 +169,8 @@
 
 <style scoped>
 	.fui-card__wrap {
-		overflow: hidden;
 		/* #ifndef APP-NVUE */
+		overflow: hidden;
 		flex: 1;
 		box-sizing: border-box;
 		/* #endif */
@@ -230,19 +227,22 @@
 		width: 100%;
 		display: flex;
 		box-sizing: border-box;
+		overflow: hidden;
 		/* #endif */
-		/* #ifdef APP-NVUE */
 		flex: 1;
 		flex-direction: row;
-		/* #endif */
 		align-items: center;
 		justify-content: space-between;
 		position: relative;
-		overflow: hidden;
 	}
 
 	.fui-card__header-left {
+		/* #ifndef APP-NVUE */
+		display: flex;
 		white-space: nowrap;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
 	}
 
 	.fui-card__header-line {
@@ -269,43 +269,25 @@
 	}
 
 	/* #endif */
-	
-	.fui-card__footer-line {
-		position: relative;
-		/* #ifdef APP-NVUE */
-		border-top-width: 0.5px;
-		border-top-style: solid;
-		border-top-color: #EEEEEE;
-		/* #endif */
-	}
-	
-	/* #ifndef APP-NVUE */
-	.fui-card__footer-line::after {
-		content: '';
-		position: absolute;
-		border-top: 1px solid var(--fui-color-border, #EEEEEE);
-		-webkit-transform: scaleY(0.5);
-		transform: scaleY(0.5);
-		transform-origin: 0 100%;
-		top: 0;
-		right: 0;
-		left: 0;
-		pointer-events: none;
-	}
-	
-	/* #endif */
 
 	.fui-card__header-thumb {
+		/* #ifndef APP-NVUE */
 		vertical-align: middle;
+		/* #endif */
 		margin-right: 20rpx;
+		/* #ifndef APP-NVUE */
+		flex-shrink: 0;
+		/* #endif */
 	}
 
 	.fui-card__header-title {
+		/* #ifndef APP-NVUE */
 		display: inline-block;
 		vertical-align: middle;
 		max-width: 380rpx;
-		overflow: hidden;
+		/* #endif */
 		/* #ifndef APP-NVUE */
+		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		/* #endif */
@@ -317,7 +299,9 @@
 
 	.fui-card__header-right {
 		text-align: right;
+		/* #ifndef APP-NVUE */
 		flex-shrink: 0;
+		/* #endif */
 	}
 
 	.fui-card__body {

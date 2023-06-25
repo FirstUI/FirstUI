@@ -1,18 +1,17 @@
 <template>
-	<!-- <view :class="{'fui-input__border':inputBorder,'fui-radius__fillet':isFillet}" :style="getStyles" @tap="fieldClick"> -->
 	<view class="fui-input__wrap" :class="{'fui-input__border-nvue':inputBorder}"
 		:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,background:backgroundColor,marginTop:marginTop+'rpx',borderRadius:getRadius,borderColor:borderColor}"
 		@tap="fieldClick">
 		<view v-if="borderTop && !inputBorder" :style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}"
-			class="fui-input__border-top">
+			class="fui-input__border-top" :class="{'fui-input__background':!borderColor}">
 		</view>
 		<!-- #ifndef APP-NVUE -->
-		<view class="fui-input__border" :style="{borderRadius:getBorderRadius,borderColor:borderColor}"
-			v-if="inputBorder"></view>
+		<view class="fui-input__border" :class="{'fui-input__bordercolor':!borderColor}"
+			:style="{borderRadius:getBorderRadius,borderColor:borderColor}" v-if="inputBorder"></view>
 		<!-- #endif -->
 		<!-- #ifdef APP-NVUE -->
 		<view class="fui-input__required" v-if="required">
-			<text :style="{color:requiredColor || dangerColor}">*</text>
+			<text :style="{color:requiredColor || dangerColor}" class="fui-form__asterisk-text">*</text>
 		</view>
 		<!-- #endif -->
 		<!-- #ifndef APP-NVUE -->
@@ -22,28 +21,15 @@
 			<text :style="{fontSize:getLabelSize,color:labelColor}">{{label}}</text>
 		</view>
 		<slot name="left"></slot>
-		<!-- 小程序不支持v-bind="{'password':password}" -->
-		<!-- #ifdef APP-PLUS || H5 -->
-		<input v-bind="attribute" class="fui-input__self" :class="{'fui-input__text-right':textRight}"
+		<input @tap="fieldClickAndroid" class="fui-input__self" :class="{'fui-input__text-right':textRight}"
 			:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
-			:value="val" :placeholder="placeholder" :placeholder-style="placeholderStyl"
-			:disabled="disabled || readonly" :cursor-spacing="cursorSpacing" :maxlength="maxlength" :focus="focused"
-			:confirm-type="confirmType" :confirm-hold="confirmHold" :cursor="cursor" :selection-start="selectionStart"
-			:selection-end="selectionEnd" :adjust-position="adjustPosition" :hold-keyboard="holdKeyboard"
-			:auto-blur="autoBlur" :enableNative="false" :always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur"
-			@input="onInput" @confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
-		<!-- #endif -->
-
-		<!-- #ifndef APP-PLUS || H5 -->
-		<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
-			:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
-			:value="val" :placeholder="placeholder" :password="password" :placeholder-style="placeholderStyl"
-			:disabled="disabled || readonly" :cursor-spacing="cursorSpacing" :maxlength="maxlength" :focus="focused"
-			:confirm-type="confirmType" :confirm-hold="confirmHold" :cursor="cursor" :selection-start="selectionStart"
-			:selection-end="selectionEnd" :adjust-position="adjustPosition" :hold-keyboard="holdKeyboard"
-			:auto-blur="autoBlur" :enableNative="false" :always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur"
-			@input="onInput" @confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
-		<!-- #endif -->
+			:value="val" :placeholder="placeholder" :password="password || type === 'password' || undefined"
+			:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
+			:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
+			:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
+			:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur" :enableNative="false"
+			:always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm"
+			@keyboardheightchange="onKeyboardheightchange" />
 		<view class="fui-input__clear-wrap" :style="{background:clearColor}" v-if="clearable && val != ''"
 			@tap.stop="onClear">
 			<view class="fui-input__clear">
@@ -56,9 +42,8 @@
 		<slot></slot>
 		<view v-if="borderBottom  && !inputBorder"
 			:style="{background:borderColor,left:bottomLeft+'rpx',right:bottomRight+'rpx'}"
-			class="fui-input__border-bottom"></view>
+			class="fui-input__border-bottom" :class="{'fui-input__background':!borderColor}"></view>
 	</view>
-	<!-- </view> -->
 </template>
 
 <script>
@@ -268,10 +253,18 @@
 				type: [Number, String],
 				default: 0
 			},
+			// #ifdef APP-NVUE
 			borderColor: {
 				type: String,
 				default: '#EEEEEE'
 			},
+			// #endif
+			// #ifndef APP-NVUE
+			borderColor: {
+				type: String,
+				default: ''
+			},
+			// #endif
 			trim: {
 				type: Boolean,
 				default: true
@@ -299,8 +292,7 @@
 			return {
 				placeholderStyl: '',
 				focused: false,
-				val: '',
-				attribute: {}
+				val: ''
 			}
 		},
 		computed: {
@@ -347,18 +339,6 @@
 			// #endif
 			value(newVal) {
 				this.val = newVal
-			},
-			password: {
-				handler(val) {
-					if (val) {
-						this.attribute = {
-							password: true
-						}
-					} else {
-						this.attribute = {}
-					}
-				},
-				immediate: true
 			}
 		},
 		created() {
@@ -397,15 +377,16 @@
 				} else {
 					const _size = (uni.$fui && uni.$fui.fuiInput && uni.$fui.fuiInput.size) || 32
 					const size = uni.upx2px(this.size || _size)
-					this.placeholderStyl = `font-size:${size}px`
+					this.placeholderStyl = `fontSize:${size}px;`
 				}
 			},
 			onInput(event) {
 				let value = event.detail.value;
 				if (this.trim) value = this.trimStr(value);
 				this.val = value;
-				if (this.modelModifiers.number || this.number || this.type === 'digit' || this.type === 'number') {
-					const currentVal = Number(value)
+				const currentVal = Number(value)
+				if ((this.modelModifiers.number || this.number || this.type === 'digit' || this.type === 'number') && !
+					isNaN(currentVal) && Number.isSafeInteger(currentVal)) {
 					let eVal = this.type === 'digit' ? value : currentVal
 					if (typeof currentVal === 'number') {
 						const min = Number(this.min)
@@ -451,8 +432,38 @@
 			},
 			fieldClick() {
 				this.$emit('click', {
-					name: this.name
+					name: this.name,
+					target: 'wrap'
 				});
+			},
+			/**
+			 * 在安卓nvue上，事件无法冒泡 
+			 * 外层容器点击事件无法触发，需要单独处理
+			 */
+			fieldClickAndroid() {
+				// #ifdef APP-NVUE
+				//仅添加事件好像就可以实现冒泡？以下代码无需执行？
+				// const sys = uni.getSystemInfoSync()
+				// if (sys.platform.toLocaleLowerCase() == "android") {
+				// 	const formItem = this.getParent();
+				// 	//手动触发 formItem 点击事件
+				// 	formItem && formItem.handleClick();
+				// 	this.$emit('click', {
+				// 		name: this.name,
+				// 		target: 'input'
+				// 	});
+				// }
+				// #endif
+			},
+			getParent(name = 'fui-form-item') {
+				let parent = this.$parent;
+				let parentName = parent.$options.name;
+				while (parentName !== name) {
+					parent = parent.$parent;
+					if (!parent) return false;
+					parentName = parent.$options.name;
+				}
+				return parent;
 			},
 			onKeyboardheightchange(e) {
 				this.$emit('keyboardheightchange', e.detail)
@@ -523,14 +534,20 @@
 		/* #endif */
 
 		/* #ifdef APP-NVUE */
-		flex: 1;
+		top: 28rpx;
+		bottom: 28rpx;
 		align-items: center;
 		justify-content: center;
-		line-height: 1;
 		/* #endif */
 	}
 
+	/* #ifdef APP-NVUE */
+	.fui-form__asterisk-text {
+		font-size: 32rpx;
+		height: 32rpx;
+	}
 
+	/* #endif */
 	.fui-input__label {
 		padding-right: 12rpx;
 		/* #ifndef APP-NVUE */
@@ -640,6 +657,14 @@
 		top: 0;
 		border-radius: 16rpx;
 		pointer-events: none;
+	}
+
+	.fui-input__bordercolor {
+		border-color: var(--fui-color-border, #EEEEEE) !important;
+	}
+
+	.fui-input__background {
+		background: var(--fui-color-border, #EEEEEE) !important;
 	}
 
 	/* #endif */

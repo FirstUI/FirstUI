@@ -136,6 +136,84 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 ### 更新日志
 
+#### V1.9.9（2023-06-25）
+
+- 新增 [WEEX文档](https://weex.firstui.cn/)，方便.nvue开发App时查阅相关文档，更多文档可查看uniapp官方文档。
+
+- 新增 Section 标题栏 组件。
+
+- 新增 BannerArc 横幅底部圆弧 组件。
+
+- Select 选择器 组件优化，新增属性设置 options 数据中约定的text和src的key值。
+
+- Preview 表单预览 组件优化，新增属性设置内容文本对齐方式。
+
+- DatePicker 日期时间选择器 组件优化，最大值和最小值格式优化，支持传入年、年-月、年-月-日。
+
+- Tabbar 标签栏 组件优化，非nvue端新增属性设置是否返回异形屏底部安全区域固定高度。
+
+- Table 表格 组件优化，新增排序功能，详见示例程序以及文档说明。
+
+- Calendar 日历 组件优化，新增方法设置日历当前月份自定义描述内容。
+
+- Input 输入框 组件优化，修复安卓nvue端点击事件无法冒泡问题。
+
+- Footer 页脚 组件优化，修复小程序端样式警告问题。
+
+- Avatar 头像 组件优化，修复已知问题，图片缩放模式默认值调整。
+
+- SearchBar 搜索栏 组件优化，修复H5端可能需要点两次才能弹起键盘的问题。
+
+- SwipeAction 滑动菜单 组件优化，新增marginTop、marginBottom属性。
+
+- Loading 加载 组件优化，新增属性设置遮罩背景颜色。
+
+- ShareSheet 分享面板 组件优化，增加按钮 openType 属性支持， openType 属性详见官网button按钮文档介绍。
+
+- NavBar 导航栏 组件优化，新增属性设置当isFixed为true时是否默认占位，防止高度塌陷，详见文档使用。
+
+- Radio 单选框 组件优化，修复已知问题。
+
+- Preview 表单预览 组件优化，修复部分样式可能在vue3下不生效的问题。
+
+- Panel 面板 组件优化，修复部分样式可能在vue3下不生效的问题。
+
+- Layout 栅格布局 组件（fui-row）组件优化，修复部分样式可能在vue3下不生效的问题。
+
+- Table 表格 组件优化，修复已知问题。
+
+- Steps 步骤条 组件优化，修复已知问题。
+
+- Fab 浮动按钮 组件优化。
+
+- MovableView 可移动的视图容器 组件优化。
+
+- Input 输入框 组件优化，非Nvue端边框颜色默认可通过css变量修改。
+
+- Textarea 多行输入框 组件优化，非Nvue端边框颜色默认可通过css变量修改。
+
+- List 列表 组件优化。
+
+- Vtabs 纵向选项卡 组件优化。
+
+- Collapse 折叠面板 组件优化。
+
+- Lazyload 图片懒加载 组件优化，优化已知问题。
+
+- Waterfall 瀑布流 组件优化。
+
+- Drawer 抽屉 组件优化，修复Nvue端报错问题。
+
+- Picker 选择器 组件优化，修复已知问题。
+
+- DatePicker 日期时间选择器 组件优化，修复nvue端判断出错导致change事件未触发问题。
+
+- Input 输入框 组件优化，优化type=number时，增加安全整数的范围的判断。
+
+- Button 按钮 组件优化。
+
+- 优化部分已知问题。
+
 #### V1.9.8（2023-05-29）
 
 - 新增 MovableView 可移动的视图容器 组件。

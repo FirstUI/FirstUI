@@ -1,10 +1,10 @@
 <template>
-	<view class="fui-avatar__wrap" :class="[width?'':'fui-avatar__size-'+size,radius===-1?'fui-avatar__'+shape:'',block?'fui-avatar__block':'fui-avatar__inline']"
+	<view class="fui-avatar__wrap" :class="[width?'':'fui-avatar__size-'+size,radius===-1?'fui-avatar__'+shape:'']"
 		:style="wrapStyles" @tap="handleClick">
 		<image class="fui-avatar__img" :style="styles"
 			:class="[radius===-1?'fui-avatar__'+shape:'',width?'':'fui-avatar__size-'+size]" :src="showImg" :mode="mode"
-			v-if="src" :webp="webp" :lazy-load="lazyLoad" @error="handleError"></image>
-		<text class="fui-avatar__text" :class="[width?'':'fui-avatar__text-'+size]" v-if="!src && text"
+			v-if="src && src!==true" :webp="webp" :lazy-load="lazyLoad" @error="handleError"></image>
+		<text class="fui-avatar__text" :class="[width?'':'fui-avatar__text-'+size]" v-if="!src && src!==true && text"
 			:style="textStyles">{{text}}</text>
 		<slot></slot>
 	</view>
@@ -25,7 +25,7 @@
 			},
 			mode: {
 				type: String,
-				default: 'widthFix'
+				default: 'scaleToFill'
 			},
 			//微信小程序、百度小程序、字节跳动小程序
 			//图片懒加载。只针对page与scroll-view下的image有效
@@ -93,10 +93,6 @@
 				type: [Number, String],
 				default: 0
 			},
-			block: {
-				type: Boolean,
-				default: false
-			},
 			//在列表中的索引值
 			index: {
 				type: Number,
@@ -109,9 +105,6 @@
 			}
 		},
 		computed: {
-			wrapStyles() {
-				return `background:${this.background};margin-right:${this.marginRight}rpx;margin-bottom:${this.marginBottom}rpx;${this.styles}`
-			},
 			styles() {
 				let styles = '';
 				if (this.width) {
@@ -121,6 +114,9 @@
 					styles += `border-radius:${this.radius}rpx;`
 				}
 				return styles;
+			},
+			wrapStyles() {
+				return `background:${this.background};margin-right:${this.marginRight}rpx;margin-bottom:${this.marginBottom}rpx;${this.styles};`
 			},
 			textStyles() {
 				let styles = `color:${this.color};font-weight:${this.fontWeight};`;
@@ -167,30 +163,22 @@
 	.fui-avatar__wrap {
 		position: relative;
 		/* #ifndef APP-NVUE */
+		display: inline-flex;
 		overflow: hidden;
+		flex-shrink: 0;
+		z-index: 3;
 		/* #endif */
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
 	}
 
-	/* #ifndef APP-NVUE */
-	.fui-avatar__block {
-		display: flex;
-	}
-
-	.fui-avatar__inline {
-		display: inline-flex;
-		vertical-align: middle;
-	}
-
-	/* #endif */
-
 	.fui-avatar__img {
 		flex: 1;
 		/* #ifndef APP-NVUE */
 		display: block;
 		object-fit: cover;
+		flex-shrink: 0;
 		/* #endif */
 	}
 

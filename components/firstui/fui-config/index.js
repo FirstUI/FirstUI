@@ -98,6 +98,15 @@ const fuiConfig = {
 		borderColor: '',
 		bottomLeft: 32
 	},
+	// V1.9.9+
+	fuiSection: {
+		size: 32,
+		color: '#181818',
+		fontWeight: 600,
+		descrSize: 28,
+		descrColor: '#B2B2B2',
+		descrTop: 12
+	},
 	color,
 	...app
 }

@@ -1,10 +1,10 @@
 <template>
 	<view class="fui-footer" :class="[isFixed?'fui-footer__fixed-bottom':'']" :style='{background:background}'>
 		<view class="fui-footer__link" v-if="navigate.length>0">
-			<navigator v-for="(item,index) in navigate" :key="index" class="fui-link__item"
-				:class="{'fui-link__color':!item.color}" hover-class="fui-link-hover" hover-stop-propagation
-				:open-type="item.openType || 'navigate'" :url="item.url" :delta="item.delta"><text
-					class="fui-link__text" :class="{'fui-link__text-border':index===navigate.length-1}"
+			<navigator v-for="(item,index) in navigate" :key="index" class="fui-link__item" hover-class="fui-link-hover"
+				hover-stop-propagation :open-type="item.openType || 'navigate'" :url="item.url" :delta="item.delta">
+				<text class="fui-link__text"
+					:class="{'fui-link__color':!item.color,'fui-link__text-border':index===navigate.length-1}"
 					:style="{color:item.color || linkColor,fontSize:(item.size || 28)+'rpx',borderColor:borderColor,lineHeight:(item.size || 28)+'rpx'}">{{item.text}}</text>
 			</navigator>
 		</view>
@@ -143,7 +143,6 @@
 	}
 
 	/* #ifndef APP-NVUE */
-	.fui-link__color text,
 	.fui-link__color {
 		color: var(--fui-color-link, #465CFF) !important;
 	}
