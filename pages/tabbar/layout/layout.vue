@@ -6,6 +6,7 @@
 			</view>
 			<view class="fui-title">会员模块</view>
 			<view class="fui-sub__title">详情请扫码查看线上小程序！</view>
+			 <view class="fui-sub__title">（官网地址：firstui.cn）</view>
 		</view>
 	</view>
 </template>

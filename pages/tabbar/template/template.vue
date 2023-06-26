@@ -6,6 +6,7 @@
 			</view>
 			<view class="fui-title">付费模块</view>
 			<view class="fui-sub__title">详情请查看官网或文档介绍！</view>
+			 <view class="fui-sub__title">（文档地址：doc.firstui.cn）</view>
 		</view>
 	</view>
 </template>
