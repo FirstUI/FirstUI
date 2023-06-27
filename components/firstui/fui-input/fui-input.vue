@@ -21,7 +21,8 @@
 			<text :style="{fontSize:getLabelSize,color:labelColor}">{{label}}</text>
 		</view>
 		<slot name="left"></slot>
-		<input @tap="fieldClickAndroid" class="fui-input__self" :class="{'fui-input__text-right':textRight}"
+		<!-- #ifndef APP-NVUE -->
+		<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
 			:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
 			:value="val" :placeholder="placeholder" :password="password || type === 'password' || undefined"
 			:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
@@ -30,6 +31,21 @@
 			:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur" :enableNative="false"
 			:always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm"
 			@keyboardheightchange="onKeyboardheightchange" />
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<view class="fui-input__self-wrap">
+			<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
+				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
+				:value="val" :placeholder="placeholder" :password="password || type === 'password' || undefined"
+				:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
+				:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
+				:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
+				:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur" :enableNative="false"
+				:always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm"
+				@keyboardheightchange="onKeyboardheightchange" />
+			<view class="fui-input__cover" v-if="disabled || readonly" @tap="fieldClickAndroid"></view>
+		</view>
+		<!-- #endif -->
 		<view class="fui-input__clear-wrap" :style="{background:clearColor}" v-if="clearable && val != ''"
 			@tap.stop="onClear">
 			<view class="fui-input__clear">
@@ -440,8 +456,7 @@
 			 * 在安卓nvue上，事件无法冒泡 
 			 * 外层容器点击事件无法触发，需要单独处理
 			 */
-			fieldClickAndroid() {
-				// #ifdef APP-NVUE
+			fieldClickAndroid(e) {
 				//仅添加事件好像就可以实现冒泡？以下代码无需执行？
 				// const sys = uni.getSystemInfoSync()
 				// if (sys.platform.toLocaleLowerCase() == "android") {
@@ -453,7 +468,6 @@
 				// 		target: 'input'
 				// 	});
 				// }
-				// #endif
 			},
 			getParent(name = 'fui-form-item') {
 				let parent = this.$parent;
@@ -554,6 +568,21 @@
 		flex-shrink: 0;
 		/* #endif */
 	}
+	
+	/* #ifdef APP-NVUE */
+	.fui-input__self-wrap{
+		flex: 1;
+		flex-direction: row;
+		position: relative;
+	}
+	.fui-input__cover{
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
+	/* #endif */
 
 	.fui-input__self {
 		flex: 1;
