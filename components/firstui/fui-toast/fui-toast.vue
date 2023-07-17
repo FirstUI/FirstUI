@@ -183,11 +183,16 @@
 	/* #endif */
 	.fui-toast__icon-box {
 		padding-bottom: 20rpx;
+		/* #ifndef APP-NVUE */
+		box-sizing: content-box;
+		flex-shrink: 0;
+		/* #endif */
 	}
 
 	/* #ifndef APP-NVUE */
 	.fui-toast__icon {
 		display: block;
+		flex-shrink: 0;
 	}
 
 	/* #endif */
