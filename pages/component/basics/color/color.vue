@@ -25,7 +25,6 @@
 	} from 'vuex'
 	// #endif
 	import colors from './color.js';
-	import $fui from '@/components/firstui/fui-clipboard';
 	export default {
 		data() {
 			return {
@@ -37,18 +36,7 @@
 		// #endif
 		methods: {
 			getColor(e, color) {
-				// #ifdef MP-BAIDU
-				if (this.status == 1) {
-					$fui.getClipboardData(color, res => {
-						this.fui.toast('颜色复制成功');
-					}, e);
-				}
-				// #endif
-				// #ifndef MP-BAIDU
-				$fui.getClipboardData(color, res => {
-					this.fui.toast('颜色复制成功');
-				}, e);
-				// #endif
+				
 			}
 		}
 	}

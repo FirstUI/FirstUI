@@ -24,7 +24,6 @@
 	} from 'vuex'
 	// #endif
 	import icons from './icon.js';
-	import $fui from '@/components/firstui/fui-clipboard';
 	export default {
 		data() {
 			return {
@@ -37,20 +36,6 @@
 		methods: {
 			getName(e) {
 				const name = this.icons[e.detail.index]
-				if (!name) return;
-				// #ifdef MP-BAIDU
-				if (this.status == 1) {
-					$fui.getClipboardData(name, res => {
-						this.fui.toast('图标名称复制成功');
-					}, e);
-				}
-				// #endif
-
-				// #ifndef MP-BAIDU
-				$fui.getClipboardData(name, res => {
-					this.fui.toast('图标名称复制成功');
-				}, e);
-				// #endif
 			}
 		}
 	}
