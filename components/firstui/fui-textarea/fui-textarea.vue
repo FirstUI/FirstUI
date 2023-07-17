@@ -4,15 +4,16 @@
 		:style="{paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,background:backgroundColor,borderRadius:radius+'rpx',borderColor:borderColor,marginTop:marginTop+'rpx'}"
 		@tap="fieldClick">
 		<view v-if="borderTop && !textareaBorder"
-			:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}" class="fui-textarea__border-top" :class="{'fui-textarea__background':!borderColor}">
+			:style="{background:borderColor,left:topLeft+'rpx',right:topRight+'rpx'}" class="fui-textarea__border-top"
+			:class="{'fui-textarea__background':!borderColor}">
 		</view>
 		<!-- #ifndef APP-NVUE -->
-		<view class="fui-textarea__border" :class="{'fui-textarea__bordercolor':!borderColor}" :style="{borderRadius:getRadius,borderColor:borderColor}"
-			v-if="textareaBorder"></view>
+		<view class="fui-textarea__border" :class="{'fui-textarea__bordercolor':!borderColor}"
+			:style="{borderRadius:getRadius,borderColor:borderColor}" v-if="textareaBorder"></view>
 		<!-- #endif -->
 		<!-- #ifdef APP-NVUE -->
 		<view class="fui-textarea__required" v-if="required && !flexStart">
-			<text :style="{color:getRequiredColor,paddingTop:'2rpx'}">*</text>
+			<text class="fui-form__asterisk-text" :style="{color:getRequiredColor,paddingTop:'2rpx'}">*</text>
 		</view>
 		<text class="fui-textarea__required" :style="{color:getRequiredColor,top:requiredTop}"
 			v-if="required && flexStart">*</text>
@@ -26,7 +27,7 @@
 		</view>
 		<slot name="left"></slot>
 		<view class="fui-textarea__flex-1">
-			<textarea class="fui-textarea__self" :class="{'fui-text__right':textRight}"
+			<textarea ref="fuiTextarea" class="fui-textarea__self" :class="{'fui-text__right':textRight}"
 				:style="{height:height,minHeight:minHeight,fontSize:size+'rpx',color:color}"
 				placeholder-class="fui-textarea-placeholder" :name="name" :value="val" :placeholder="placeholder"
 				:placeholderStyle="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
@@ -318,9 +319,25 @@
 		watch: {
 			focus(val) {
 				this.$nextTick(() => {
-					this.focused = val
+					setTimeout(() => {
+						this.focused = val
+					}, 20)
 				})
 			},
+			// #ifdef APP-NVUE
+			focused(val) {
+				if (!this.$refs.fuiTextarea) return;
+				this.$nextTick(() => {
+					setTimeout(() => {
+						if (val) {
+							this.$refs.fuiTextarea.focus()
+						} else {
+							this.$refs.fuiTextarea.blur()
+						}
+					}, 50)
+				})
+			},
+			// #endif
 			placeholderStyle() {
 				this.fieldPlaceholderStyle()
 			},
@@ -352,7 +369,9 @@
 		},
 		mounted() {
 			this.$nextTick(() => {
-				this.focused = this.focus
+				setTimeout(() => {
+					this.focused = this.focus
+				}, 300)
 			})
 		},
 		methods: {
@@ -480,11 +499,20 @@
 
 		/* #ifdef APP-NVUE */
 		flex: 1;
-		height: 100wx;
+		top: 28rpx;
+		bottom: 28rpx;
 		align-items: center;
 		justify-content: center;
 		/* #endif */
 	}
+
+	/* #ifdef APP-NVUE */
+	.fui-form__asterisk-text {
+		font-size: 32rpx;
+		height: 32rpx;
+	}
+
+	/* #endif */
 
 	/* #ifndef APP-NVUE */
 	.fui-required__flex-start {
@@ -571,12 +599,13 @@
 		-webkit-user-select: none;
 		user-select: none;
 	}
-	.fui-textarea__bordercolor{
-	  border-color:var(--fui-color-border, #EEEEEE) !important;
+
+	.fui-textarea__bordercolor {
+		border-color: var(--fui-color-border, #EEEEEE) !important;
 	}
-	
-	.fui-textarea__background{
-	  background: var(--fui-color-border, #EEEEEE) !important;
+
+	.fui-textarea__background {
+		background: var(--fui-color-border, #EEEEEE) !important;
 	}
 
 	/* #endif */

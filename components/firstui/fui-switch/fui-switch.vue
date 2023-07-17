@@ -14,12 +14,14 @@
 			</switch>
 		</view>
 		<!-- #endif -->
-		<view class="fui-checkbox__self" :class="{'fui-checkbox__disabled':disabled,'fui-switch__color':!getColor && val}"
-			:style="{background:val?getColor:'#fff',border:val?`1px solid ${getColor}`:`1px solid ${borderColor}`}" v-else>
+		<view class="fui-checkbox__self"
+			:class="{'fui-checkbox__disabled':disabled,'fui-switch__color':!getColor && val}"
+			:style="{background:val?getColor:'#fff',border:val?`1px solid ${getColor}`:`1px solid ${borderColor}`}"
+			v-else>
 			<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 				v-if="val"></view>
 			<switch class="fui-switch__hidden" :class="{'fui-pointer__events':isLabel}"
-				style="opacity: 0;position: absolute;" @change="change" :name="name" :type="isNvue?'switch':'checkbox'"
+				style="opacity: 0;position: absolute;" @change="change" :name="name" type="checkbox"
 				:checked="val" :disabled="disabled"></switch>
 		</view>
 	</view>
@@ -148,6 +150,13 @@
 
 	/* #endif */
 
+	/* #ifdef APP-NVUE */
+	.fui-switch__input {
+		border: 1px solid transparent;
+	}
+
+	/* #endif */
+
 	.fui-checkbox__self {
 		font-size: 0;
 		width: 40rpx;
@@ -262,7 +271,6 @@
 		top: -1px;
 		left: -1px;
 		opacity: 0;
-		z-index: 2;
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		height: 100%;
@@ -270,6 +278,7 @@
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
+		z-index: 2;
 		/* #endif */
 
 		/* #ifdef APP-NVUE */

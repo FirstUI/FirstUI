@@ -16,7 +16,8 @@
 		</view>
 
 		<view class="fui-page__number" v-if="isPage && pageType==2">
-			<view class="fui-page__num-item" :class="{'fui-pagination__bg':!activeBgColor && currentIndex===item}"
+			<view class="fui-page__num-item"
+				:class="{'fui-pagination__bg':!activeBgColor && currentIndex===item,'fui-page__num-width':item==='...' || (item!='...' && item<1000),'fui-page__num-padding':item!='...' && item>999}"
 				v-for="(item,index) in pageNumber" :key="index"
 				:style="{background:currentIndex===item?getActiveBgColor:pageBgColor,borderRadius:radius+'rpx'}"
 				@tap.stop="handleClick(item,index)">
@@ -323,9 +324,9 @@
 
 		/* #ifndef APP-NVUE */
 		border-width: 1px;
+		flex-shrink: 0;
 		/* #endif */
 		border-style: solid;
-		flex-shrink: 0;
 		/* #ifdef H5 */
 		cursor: pointer;
 		/* #endif */
@@ -390,7 +391,19 @@
 		/* #ifdef H5 */
 		cursor: pointer;
 		/* #endif */
+
 	}
+
+	/* #ifdef APP-NVUE */
+	.fui-page__num-width {
+		width: 60rpx;
+	}
+
+	.fui-page__num-padding {
+		padding: 0 8rpx;
+	}
+
+	/* #endif */
 
 	.fui-page__num-item:active {
 		opacity: .5;

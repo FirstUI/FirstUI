@@ -40,7 +40,7 @@
 			},
 			zIndex: {
 				type: [Number, String],
-				default: 1001
+				default: 996
 			},
 			//点击遮罩 是否可关闭
 			maskClosable: {
@@ -146,7 +146,7 @@
 						}
 					}
 				);
-				//android 部分手机隐藏时动画有抖动感，调整duration去动画
+				//nvue android 部分手机隐藏时动画有抖动感，调整duration去动画
 				animation.transition(
 					this.$refs['fui_bp_ani'].ref, {
 						styles: {
@@ -189,8 +189,13 @@
 		visibility: hidden;
 		border-bottom-width: 0;
 		overflow: hidden;
-		/* #endif */
 		opacity: 0;
+		/* #endif */
+
+		/* #ifdef APP-NVUE */
+		opacity: 0.001;
+		/* #endif */
+
 	}
 
 	/* #ifdef APP-NVUE */
@@ -236,7 +241,7 @@
 	}
 
 	/* #endif */
-
+	
 	/* #ifdef APP-NVUE || MP-TOUTIAO */
 	.fui-bp__safe-weex {
 		padding-bottom: 34px;

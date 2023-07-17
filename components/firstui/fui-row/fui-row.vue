@@ -94,7 +94,9 @@
 	/* #endif */
 
 	.fui-row__box {
+		/* #ifdef APP-NVUE */
 		flex: 1;
+		/* #endif */
 		/* #ifndef APP-NVUE */
 		box-sizing: border-box;
 		-webkit-box-orient: horizontal;
@@ -104,6 +106,7 @@
 		/* #ifdef MP-TOUTIAO || MP-QQ || MP-BAIDU */
 		display: block;
 		/* #endif */
+		flex-direction: row;
 	}
 
 	/* #ifndef APP-NVUE */
@@ -124,7 +127,7 @@
 	/* #endif */
 	.fui-row__flex {
 		/* #ifndef APP-NVUE*/
-		display: flex !important;
+		display: flex;
 		/* #endif */
 		flex-direction: row;
 	}

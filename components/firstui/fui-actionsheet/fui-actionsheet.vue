@@ -84,7 +84,7 @@
 			},
 			zIndex: {
 				type: [Number, String],
-				default: 1001
+				default: 996
 			},
 			//是否适配底部安全区
 			safeArea: {
@@ -174,8 +174,7 @@
 			_animation(type) {
 				if (!this.$refs['fui_asm_ani'] || !this.$refs['fui_as_ani']) return;
 				let styles = {
-					transform: `translateY(${type ? '0' : '100%'})`,
-					opacity: type ? 1 : 0
+					transform: `translateY(${type ? '0' : '100%'})`
 				}
 				animation.transition(
 					this.$refs['fui_asm_ani'].ref, {
@@ -247,7 +246,6 @@
 		transition: all 0.25s ease-in-out;
 		/* #endif */
 		/* #ifdef APP-NVUE */
-		transition-property: transform;
 		transform: translateY(100%);
 		/* #endif */
 		transform-origin: center center;
@@ -280,12 +278,12 @@
 	.fui-actionsheet__tips {
 		/* #ifndef APP-NVUE */
 		width: 100%;
+		display: flex;
 		box-sizing: border-box;
 		/* #endif */
 		flex: 1;
 		padding: 40rpx 60rpx;
 		text-align: center;
-		display: flex;
 		align-items: center;
 		justify-content: center;
 		font-weight: normal;

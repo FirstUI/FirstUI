@@ -48,7 +48,7 @@
 			},
 			zIndex: {
 				type: Number,
-				default: 999
+				default: 980
 			},
 			closable: {
 				type: Boolean,
@@ -67,11 +67,13 @@
 		},
 		mounted() {
 			this.$nextTick(() => {
-				if (this.show) {
-					this._ani(true)
-				} else {
-					this._aniHidden(this.show)
-				}
+				setTimeout(() => {
+					if (this.show) {
+						this._ani(true)
+					} else {
+						this._aniHidden(this.show)
+					}
+				}, 50)
 			})
 		},
 		data() {
@@ -153,10 +155,13 @@
 		display: flex;
 		visibility: hidden;
 		transition: all 0.3s;
+		opacity: 0;
 		/* #endif */
 		align-items: center;
 		justify-content: center;
-		opacity: 0;
+		/* #ifdef APP-NVUE */
+		opacity: 0.001;
+		/* #endif */
 	}
 
 	/* #ifndef APP-NVUE */

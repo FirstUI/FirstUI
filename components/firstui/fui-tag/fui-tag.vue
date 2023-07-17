@@ -1,7 +1,7 @@
 <template>
 	<view class="fui-tag__wrap"
-		:class="[highlight?'fui-tag__opacity':'',originLeft?'fui-tag__origin-left':'',originRight?'fui-tag__origin-right':'',!background?`fui-tag__${type}-${theme}`:'']"
-		:style="{backgroundColor:getBackground,fontSize:size+'rpx',lineHeight:size+'rpx',color:color,borderColor:getBorderColor,zoom:isNvue?1:scaleRatio,transform: `scale(${isNvue?scaleRatio:1})`,borderRadius:radius+'rpx',paddingTop:padding[0] || 0,paddingRight:padding[1]|| 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,marginTop:marginTop+'rpx',marginRight:marginRight+'rpx',marginBottom:marginBottom+'rpx',marginLeft:marginLeft+'rpx'}"
+		:class="[highlight?'fui-tag__opacity':'',originLeft?'fui-tag__origin-left':'',originRight?'fui-tag__origin-right':'',!background?`fui-tag__${type}-${theme}`:'',(background && !borderColor) || !isBorder?'fui-tag__no-border':'']"
+		:style="{backgroundColor:getBackground,fontSize:size+'rpx',lineHeight:size+'rpx',color:color,borderColor:getBorderColor,transform: `scale(${scaleRatio})`,borderRadius:radius+'rpx',paddingTop:padding[0] || 0,paddingRight:padding[1]|| 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,marginTop:marginTop+'rpx',marginRight:marginRight+'rpx',marginBottom:marginBottom+'rpx',marginLeft:marginLeft+'rpx'}"
 		@tap="handleClick">
 		<text v-if="text" class="fui-tag__text" :class="[!background?`fui-tag_${type}-${theme}`:'']"
 			:style="{fontSize:size+'rpx',lineHeight:size+'rpx',color:getColor}">{{text}}</text>
@@ -40,6 +40,11 @@
 			background: {
 				type: String,
 				default: ''
+			},
+			//v2.0.0+ 
+			isBorder: {
+				type: Boolean,
+				default: true
 			},
 			borderColor: {
 				type: String,
@@ -107,13 +112,8 @@
 			}
 		},
 		data() {
-			let isNvue = false
-			// #ifdef APP-NVUE
-			isNvue = true
-			// #endif
 			const app = uni && uni.$fui && uni.$fui.color;
 			return {
-				isNvue: isNvue,
 				// #ifdef APP-NVUE
 				dark: {
 					primary: (app && app.primary) || '#465CFF',
@@ -206,6 +206,10 @@
 		font-weight: normal;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.fui-tag__no-border {
+		border-width: 0;
 	}
 
 	.fui-tag__text {

@@ -4,10 +4,20 @@
 		:style="{textAlign:align,paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0}"
 		@tap="handleTap">
 		<slot></slot>
+		<!-- #ifndef APP-NVUE -->
 		<text class="fui-text__content"
 			:style="{color:getColor,fontSize:getSize,lineHeight:lineHeight?getSize:'auto',textAlign:align,textDecoration:decoration,fontWeight:fontWeight}"
 			:class="[color?'':'fui-text__'+type,unShrink?'fui-text__unshrink':'']" :selectable="selectable"
 			:userSelect="userSelect" :decode="decode">{{getText(text, textType, format)}}</text>
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<view class="fui-text__nvue">
+			<text class="fui-text__content"
+				:style="{color:getColor,fontSize:getSize,lineHeight:lineHeight?getSize:'auto',textAlign:align,textDecoration:decoration,fontWeight:fontWeight}"
+				:class="[color?'':'fui-text__'+type,unShrink?'fui-text__unshrink':'']" :userSelect="userSelect"
+				:decode="decode">{{getText(text, textType, format)}}</text>
+		</view>
+		<!-- #endif -->
 		<slot name="right"></slot>
 	</view>
 </template>
@@ -81,7 +91,7 @@
 				type: Boolean,
 				default: false
 			},
-			//文本是否可选：App、H5、快手小程序
+			//文本是否可选：nvue不支持，加此属性导致事件无法冒泡
 			selectable: {
 				type: Boolean,
 				default: false
@@ -222,7 +232,16 @@
 		flex-shrink: 0;
 	}
 
+	.fui-text__content {
+		word-break: break-all;
+	}
 
+	/* #endif */
+	
+	/* #ifdef APP-NVUE */
+	.fui-text__nvue{
+		flex: 1;
+	}
 	/* #endif */
 
 	.fui-text__center {

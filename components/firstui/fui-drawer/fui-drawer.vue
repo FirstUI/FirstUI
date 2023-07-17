@@ -61,7 +61,8 @@
 			return {
 				isNvue: isNvue,
 				isShow: false,
-				width: 0
+				width: 0,
+				isMounted: false
 			}
 		},
 		// #ifdef APP-NVUE
@@ -79,12 +80,26 @@
 		},
 		// #endif
 		mounted() {
-			setTimeout(() => {
-				this._getSize((width) => {
-					this.width = width
-				})
-			}, 100)
+			this.isMounted = true
+			this.$nextTick(() => {
+				setTimeout(() => {
+					this._getSize((width) => {
+						this.width = width
+					})
+				}, 100)
+			})
 		},
+		// #ifdef H5
+		updated() {
+			if(!this.isMounted && !this.width){
+				setTimeout(() => {
+					this._getSize((width) => {
+						this.width = width
+					})
+				}, 50)
+			}
+		},
+		// #endif
 		methods: {
 			_getSize(callback) {
 				// #ifndef APP-NVUE

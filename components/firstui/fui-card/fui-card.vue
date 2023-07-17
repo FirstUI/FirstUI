@@ -1,13 +1,12 @@
 <template>
-	<!--nvue下， Android平台阴影设置elevation值-->
 	<view class="fui-card__wrap"
 		:class="{'fui-card__full':full,'fui-card__border':showBorder,'fui-card__border-radius':showBorder && !isNvue && !full}"
-		:style="{marginTop:margin[0] || 0,marginRight:margin[1] || 0,marginBottom:margin[2] || margin[0] || 0,marginLeft:margin[3] || margin[1] || 0,background:background,borderRadius:radius,'box-shadow':shadow,borderColor:isNvue?borderColor:'transparent'}"
-		:elevation="showBorder?'0px':elevation" @tap="handleClick">
+		:style="{marginTop:margin[0] || 0,marginRight:full?0: (margin[1] || 0),marginBottom:margin[2] || margin[0] || 0,marginLeft:full?0:(margin[3] || margin[1] || 0),background:background,borderRadius:full?0:radius,'box-shadow':showBorder?'none':shadow,borderColor:isNvue?borderColor:'transparent'}"
+		@tap="handleClick">
 		<view class="fui-card__header" v-if="tag || title || src" :class="{'fui-card__header-line':headerLine}"
 			:style="{'border-top-left-radius':full?0:radius,'border-top-right-radius':full?0:radius,'border-bottom-color':isNvue && headerLine?lineColor:'transparent',paddingTop:padding[0] || 0,paddingRight:padding[1]||0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0}">
 			<view class="fui-card__header-left">
-				<image :src="src" class="fui-card__header-thumb" mode="widthFix" v-if="src"
+				<image :src="src" class="fui-card__header-thumb" v-if="src"
 					:style="{height:height+'rpx',width:width+'rpx',borderRadius:imageRadius}"></image>
 				<text class="fui-card__header-title" :style="{fontSize:size+'rpx',color:color}"
 					v-if="title">{{title}}</text>
@@ -176,11 +175,13 @@
 		/* #endif */
 	}
 
+	/* #ifndef APP-NVUE */
 	.fui-card__full {
 		margin-left: 0 !important;
 		margin-right: 0 !important;
 		border-radius: 0 !important;
 	}
+	/* #endif */
 
 	/* #ifndef APP-NVUE */
 	.fui-card__full::after {

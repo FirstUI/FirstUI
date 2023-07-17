@@ -149,7 +149,7 @@
 <style scoped>
 	.fui-dialog__wrap {
 		position: fixed;
-		z-index: 1000;
+		z-index: 996;
 		top: 0;
 		right: 0;
 		left: 0;

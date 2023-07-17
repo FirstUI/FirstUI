@@ -13,7 +13,7 @@ const store = new Vuex.Store({
 				// #endif
 				state: {
 					//当前版本
-					version: "1.9.9",
+					version: "2.0.0",
 					//主题 light、dark
 					theme: uni.getStorageSync('fui_theme') || 'light',
 					status: 0

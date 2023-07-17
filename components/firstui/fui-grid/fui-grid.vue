@@ -1,8 +1,15 @@
 <template>
 	<view class="fui-grid__wrap" :class="[isShow?'fui-grid__wrap-show':'fui-grid__wrap-hidden']">
-		<view :id="elemId" ref="fui_grid" class="fui-grid" :class="{ 'fui-grid__border': showBorder }"
+		<view :id="elemId" ref="fui_grid" class="fui-grid"
+			:class="{ 'fui-grid__border': showBorder,'fui-grid__between':between }"
 			:style="{ 'border-left-color':borderColor,'border-top-color':borderColor}">
 			<slot></slot>
+			<!-- #ifndef APP-VUE || H5 || MP-WEIXIN -->
+			<template v-if="seats.length > 0 && between">
+				<view v-for="(item,index) in seats" :key="index"
+					:style="'width:'+width+';'+(height?'height:'+height:'')"></view>
+			</template>
+			<!-- #endif -->
 		</view>
 	</view>
 </template>
@@ -34,6 +41,17 @@
 			square: {
 				type: Boolean,
 				default: true
+			},
+			// item 项是否两端对齐，仅在宽度无法拉满且影响美观时使用，谨慎使用 v2.0.0+
+			between: {
+				type: Boolean,
+				default: false
+			},
+			//当数据无法铺满时，且设置了between 布局，末尾补足占位元素个数
+			//最后一行数据个数+emptyElements 不可大于 columns 值
+			emptyElements: {
+				type: [Number, String],
+				default: 0
 			}
 		},
 		provide() {
@@ -47,15 +65,16 @@
 				elemId: elemId,
 				width: 0,
 				height: 0,
-				isShow: false
+				isShow: false,
+				seats: []
 			};
 		},
 		created() {
 			this.children = []
 			let sys = uni.getSystemInfoSync()
 			this.width = (100 / this.columns) + '%'
-			if(this.square){
-				this.height = (sys.windowWidth-1) / this.columns + 'px'
+			if (this.square) {
+				this.height = parseInt((sys.windowWidth - 1) / this.columns * 10) / 10 + 'px'
 			}
 		},
 		watch: {
@@ -66,11 +85,15 @@
 			},
 			showBorder(val) {
 				this.childChange()
+			},
+			emptyElements(val) {
+				this.createEmptyEl(val)
 			}
 		},
 		mounted() {
 			this.$nextTick(() => {
 				this.init()
+				this.createEmptyEl(this.emptyElements)
 			})
 		},
 		methods: {
@@ -84,6 +107,19 @@
 						this.isShow = true
 					})
 				}, 50)
+			},
+			createEmptyEl(val) {
+				// 百度小程序在页面循环数字有问题
+				const nums = Number(val)
+				let seats = []
+				if (nums && nums > 0) {
+					for (let i = 0; i < nums; i++) {
+						seats.push(i)
+					}
+					this.seats = seats
+				} else {
+					this.seats = []
+				}
 			},
 			childChange() {
 				this.children.forEach((item, index) => {
@@ -109,7 +145,9 @@
 						.select(`#${this.elemId}`)
 						.boundingClientRect()
 						.exec(ret => {
-							const width = Number((ret[0].width - 1) / this.columns) + 'px'
+							//使用 parseInt 不使用 Number 避免 部分android机 换行（小数渲染有兼容性问题） ，但是可能会出现误差无法铺满
+							let width = (ret[0].width - 1) / this.columns
+							width = (parseInt(width * 10) / 10) + 'px'
 							if (this.square)
 								this.height = width;
 							if (isNoSupported)
@@ -122,7 +160,10 @@
 				// #endif
 				// #ifdef APP-NVUE
 				dom.getComponentRect(this.$refs['fui_grid'], (ret) => {
-					this.width = Number((ret.size.width - 1) / this.columns) + 'px'
+					//使用 parseInt 不使用 Number 可避免 部分android机 换行，但是可能会出现误差无法铺满
+					// 注：以真机测试为准，如果还有换行，则只能不保留小数
+					let width = (ret.size.width - 1) / this.columns
+					this.width = parseInt(width * 10) / 10 + 'px'
 					if (this.square) {
 						this.height = this.width;
 					}
@@ -142,11 +183,17 @@
 		display: flex;
 		box-sizing: border-box;
 		/* #endif */
+		/* #ifdef APP-NVUE */
 		flex: 1;
+		/* #endif */
 		flex-direction: column;
+
+		/* 以下css可能导致数据过多nvue端直接白屏不显示 */
+		/* #ifndef APP-NVUE */
 		transition-property: opacity;
 		transition-duration: .2s;
 		transition-timing-function: ease-in-out;
+		/* #endif */
 	}
 
 	.fui-grid__wrap-hidden {
@@ -154,7 +201,7 @@
 	}
 
 	.fui-grid__wrap-show {
-		opacity: 1;
+		opacity: 1 !important;
 	}
 
 	.fui-grid {
@@ -165,6 +212,13 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 	}
+
+	/* #ifndef APP-VUE || H5 || MP-WEIXIN */
+	.fui-grid__between {
+		justify-content: space-between;
+	}
+
+	/* #endif */
 
 	.fui-grid__border {
 		position: relative;

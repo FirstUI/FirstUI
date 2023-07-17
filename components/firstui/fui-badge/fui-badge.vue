@@ -6,6 +6,7 @@
 </template>
 
 <script>
+	const sys = uni.getSystemInfoSync()
 	export default {
 		name: "fui-badge",
 		emits: ['click'],
@@ -113,6 +114,22 @@
 			this.getWidth()
 		},
 		methods: {
+			_getTextWidth(text) {
+				let sum = 0;
+				for (let i = 0, len = text.length; i < len; i++) {
+					if (text.charCodeAt(i) >= 0 && text.charCodeAt(i) <= 255)
+						sum = sum + 1;
+					else
+						sum = sum + 2;
+				}
+				const px = uni.upx2px(text.length > 1 ? 32 : 24)
+				var strCode = text.charCodeAt();
+				let multiplier = 12;
+				if (strCode >= 65 && strCode <= 90) {
+					multiplier = 15;
+				}
+				return (sum / 2 * multiplier) + px + 'px';
+			},
 			getWidth() {
 				let max = Number(this.max)
 				let val = Number(this.value)
@@ -123,7 +140,7 @@
 					value = val > max ? `${max}+` : val
 				}
 				this.showValue = value;
-				this.width = this.dot ? '8px' : ((String(value).length * 16 + 21) + 'rpx')
+				this.width = this.dot ? '8px' : this._getTextWidth(String(value))
 			},
 			handleClick() {
 				this.$emit('click');
@@ -135,7 +152,6 @@
 <style scoped>
 	.fui-badge__wrap {
 		height: 36rpx;
-		padding: 0 12rpx;
 		color: #FFFFFF;
 		font-size: 24rpx;
 		line-height: 36rpx;
@@ -149,6 +165,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
+		text-align: center;
 		z-index: 10;
 	}
 

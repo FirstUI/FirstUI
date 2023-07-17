@@ -3,9 +3,10 @@
 		<view @tap.stop="onClick(!isOpen)" class="fui-collapse-item__title" :class="{'fui-collapse__disabled':disabled}"
 			:style="{background:background}">
 			<view class="fui-collapse__title">
-				<slot></slot>
+				<slot></slot> 
 			</view>
-			<view v-if="arrow" :class="{'fui-collapse__arrow-active': isOpen, 'fui-collapse__item-ani': animation}"
+			<view v-if="arrow"
+				:class="{'fui-collapse__arrow-close':!isOpen,'fui-collapse__arrow-active': isOpen, 'fui-collapse__item-ani': animation}"
 				class="fui-collapse__arrow" :style="{marginRight:arrowRight+'rpx'}">
 				<view class="fui-collapse__arrow-inner" :style="{borderColor:arrowColor}"></view>
 			</view>
@@ -107,7 +108,9 @@
 		},
 		updated(e) {
 			this.$nextTick(() => {
-				this.init()
+				setTimeout(() => {
+					this.init()
+				}, 50)
 			})
 		},
 		created() {
@@ -130,8 +133,12 @@
 		},
 		// #endif
 		mounted() {
-			this.isOpen = this.open;
-			this.init()
+			this.$nextTick(() => {
+				setTimeout(() => {
+					this.init()
+					this.isOpen = this.open;
+				}, 50)
+			})
 		},
 		methods: {
 			init() {
@@ -270,10 +277,8 @@
 	}
 
 	.fui-collapse__title {
-		/* #ifndef APP-NVUE */
-		width: 100%;
-		/* #endif */
 		flex: 1;
+		overflow: hidden;
 	}
 
 
@@ -294,11 +299,14 @@
 	.fui-collapse__arrow {
 		width: 40rpx;
 		height: 40rpx;
-		transform: rotate(0deg);
 		position: relative;
 		/* #ifndef APP-NVUE */
 		flex-shrink: 0;
 		/* #endif */
+	}
+
+	.fui-collapse__arrow-close {
+		transform: rotate(0deg);
 	}
 
 	.fui-collapse__arrow-active {

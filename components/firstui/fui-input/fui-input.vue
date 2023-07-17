@@ -24,7 +24,7 @@
 		<!-- #ifndef APP-NVUE -->
 		<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
 			:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
-			:value="val" :placeholder="placeholder" :password="password || type === 'password' || undefined"
+			:value="val" :placeholder="placeholder" :password="password || type === 'password' || null"
 			:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
 			:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
 			:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
@@ -34,15 +34,15 @@
 		<!-- #endif -->
 		<!-- #ifdef APP-NVUE -->
 		<view class="fui-input__self-wrap">
-			<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
-				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
-				:value="val" :placeholder="placeholder" :password="password || type === 'password' || undefined"
+			<input ref="fuiInput" class="fui-input__self" :class="{'fui-input__text-right':textRight}"
+				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type"
+				:name="name" :value="val" :placeholder="placeholder" :password="password || type === 'password'"
 				:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
 				:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
 				:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
-				:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur" :enableNative="false"
-				:always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur" @input="onInput" @confirm="onConfirm"
-				@keyboardheightchange="onKeyboardheightchange" />
+				:adjust-position="adjustPosition" :hold-keyboard="holdKeyboard" :auto-blur="autoBlur"
+				:enableNative="false" :always-embed="alwaysEmbed" @focus="onFocus" @blur="onBlur" @input="onInput"
+				@confirm="onConfirm" @keyboardheightchange="onKeyboardheightchange" />
 			<view class="fui-input__cover" v-if="disabled || readonly" @tap="fieldClickAndroid"></view>
 		</view>
 		<!-- #endif -->
@@ -342,9 +342,25 @@
 		watch: {
 			focus(val) {
 				this.$nextTick(() => {
-					this.focused = val
+					setTimeout(() => {
+						this.focused = val
+					}, 20)
 				})
 			},
+			// #ifdef APP-NVUE
+			focused(val) {
+				if (!this.$refs.fuiInput) return;
+				this.$nextTick(() => {
+					setTimeout(() => {
+						if (val) {
+							this.$refs.fuiInput.focus()
+						} else {
+							this.$refs.fuiInput.blur()
+						}
+					}, 50)
+				})
+			},
+			// #endif
 			placeholderStyle() {
 				this.fieldPlaceholderStyle()
 			},
@@ -374,16 +390,9 @@
 		},
 		mounted() {
 			this.$nextTick(() => {
-				// #ifdef MP-TOUTIAO
 				setTimeout(() => {
 					this.focused = this.focus
 				}, 300)
-				// #endif
-				// #ifndef MP-TOUTIAO
-				setTimeout(() => {
-					this.focused = this.focus
-				}, 120)
-				// #endif
 			})
 		},
 		methods: {
@@ -417,7 +426,7 @@
 				}
 				this.$nextTick(() => {
 					//当输入框为空时，输入框显示不赋值为0
-					event.detail.value !== '' && (this.val = value);
+					event.detail.value !== '' && (this.val = String(value));
 				})
 				//如果为空时返回0 ，当双向绑定会将输入框赋值0
 				const inputValue = event.detail.value !== '' ? value : ''
@@ -568,20 +577,22 @@
 		flex-shrink: 0;
 		/* #endif */
 	}
-	
+
 	/* #ifdef APP-NVUE */
-	.fui-input__self-wrap{
+	.fui-input__self-wrap {
 		flex: 1;
 		flex-direction: row;
 		position: relative;
 	}
-	.fui-input__cover{
+
+	.fui-input__cover {
 		position: absolute;
 		left: 0;
 		right: 0;
 		top: 0;
 		bottom: 0;
 	}
+
 	/* #endif */
 
 	.fui-input__self {

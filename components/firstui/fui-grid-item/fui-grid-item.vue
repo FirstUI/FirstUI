@@ -100,7 +100,7 @@
 		box-sizing: border-box;
 		flex-shrink: 0;
 		/* #endif */
-
+		flex-direction: column;
 		/* #ifdef H5 */
 		cursor: pointer;
 		/* #endif */

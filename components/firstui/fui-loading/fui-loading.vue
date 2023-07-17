@@ -95,7 +95,12 @@
 		},
 		// #ifdef APP-NVUE
 		mounted() {
-			this._animation()
+			this.$nextTick(() => {
+				setTimeout(() => {
+					this.deg += 360;
+					this._animation()
+				}, 50)
+			})
 		},
 		// #endif
 		//nvue暂不支持vue3，所以不需要做兼容,此处以防后续兼容

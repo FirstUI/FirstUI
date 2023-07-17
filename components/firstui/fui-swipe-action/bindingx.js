@@ -9,7 +9,7 @@ export default {
 	},
 	watch: {
 		show(newVal) {
-			if (this.autoClose) return
+			// if (this.autoClose) return
 			if (this.stop) return
 			this.stop = true
 			if (newVal) {
@@ -29,9 +29,11 @@ export default {
 		}
 	},
 	mounted() {
-		this.box = this.getEl(this.$refs['fui_swipea_wrap'])
-		this.selector = this.getEl(this.$refs['fui_swipea_content']);
-		this.rightButton = this.getEl(this.$refs['fui_swipea_buttons']);
+		this.$nextTick(()=>{
+			this.box = this.getEl(this.$refs['fui_swipea_wrap'])
+			this.selector = this.getEl(this.$refs['fui_swipea_content']);
+			this.rightButton = this.getEl(this.$refs['fui_swipea_buttons']);
+		})
 		this.init()
 	},
 	methods: {

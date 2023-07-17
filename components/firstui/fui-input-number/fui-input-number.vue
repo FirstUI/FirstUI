@@ -306,6 +306,9 @@
 		text-align: center;
 		font-weight: 500;
 		border-width: 0;
+		/* #ifdef H5 */
+		outline: none;
+		/* #endif */
 	}
 
 	/* #ifdef H5 */

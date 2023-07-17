@@ -16,9 +16,9 @@
 		<view class="fui-alert__shrink">
 			<slot name="right"></slot>
 		</view>
-		<icon @tap.stop="close" type="cancel" :size="closeSize" :color="closeColor" v-if="closable"
-			:class="{'fui-alert__icon-close':desc}">
-		</icon>
+		<view :class="{'fui-alert__icon-close':desc}" v-if="closable">
+			<icon @tap.stop="close" type="cancel" :size="closeSize" :color="closeColor"></icon>
+		</view>
 	</view>
 </template>
 

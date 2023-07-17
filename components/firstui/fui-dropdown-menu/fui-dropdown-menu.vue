@@ -198,9 +198,9 @@
 				}
 				// #ifdef APP-NVUE
 				styles += `left:${this.n_left}px;top:${this.n_top}px;height:${this.maxHeight}rpx;`
-				if (this.direction === 'up') {
-					styles += `transform: translate(0, -${this.maxHeight}rpx);`
-				}
+				// if (this.direction === 'up') {
+				// 	styles += `transform: translate(0, -${this.maxHeight}rpx);`
+				// }
 				// #endif
 				return styles
 			},

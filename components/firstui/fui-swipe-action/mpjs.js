@@ -29,11 +29,13 @@ export default {
 		}
 	},
 	mounted() {
-		this.group = this.getParent()
-		if (this.group.children !== undefined) {
-			this.group.children.push(this)
-		}
-		this.init()
+		this.$nextTick(()=>{
+			this.group = this.getParent()
+			if (this.group.children !== undefined) {
+				this.group.children.push(this)
+			}
+			this.init()
+		})
 	},
 	methods: {
 		init() {

@@ -1,6 +1,6 @@
 <template>
 	<scroll-view class="fui-tabs__scrollbox"
-		:class="{'fui-tabs__fixed':isFixed && !isSticky,'fui-tabs__sticky':isSticky}" scroll-with-animation
+		:class="{'fui-tabs__fixed':isFixed && !isSticky,'fui-tabs__sticky':isSticky}" :scroll-with-animation="true"
 		:scroll-x="scroll" :show-scrollbar="false" :scroll-into-view="scrollInto"
 		:style="{background:background,zIndex:(isFixed || isSticky)?zIndex:1,top: isFixed || isSticky ? top + 'px' : 'auto'}">
 		<view class="fui-scroll__view" :class="{'fui-tabs__full':!alignLeft}">
@@ -21,12 +21,15 @@
 					</image>
 					<!-- #ifdef APP-NVUE -->
 					<view class="fui-tabs__text">
+						<text
+							:style="{fontSize:selectedSize+'rpx',fontWeight:tabIndex===index?selectedFontWeight:fontWeight,height:height+'rpx',lineHeight:height+'rpx'}"
+							style="opacity: 0;">{{tab.name}}</text>
 						<text class="fui-tabs__text-nvue"
 							:class="{'fui-tabs__selected-color':!getSelectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
 							:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?getSelectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,height:height+'rpx',lineHeight:height+'rpx'}">{{tab.name}}</text>
 						<text
 							:class="{'fui-tabs__badge-color':!getBadgeBgColor,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
-							:style="{color:badgeColor,background:getBadgeBgColor}"
+							:style="{color:badgeColor,background:getBadgeBgColor,top:getTop+'rpx'}"
 							v-if="tab.badge">{{isDot?'':tab.badge}}</text>
 					</view>
 
@@ -228,8 +231,14 @@
 		created() {
 			this.initData(this.tabs)
 		},
-		computed:{
-			getSelectedColor(){
+		computed: {
+			// #ifdef APP-NVUE
+			getTop() {
+				const height = Number(this.height) - Number(this.selectedSize)
+				return height / 2
+			},
+			// #endif
+			getSelectedColor() {
 				let color = this.selectedColor
 				// #ifdef APP-NVUE
 				if (!color || color === true) {
@@ -239,7 +248,7 @@
 				// #endif
 				return color
 			},
-			getSliderBgColor(){
+			getSliderBgColor() {
 				let color = this.sliderBackground
 				// #ifdef APP-NVUE
 				if (!color || color === true) {
@@ -249,7 +258,7 @@
 				// #endif
 				return color
 			},
-			getBadgeBgColor(){
+			getBadgeBgColor() {
 				let color = this.badgeBackground
 				// #ifdef APP-NVUE
 				if (!color || color === true) {
@@ -419,6 +428,8 @@
 		/* #ifndef APP-NVUE */
 		white-space: nowrap;
 		display: block;
+		transition: transform 0.2s linear;
+		z-index: 3;
 		/* #endif */
 		/* #ifdef APP-NVUE */
 		flex-wrap: nowrap;
@@ -426,13 +437,16 @@
 		align-items: center;
 		justify-content: center;
 		/* #endif */
-		transition: transform 0.2s linear;
 		position: relative;
-		z-index: 3;
 	}
 
 	/* #ifdef APP-NVUE */
 	.fui-tabs__text-nvue {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
 		text-align: center;
 	}
 
@@ -445,19 +459,22 @@
 		font-size: 24rpx;
 		line-height: 36rpx;
 		border-radius: 100px;
+		position: absolute;
 		/* #ifndef APP-NVUE */
 		min-width: 36rpx !important;
 		display: flex;
 		box-sizing: border-box;
-		position: absolute;
 		right: -32rpx;
 		top: -18rpx;
+		z-index: 10;
+		/* #endif */
+		/* #ifdef APP-NVUE */
+		right: 0;
 		/* #endif */
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
 		transform: scale(0.9);
-		z-index: 10;
 	}
 
 	.fui-tabs__badge-dot {
@@ -466,15 +483,17 @@
 		/* #ifdef APP-NVUE */
 		border-radius: 100px;
 		/* #endif */
-
+		position: absolute;
 		/* #ifndef APP-NVUE */
 		display: inline-block;
-		position: absolute;
 		right: -6px;
 		top: -3px;
 		border-radius: 50%;
-		/* #endif */
 		z-index: 10;
+		/* #endif */
+		/* #ifdef APP-NVUE */
+		right: 0;
+		/* #endif */
 	}
 
 	.fui-tabs__line-wrap {

@@ -84,7 +84,7 @@ const fuiConfig = {
 	},
 	fuiFormItem: {
 		labelSize: 32,
-		labelWidth: 160,
+		labelWidth: 164,
 		labelRight: 30,
 		labelWeight: 400,
 		labelAlign: 'left',

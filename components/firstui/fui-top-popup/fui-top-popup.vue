@@ -35,7 +35,7 @@
 			},
 			zIndex: {
 				type: [Number, String],
-				default: 1001
+				default: 996
 			},
 			//点击遮罩 是否可关闭
 			maskClosable: {
@@ -137,7 +137,7 @@
 		right: 0;
 		top: 0;
 		bottom: 0;
-		z-index: 1001;
+		z-index: 996;
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
