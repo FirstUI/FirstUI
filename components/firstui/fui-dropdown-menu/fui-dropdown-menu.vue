@@ -189,15 +189,17 @@
 			getStyles() {
 				let styles = `border-radius:${this.radius}rpx;background:${this.background};`
 				let right = Number(this.right || 0)
+				let left = Number(this.left || 0)
 				if (right >= 0) {
 					styles += 'right:0;'
 				} else {
 					// #ifndef APP-NVUE
-					styles += 'left:0;'
+					styles += `left:${left}rpx;`
 					// #endif
 				}
 				// #ifdef APP-NVUE
-				styles += `left:${this.n_left}px;top:${this.n_top}px;height:${this.maxHeight}rpx;`
+				left = Math.floor(uni.upx2px(left))
+				styles += `left:${this.n_left+left}px;top:${this.n_top}px;height:${this.maxHeight}rpx;`
 				// if (this.direction === 'up') {
 				// 	styles += `transform: translate(0, -${this.maxHeight}rpx);`
 				// }
