@@ -398,6 +398,9 @@
 
 	/* #ifdef APP-NVUE || MP-TOUTIAO */
 	.fui-as__safe-weex {
+		/* #ifdef APP-NVUE */
+		height: 168rpx;
+		/* #endif */
 		padding-bottom: 34px;
 	}
 
