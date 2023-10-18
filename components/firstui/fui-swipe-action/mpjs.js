@@ -103,7 +103,7 @@ export default {
 			const open = this.open || false
 			const leftWidth = this.leftWidth
 			const rightWidth = this.rightWidth
-			if (this.deltaX === 0) {
+			if (this.deltaX === 0 && this.clickClose) {
 				this.openState(false)
 				return
 			}

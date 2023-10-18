@@ -194,7 +194,9 @@
 				})
 				if (this.call) {
 					uni.makePhoneCall({
-						phoneNumber: this.text
+						phoneNumber: this.text,
+						success: function() {},
+						fail: function() {}
 					})
 				}
 			}
@@ -237,11 +239,12 @@
 	}
 
 	/* #endif */
-	
+
 	/* #ifdef APP-NVUE */
-	.fui-text__nvue{
+	.fui-text__nvue {
 		flex: 1;
 	}
+
 	/* #endif */
 
 	.fui-text__center {

@@ -29,7 +29,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.$nextTick(()=>{
+		this.$nextTick(() => {
 			this.box = this.getEl(this.$refs['fui_swipea_wrap'])
 			this.selector = this.getEl(this.$refs['fui_swipea_content']);
 			this.rightButton = this.getEl(this.$refs['fui_swipea_buttons']);
@@ -90,7 +90,7 @@ export default {
 			});
 		},
 		touchend(e) {
-			if (this.isopen && !this.isclick) {
+			if (this.isopen && !this.isclick && this.clickClose) {
 				this.open(false)
 			}
 		},
@@ -102,7 +102,7 @@ export default {
 				if (left < -threshold) {
 					this.open(true)
 				} else {
-					this.open(false)
+					this.open(false) 
 				}
 			} else {
 				if ((x < threshold && x > 0) || (x < -threshold)) {

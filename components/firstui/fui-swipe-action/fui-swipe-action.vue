@@ -2,10 +2,11 @@
 	<!-- #ifdef APP-VUE || MP-WEIXIN || H5 -->
 	<view class="fui-swipe__action-wrap" :style="{marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}">
 		<view class="fui-swipe__action-inner" :show="isShow" :change:show="handler.showChange" :threshold="thresholdVal"
-			:change:threshold="handler.thresholdChange" :disabled="isDisabled" :change:disabled="handler.disabledChange"
-			@touchstart="handler.touchstart" @touchmove="handler.touchmove" @touchend="handler.touchend"
-			@mousedown="handler.mousedown" @mousemove="handler.mousemove" @mouseup="handler.mouseup"
-			@mouseleave="handler.mouseleave">
+			:change:threshold="handler.thresholdChange" :clickclose="clickClose"
+			:change:clickclose="handler.clickCloseChange" :disabled="isDisabled"
+			:change:disabled="handler.disabledChange" @touchstart="handler.touchstart" @touchmove="handler.touchmove"
+			@touchend="handler.touchend" @mousedown="handler.mousedown" @mousemove="handler.mousemove"
+			@mouseup="handler.mouseup" @mouseleave="handler.mouseleave">
 			<view class="fui-swipe__action-left">
 				<slot></slot>
 			</view>
@@ -107,6 +108,11 @@
 				default: false
 			},
 			autoClose: {
+				type: Boolean,
+				default: true
+			},
+			//v2.1.0+ 点击当前菜单是否立即关闭菜单
+			clickClose: {
 				type: Boolean,
 				default: true
 			},

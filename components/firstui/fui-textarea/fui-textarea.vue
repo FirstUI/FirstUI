@@ -27,7 +27,8 @@
 		</view>
 		<slot name="left"></slot>
 		<view class="fui-textarea__flex-1">
-			<textarea ref="fuiTextarea" class="fui-textarea__self" :class="{'fui-text__right':textRight}"
+			<textarea ref="fuiTextarea" class="fui-textarea__self"
+				:class="{'fui-text__right':textRight,'fui-textarea__disabled-styl':disabled && disabledStyle}"
 				:style="{height:height,minHeight:minHeight,fontSize:size+'rpx',color:color}"
 				placeholder-class="fui-textarea-placeholder" :name="name" :value="val" :placeholder="placeholder"
 				:placeholderStyle="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
@@ -139,6 +140,11 @@
 			},
 			// #endif
 			disabled: {
+				type: Boolean,
+				default: false
+			},
+			//V2.1.0+
+			disabledStyle: {
 				type: Boolean,
 				default: false
 			},
@@ -353,19 +359,21 @@
 			}
 		},
 		created() {
-			// #ifndef VUE3
-			this.val = this.getVal(this.value)
-			// #endif
-
-			// #ifdef VUE3
-			if (this.value && !this.modelValue) {
-				this.val = this.getVal(this.value)
-			} else {
-				this.val = this.getVal(this.modelValue)
-			}
-			// #endif
-			this.count = this.getCount(String(this.val).length)
 			this.fieldPlaceholderStyle()
+			setTimeout(() => {
+				// #ifndef VUE3
+				this.val = this.getVal(this.value)
+				// #endif
+
+				// #ifdef VUE3
+				if (this.value && !this.modelValue) {
+					this.val = this.getVal(this.value)
+				} else {
+					this.val = this.getVal(this.modelValue)
+				}
+				// #endif
+				this.count = this.getCount(String(this.val).length)
+			}, 50)
 		},
 		mounted() {
 			this.$nextTick(() => {
@@ -629,5 +637,9 @@
 
 	.fui-text__right {
 		text-align: right;
+	}
+
+	.fui-textarea__disabled-styl {
+		opacity: .6;
 	}
 </style>

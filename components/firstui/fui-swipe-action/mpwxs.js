@@ -9,7 +9,7 @@ export default {
 	},
 	watch: {
 		show(newVal) {
-			this.isShow = this.show
+			this.isShow = this.show ? 'right' : 'none'
 		},
 		disabled(val) {
 			this.isDisabled = this.disabled
@@ -27,7 +27,7 @@ export default {
 	mounted() {
 		this.$nextTick(() => {
 			setTimeout(() => {
-				this.isShow = this.show
+				this.isShow = this.show ? 'right' : 'none'
 				this.isDisabled = this.disabled
 				this.thresholdVal = Number(this.threshold)
 			}, 10)
@@ -39,8 +39,9 @@ export default {
 			this.group && this.group.closeAuto(this)
 		},
 		change(e) {
+			const isOpen = e.open === 'right'
 			this.$emit('change', {
-				isOpen: e.open === 'right',
+				isOpen: isOpen,
 				param: this.param
 			})
 			if (this.isShow !== e.open) {

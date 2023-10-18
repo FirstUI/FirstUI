@@ -22,7 +22,7 @@
 		</view>
 		<slot name="left"></slot>
 		<!-- #ifndef APP-NVUE -->
-		<input class="fui-input__self" :class="{'fui-input__text-right':textRight}"
+		<input class="fui-input__self" :class="{'fui-input__text-right':textRight,'fui-input__disabled-styl':disabled && disabledStyle}"
 			:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
 			:value="val" :placeholder="placeholder" :password="password || type === 'password' || null"
 			:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
@@ -166,6 +166,11 @@
 				default: false
 			},
 			disabled: {
+				type: Boolean,
+				default: false
+			},
+			//V2.1.0+
+			disabledStyle:{
 				type: Boolean,
 				default: false
 			},
@@ -374,19 +379,20 @@
 			}
 		},
 		created() {
-			// #ifndef VUE3
-			this.val = this.value
-			// #endif
-
-			// #ifdef VUE3
-			if (this.value && !this.modelValue) {
-				this.val = this.value
-			} else {
-				this.val = this.modelValue
-			}
-			// #endif
-
 			this.fieldPlaceholderStyle()
+			setTimeout(() => {
+				// #ifndef VUE3
+				this.val = this.value
+				// #endif
+
+				// #ifdef VUE3
+				if (this.value && !this.modelValue) {
+					this.val = this.value
+				} else {
+					this.val = this.modelValue
+				}
+				// #endif
+			}, 50)
 		},
 		mounted() {
 			this.$nextTick(() => {
@@ -711,5 +717,8 @@
 
 	.fui-input__text-right {
 		text-align: right;
+	}
+	.fui-input__disabled-styl{
+		opacity: .6;
 	}
 </style>

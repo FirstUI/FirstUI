@@ -348,6 +348,85 @@ const utils = {
 				}
 			}
 		}
+	},
+	/**
+	 * @desc 日期时间格式化为多久之前 如:1分钟前
+	 * @param date 需要格式化的日期
+	 * @param type  date的格式类型：1-日期字符串(2017/12/04 12:12:12) 2-时间戳(1603676514690) 3-日期字符串，无连接符(20171204121212) 
+	 * 4-new Date()时间格式(Thu Oct 01 2020 00:00:00 GMT+0800 (中国标准时间))
+	 * @param isMs  时间戳精度是否为毫秒，默认为true（当精度为秒时传false），type=2时有效
+	 * @param suffix 后缀，如：30小时+ 后缀。[刚刚、昨天、前天 等为固定文本，后缀无效]
+	 * @param endUnit 转化截止单位，1-秒 2-分钟 3-小时 4-天 5-月 6-年，如传3（小时），则天，月，年不做转化直接返回空
+	 * @param seconds 多少秒之前显示为刚刚，不可超过60
+	 * @param fixedDay 是否需要天的固定文本，如昨天、前天
+	 **/
+	formatTimeAgo(date, type = 1, isMs = true, suffix = '前', endUnit = 6, seconds = 10, fixedDay = true) {
+		const formatDate = utils.dateFormatter(date, 'y/m/d h:i:s', type, isMs)
+		const beforeStamp = new Date(formatDate).getTime()
+		const nowStamp = new Date().getTime();
+		let res = ''
+		const diff = nowStamp - beforeStamp
+		if (diff > 0) {
+			const _minute = 1000 * 60;
+			const _hour = _minute * 60;
+			const _day = _hour * 24;
+			//不精确
+			const _month = _day * 30
+			const _year = _month * 12
+
+			const year = Math.floor(diff / _year)
+			const month = Math.floor(diff / _month)
+			const day = Math.floor(diff / _day)
+			const hour = Math.floor(diff / _hour)
+			const minute = Math.floor(diff / _minute)
+			const second = Math.floor(diff / 1000)
+			let isEmpty = false
+			switch (endUnit) {
+				case 1:
+					isEmpty = (minute || hour || day || month || year) ? true : false
+					break;
+				case 2:
+					isEmpty = (hour || day || month || year) ? true : false
+					break;
+				case 3:
+					isEmpty = (day || month || year) ? true : false
+					break;
+				case 4:
+					isEmpty = (month || year) ? true : false
+					break;
+				case 5:
+					isEmpty = year ? true : false
+					break;
+				default:
+					break;
+			}
+
+			if (!isEmpty) {
+				if (year) {
+					res = `${year}年${suffix}`
+				} else if (month) {
+					res = `${month}个月${suffix}`
+				} else if (day) {
+					if (day === 1 && fixedDay) {
+						//1天前
+						res = "昨天";
+					} else if (day === 2 && fixedDay) {
+						//2天前
+						res = "前天";
+					} else {
+						res = `${day}天${suffix}`
+					}
+				} else if (hour) {
+					res = `${hour}小时${suffix}`
+				} else if (minute) {
+					res = `${minute}分钟${suffix}`
+				} else {
+					seconds = seconds < 60 ? seconds : 59;
+					res = second < seconds ? '刚刚' : `${second}秒${suffix}`
+				}
+			}
+		}
+		return res
 	}
 }
 
@@ -369,5 +448,6 @@ export default {
 	getUrlParam: utils.getUrlParam,
 	getUUID: utils.getUUID,
 	debounce: utils.debounce,
-	throttle: utils.throttle
+	throttle: utils.throttle,
+	formatTimeAgo: utils.formatTimeAgo
 }

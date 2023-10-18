@@ -60,6 +60,16 @@ export default [{
 		name: 'Section 标题栏',
 		vip: false,
 		page: 'section'
+	}, {
+		icon: 'textarea',
+		name: 'WhiteSpace 上下间距',
+		vip: false,
+		page: 'whiteSpace'
+	}, {
+		icon: 'checkbox',
+		name: 'WingBlank 左右间距',
+		vip: false,
+		page: 'wingBlank'
 	}]
 }, {
 	id: 'form',

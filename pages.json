@@ -630,6 +630,26 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "layout/whiteSpace/whiteSpace",
+			"style": {
+				// #ifdef H5
+				"titleNView": false,
+				// #endif
+				"navigationBarTitleText": "上下间距",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "layout/wingBlank/wingBlank",
+			"style": {
+				// #ifdef H5
+				"titleNView": false,
+				// #endif
+				"navigationBarTitleText": "左右间距",
+				"enablePullDownRefresh": false
+			}
+
 		}]
 	}],
 	"easycom": {

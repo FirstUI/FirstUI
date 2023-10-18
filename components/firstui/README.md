@@ -1,46 +1,7 @@
-# First UI 移动端框架优质选择
-
-FirstUI 将出品多种框架下组件库供开发者使用，其中包含uni-app、微信小程序、支付宝小程序、Taro等，后期将会陆续上线，目前上线的版本有uni-app版本与微信小程序版本！
-
-## FirstUI UNI版
-
-First UI UNI版 是一套基于uni-app开发的组件化、可复用、易扩展、低耦合的跨平台移动端UI 组件库。全面兼容App-Nvue、App-vue、小程序（微信、支付宝、百度、字节、QQ）、H5。
-
-官网地址：[https://www.firstui.cn](https://www.firstui.cn)
-
-文档地址：[https://doc.firstui.cn](https://doc.firstui.cn)
-
-
-## FirstUI 微信小程序版
-
-FirstUI-weixin 是一套基于微信小程序开发的组件化、可复用、易扩展、低耦合的原生微信小程序UI组件库。
-
-官网地址：[https://www.firstui.cn](https://www.firstui.cn)
-
-文档地址：[https://wxdoc.firstui.cn](https://wxdoc.firstui.cn)
-
-
-==============================================================
-
-# FirstUI UNI版 快速上手
+# First UI 快速上手
 
 使用 First UI 前，请确保你已经学习并熟练使用过 [uni-app](https://uniapp.dcloud.io/) 。
 
-
-<a href="https://github.com/FirstUI/FirstUI" target="_blank">
-  <img alt="star this repo" src="https://img.shields.io/github/stars/FirstUI/FirstUI" />
-</a>
- <a href="https://github.com/FirstUI/FirstUI/fork" target="_blank">
-   <img alt="fork this repo" src="https://img.shields.io/github/forks/FirstUI/FirstUI" />
- </a>
-
- <a href="https://www.npmjs.com/package/firstui-uni" target="_blank">
-	<img alt="npm" src="https://img.shields.io/npm/v/firstui-uni.svg" />
-  </a>
-
-  <a href="https://www.npmjs.com/package/firstui-uni" target="_blank">
-	<img alt="license" src="https://img.shields.io/npm/l/firstui-uni.svg" />
- </a>
 
 ### 安装
 
@@ -74,7 +35,7 @@ git clone https://github.com/FirstUI/FirstUI.git
  <div class="fui-doc__title">第一种：在页面中引用、注册</div>
  
 ``` js
-import fuiButton from "@/components/firstui/fui-button/fui-button"
+import fuiButton from "@/components/firstui/fui-button/fui-button.vue"
 export default {
 	components:{
 		fuiButton
@@ -125,13 +86,6 @@ export default {
 文档地址：[https://doc.firstui.cn](https://doc.firstui.cn)
 
 GitHub地址：[https://github.com/FirstUI/FirstUI](https://github.com/FirstUI/FirstUI)
-
-
-### 其他说明
-
-First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的表示需要开通会员才可获取源码使用，会员内容不会发布到任何公开渠道。
-
-开通会员、版权约束说明以及详细介绍请参考 FAQ中 [会员介绍](https://doc.firstui.cn/docs/FAQ.html#%E4%BC%9A%E5%91%98%E4%BB%8B%E7%BB%8D)。
 
 
 ### 更新日志
@@ -187,6 +141,7 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 - 全局配置文件（fui-config）调整。
 
 - 修复其他已知问题。
+
 
 #### V2.0.0（2023-07-17）
 
@@ -273,6 +228,7 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 - Skeleton 骨架屏 组件优化，nvue端加入动画效果。
 
 - 优化部分已知问题。
+
 
 #### V1.9.9（2023-06-25）
 
@@ -530,6 +486,7 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 - 优化部分已知问题。
 
+
 #### V1.9.5（2023-05-04）
 
 - 新增 Link 超链接 组件。
@@ -626,7 +583,6 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 - BubbleBox 气泡框 组件优化，position 值为 absolute 时，支持设置left（right）、top（bottom）值。
 
-- 优化部分已知问题。
 
 #### V1.9.0（2023-03-17）
 
@@ -663,6 +619,7 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 - 组件文档搜索优化，能快速定位到搜索内容。
 
 - 修复其他已知问题。
+
 
 #### V1.8.0（2023-01-31）
 
@@ -718,20 +675,21 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 
 - Animation 动画 组件 属性styles参数传值优化，默认值写入组件方法内部，styles仅做替换合并使用。
 
+- Textarea 多行输入框组件已知问题优化。
 
 #### V1.7.0（2022-09-28）
 
-- 新增 WATERFALL 瀑布流加载 布局内容。
+- 新增 WATERFALL 瀑布流加载 布局内容（VIP）。
 
-- 新增 TOP TAB 顶部选项卡 布局内容。
+- 新增 TOP TAB 顶部选项卡 布局内容（VIP）。
 
-- 新增 NEWS LIST 新闻列表 布局内容。
+- 新增 NEWS LIST 新闻列表 布局内容（VIP）。
 
-- 新增 PRODUCT LIST 商品列表 布局内容。
+- 新增 PRODUCT LIST 商品列表 布局内容（VIP）。
 
-- 新增 MAP 地图 布局内容-线路规划。
+- 新增 MAP 地图 布局内容-线路规划（VIP）。
 
-- 新增 ROLL HORIZONTAL 横向滚动 布局内容。
+- 新增 ROLL HORIZONTAL 横向滚动 布局内容（VIP）。
 
 - 新增 UploadVideo 视频上传 组件（VIP组件）。
 
@@ -937,6 +895,7 @@ First UI分为 `开源版` 和 `商业版`，所有示例或文档中加 V 的�
 - 修复 InputNumber 数字输入框 组件在vue3下 blur 事件未在emits中申明的问题。
 
 - 优化若干已知问题。
+
 
 #### V1.3.0（2021-12-31）
 
