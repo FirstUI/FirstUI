@@ -1,13 +1,14 @@
 <template>
 	<!-- #ifndef APP-NVUE -->
 	<text :style="{ color:getColor, fontSize: getSize, fontWeight: fontWeight}" class="fui-icon"
-		:class="[!getColor && !primary?'fui-icon__color':'',primary && (!color || color===true)?'fui-icon__active-color':'',disabled?'fui-icon__not-allowed':'',customPrefix,customPrefix?name:'']"
+		:class="[!getColor && !primary?'fui-icon__color':'',primary && (!color || color===true)?'fui-icon__active-color':'',disabled?'fui-icon__not-allowed':'',customPrefix && customPrefix!==true?customPrefix:'',customPrefix && customPrefix!==true?name:'']"
 		@click="handleClick">{{ icons[name] || '' }}</text>
 	<!-- #endif -->
 	<!-- #ifdef APP-NVUE -->
 	<text
 		:style="{ color: primary && (!color || color===true)?primaryColor:getColor, fontSize: getSize,lineHeight:getSize, fontWeight: fontWeight}"
-		class="fui-icon" :class="[customPrefix]" @click="handleClick">{{ customPrefix?name:icons[name] }}</text>
+		class="fui-icon" :class="[customPrefix && customPrefix!==true?customPrefix:'']"
+		@click="handleClick">{{ customPrefix  && customPrefix!==true?name:icons[name] }}</text>
 	<!-- #endif -->
 </template>
 
@@ -84,8 +85,10 @@
 			},
 			getColor() {
 				const app = uni && uni.$fui && uni.$fui.fuiIcon;
-				let color = this.color || (app && app.color)
-
+				let color = this.color;
+				if (!color || (color && color === true)) {
+					color = (app && app.color)
+				}
 				// #ifdef APP-NVUE
 				if (!color || color === true) {
 					color = '#333333'

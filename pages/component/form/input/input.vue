@@ -21,16 +21,17 @@
 			<view class="fui-page__spacing">
 				<fui-input label="标题" inputBorder placeholder="请输入文本"></fui-input>
 				<fui-input :marginTop="24" isFillet inputBorder placeholder="请输入文本"></fui-input>
-				<fui-input :marginTop="24" :radius="24" border-color="#FFB703" inputBorder placeholder="请输入文本"></fui-input>
+				<fui-input :marginTop="24" :radius="24" border-color="#FFB703" inputBorder
+					placeholder="请输入文本"></fui-input>
 			</view>
 			<view class="fui-section__title">必填项</view>
 			<fui-input required label="标题" borderTop placeholder="请输入文本"></fui-input>
 			<fui-input required label="标题文字" :bottomLeft="0" placeholder="请输入文本内容"></fui-input>
 			<view class="fui-section__title">输入文本右对齐</view>
-			<fui-input textRight label="身高" borderTop placeholder="请输入身高">
+			<fui-input text-align="right" label="身高" borderTop placeholder="请输入身高">
 				<text>cm</text>
 			</fui-input>
-			<fui-input textRight label="体重" :bottomLeft="0" placeholder="请输入体重">
+			<fui-input text-align="right" label="体重" :bottomLeft="0" placeholder="请输入体重">
 				<text>kg</text>
 			</fui-input>
 			<view class="fui-section__title">禁用状态</view>

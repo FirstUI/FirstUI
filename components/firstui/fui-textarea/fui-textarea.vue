@@ -30,7 +30,7 @@
 			<textarea ref="fuiTextarea" class="fui-textarea__self"
 				:class="{'fui-text__right':textRight,'fui-textarea__disabled-styl':disabled && disabledStyle}"
 				:style="{height:height,minHeight:minHeight,fontSize:size+'rpx',color:color}"
-				placeholder-class="fui-textarea-placeholder" :name="name" :value="val" :placeholder="placeholder"
+				placeholder-class="fui-textarea-placeholder" :name="name" :value="val" :placeholder="val?'':placeholder"
 				:placeholderStyle="placeholderStyl" :disabled="disabled" :cursor-spacing="cursorSpacing"
 				:maxlength="maxlength" :focus="focused" :auto-height="autoHeight" :fixed="fixed"
 				:show-confirm-bar="showConfirmBar" :cursor="cursor" :selection-start="selectionStart"

@@ -22,9 +22,11 @@
 		</view>
 		<slot name="left"></slot>
 		<!-- #ifndef APP-NVUE -->
-		<input class="fui-input__self" :class="{'fui-input__text-right':textRight,'fui-input__disabled-styl':disabled && disabledStyle}"
-			:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type" :name="name"
-			:value="val" :placeholder="placeholder" :password="password || type === 'password' || null"
+		<input class="fui-input__self"
+			:class="{'fui-input__text-right':textRight,'fui-input__disabled-styl':disabled && disabledStyle,'fui-input__disabled':disabled}"
+			:style="{fontSize:getSize,color:color,textAlign:textRight?'right':textAlign}"
+			placeholder-class="fui-input__placeholder" :type="type" :name="name" :value="val"
+			:placeholder="val?'':placeholder" :password="password || type === 'password' || null"
 			:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
 			:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
 			:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
@@ -35,8 +37,9 @@
 		<!-- #ifdef APP-NVUE -->
 		<view class="fui-input__self-wrap">
 			<input ref="fuiInput" class="fui-input__self" :class="{'fui-input__text-right':textRight}"
-				:style="{fontSize:getSize,color:color}" placeholder-class="fui-input__placeholder" :type="type"
-				:name="name" :value="val" :placeholder="placeholder" :password="password || type === 'password'"
+				:style="{fontSize:getSize,color:color,textAlign:textRight?'right':textAlign}"
+				placeholder-class="fui-input__placeholder" :type="type" :name="name" :value="val"
+				:placeholder="placeholder" :password="password || type === 'password'"
 				:placeholder-style="placeholderStyl" :disabled="disabled || readonly" :cursor-spacing="cursorSpacing"
 				:maxlength="maxlength" :focus="focused" :confirm-type="confirmType" :confirm-hold="confirmHold"
 				:cursor="cursor" :selection-start="selectionStart" :selection-end="selectionEnd"
@@ -170,7 +173,7 @@
 				default: false
 			},
 			//V2.1.0+
-			disabledStyle:{
+			disabledStyle: {
 				type: Boolean,
 				default: false
 			},
@@ -290,9 +293,15 @@
 				type: Boolean,
 				default: true
 			},
+			//即将废弃，请使用textAlign属性
 			textRight: {
 				type: Boolean,
 				default: false
+			},
+			//V2.2.0+ 可选值：left/center/right
+			textAlign: {
+				type: String,
+				default: 'left'
 			},
 			padding: {
 				type: Array,
@@ -692,6 +701,10 @@
 	/* #endif */
 
 	/* #ifndef APP-NVUE */
+	.fui-input__disabled {
+		pointer-events: none;
+	}
+
 	.fui-input__border {
 		position: absolute;
 		height: 200%;
@@ -715,10 +728,19 @@
 
 	/* #endif */
 
+	.fui-input__text-left {
+		text-align: left;
+	}
+
 	.fui-input__text-right {
 		text-align: right;
 	}
-	.fui-input__disabled-styl{
+
+	.fui-input__text-center {
+		text-align: center;
+	}
+
+	.fui-input__disabled-styl {
 		opacity: .6;
 	}
 </style>
