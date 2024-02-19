@@ -9,6 +9,10 @@
 		<view class="fui-switch__input-def" :style="{background:val?color:'#dfdfdf',borderColor:val?color:borderColor}"
 			:class="{'fui-switch__input--checked':val,'fui-checkbox__disabled':disabled,'fui-switch__color':val && !color}"
 			v-if="type==='switch'">
+			<view class="fui-switch__input-after" :style="{background:val?(btnColor?btnColor:'#fff'):'#fff'}"
+				:class="{'fui-switch__input--after':val}">
+				<slot></slot>
+			</view>
 			<switch class="fui-switch__hidden" :class="{'fui-pointer__events':isLabel}" @change="change" :name="name"
 				:checked="val" :disabled="disabled" :color="color">
 			</switch>
@@ -21,8 +25,8 @@
 			<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 				v-if="val"></view>
 			<switch class="fui-switch__hidden" :class="{'fui-pointer__events':isLabel}"
-				style="opacity: 0;position: absolute;" @change="change" :name="name" type="checkbox"
-				:checked="val" :disabled="disabled"></switch>
+				style="opacity: 0;position: absolute;" @change="change" :name="name" type="checkbox" :checked="val"
+				:disabled="disabled"></switch>
 		</view>
 	</view>
 </template>
@@ -58,6 +62,11 @@
 			},
 			//switch选中颜色
 			color: {
+				type: String,
+				default: ''
+			},
+			//switch选中时按钮颜色 V2.3.0+（nvue不支持）
+			btnColor: {
 				type: String,
 				default: ''
 			},
@@ -144,7 +153,7 @@
 <style scoped>
 	/* #ifndef APP-NVUE */
 	.fui-switch__input {
-		display: inline-block;
+		display: inline;
 		margin: 0;
 	}
 
@@ -201,8 +210,7 @@
 		transition: transform .3s
 	}
 
-	.fui-switch__input-def::after {
-		content: " ";
+	.fui-switch__input-after {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -211,14 +219,17 @@
 		border-radius: 15px;
 		background-color: #fff;
 		box-shadow: 0 0 3px rgba(0, 0, 0, .4);
-		transition: transform .3s
+		transition: transform .3s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.fui-switch__input--checked::before {
 		transform: scale(0)
 	}
 
-	.fui-switch__input--checked::after {
+	.fui-switch__input--after {
 		transform: translateX(20px)
 	}
 

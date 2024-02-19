@@ -1,6 +1,6 @@
 /*
 ===========================================
- 当前组件库版本号为：V2.1.0
+ 当前组件库版本号为：V2.3.0
  如果与文档最新版本不一致，请更新至最新版本使用！
 ===========================================
  */
@@ -8,7 +8,7 @@
 /*
   组件属性全局配置文件。优先级：全局配置文件props < 直接设置组件props
   目前支持配置的组件：fui-button、fui-icon、fui-text、fui-input、fui-form-item、fui-list-cell
-  fui-section、fui-white-space、fui-wing-blank
+  fui-section、fui-white-space、fui-wing-blank、fui-number
 */
 
 // 主色（V1.9.8+），仅Nvue端以及无法使用css变量控制颜色的组件使用【保持与fui-theme中一致】
@@ -85,6 +85,11 @@ const fuiConfig = {
 		unit: 'rpx',
 		//仅Nvue有效，black 默认颜色，V1.9.8+
 		color: ''
+	},
+	//v2.3.0+
+	fuiNumber: {
+		size: 32,
+		unit: 'rpx'
 	},
 	fuiInput: {
 		labelSize: 32,

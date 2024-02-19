@@ -1,0 +1,24 @@
+/*!
+ * font-weight v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+.fs-weight__400,
+.fs-weight__normal{
+	font-weight: 400;
+}
+.fs-weight__500{
+	font-weight: 500;
+}
+.fs-weight__600{
+	font-weight: 600;
+}
+
+.fs-bold,
+.fs-weight__bold,
+.fs-weight__700,
+.fs-weight__800,
+.fs-weight__900{
+	font-weight: bold;
+}

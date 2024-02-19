@@ -22,9 +22,16 @@
 				fontSize: getSize,
 				color: getColor
 			}" :loading="loading" :form-type="formType" :open-type="openType" :app-parameter="appParameter"
-			@getuserinfo="bindgetuserinfo" @getphonenumber="bindgetphonenumber" @contact="bindcontact"
-			@error="binderror" @opensetting="bindopensetting" @chooseavatar="bindchooseavatar"
-			@launchapp="bindlaunchapp" :disabled="disabled" :scope="scope" @tap.stop="handleTap">
+			:hoverStopPropagation="hoverStopPropagation" :lang="lang" :sessionFrom="sessionFrom"
+			:sendMessageTitle="sendMessageTitle" :sendMessagePath="sendMessagePath" :sendMessageImg="sendMessageImg"
+			:showMessageCard="showMessageCard" :groupId="groupId" :guildId="guildId" :publicId="publicId"
+			:dataImId="dataImId" :dataImType="dataImType" :dataGoodsId="dataGoodsId" :dataOrderId="dataOrderId"
+			:dataBizLine="dataBizLine" :phoneNumberNoQuotaToast="phoneNumberNoQuotaToast" @getuserinfo="bindgetuserinfo"
+			@getphonenumber="bindgetphonenumber" @contact="bindcontact" @error="binderror"
+			@opensetting="bindopensetting" @chooseavatar="bindchooseavatar" @launchapp="bindlaunchapp"
+			@agreeprivacyauthorization="agreeprivacyauthorization" @addgroupapp="addgroupapp"
+			@chooseaddress="chooseaddress" @chooseinvoicetitle="chooseinvoicetitle" @subscribe="bindsubscribe"
+			@login="bindlogin" @im="bindim" :disabled="disabled" :scope="scope" @tap.stop="handleTap">
 			<text class="fui-button__text"
 				:class="{'fui-btn__gray-color':!background && !disabledBackground && !plain && type==='gray' && color==='#fff','fui-text__bold':bold}"
 				v-if="text" :style="{fontSize: getSize,lineHeight:getSize,color:getColor}">{{text}}</text>
@@ -42,7 +49,10 @@
 <script>
 	export default {
 		name: 'fui-button',
-		emits: ['click', 'getuserinfo', 'contact', 'getphonenumber', 'error', 'opensetting'],
+		emits: ['click', 'getuserinfo', 'contact', 'getphonenumber', 'error', 'opensetting', 'chooseavatar', 'launchapp',
+			'agreeprivacyauthorization', 'addgroupapp', 'chooseaddress', 'chooseinvoicetitle', 'subscribe', 'login',
+			'im'
+		],
 		// #ifdef MP-WEIXIN
 		behaviors: ['wx://form-field-button'],
 		// #endif
@@ -159,6 +169,71 @@
 				default: ''
 			},
 			appParameter: {
+				type: String,
+				default: ''
+			},
+			//v2.3.0+
+			hoverStopPropagation: {
+				type: Boolean,
+				default: false
+			},
+			lang: {
+				type: String,
+				default: 'en'
+			},
+			sessionFrom: {
+				type: String,
+				default: ''
+			},
+			sendMessageTitle: {
+				type: String,
+				default: ''
+			},
+			sendMessagePath: {
+				type: String,
+				default: ''
+			},
+			sendMessageImg: {
+				type: String,
+				default: ''
+			},
+			showMessageCard: {
+				type: Boolean,
+				default: false
+			},
+			phoneNumberNoQuotaToast: {
+				type: Boolean,
+				default: true
+			},
+			groupId: {
+				type: String,
+				default: ''
+			},
+			guildId: {
+				type: String,
+				default: ''
+			},
+			publicId: {
+				type: String,
+				default: ''
+			},
+			dataImId: {
+				type: String,
+				default: ''
+			},
+			dataImType: {
+				type: String,
+				default: ''
+			},
+			dataGoodsId: {
+				type: String,
+				default: ''
+			},
+			dataOrderId: {
+				type: String,
+				default: ''
+			},
+			dataBizLine: {
 				type: String,
 				default: ''
 			},
@@ -354,6 +429,28 @@
 				detail = {}
 			} = {}) {
 				this.$emit('launchapp', detail);
+			},
+			//v2.3.0+
+			agreeprivacyauthorization(e) {
+				this.$emit('agreeprivacyauthorization', e);
+			},
+			addgroupapp(e) {
+				this.$emit('addgroupapp', e);
+			},
+			chooseaddress(e) {
+				this.$emit('chooseaddress', e);
+			},
+			chooseinvoicetitle(e) {
+				this.$emit('chooseinvoicetitle', e);
+			},
+			bindsubscribe(e) {
+				this.$emit('subscribe', e);
+			},
+			bindlogin(e) {
+				this.$emit('login', e);
+			},
+			bindim(e) {
+				this.$emit('im', e);
 			}
 		}
 	};

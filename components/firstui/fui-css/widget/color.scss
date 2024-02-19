@@ -1,0 +1,88 @@
+/*!
+ * color v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+/* color */
+.fs-color__primary {
+	color: $fv-color-primary;
+}
+.fs-color__success {
+	color: $fv-color-success;
+}
+.fs-color__warning {
+	color: $fv-color-warning;
+}
+.fs-color__danger {
+	color: $fv-color-danger;
+}
+.fs-color__purple {
+	color: $fv-color-purple;
+}
+/* 用于重量级文字信息、标题 */
+.fs-color__title {
+	color: $fv-color-title;
+}
+/* 用于普通级段落信息、引导词 */
+.fs-color__section{
+	color: $fv-color-section;
+}
+/* 用于次要标题内容 */
+.fs-color__subtitle{
+	color: $fv-color-subtitle
+}
+/* 用于底部标签、描述、次要文字信息 */
+.fs-color__label{
+	color: $fv-color-label;
+}
+/* 用于辅助、次要信息、禁用文字等。如：待输入状态描述文字，已点击按钮文字 */
+.fs-color__minor{
+	color: $fv-color-minor;
+}
+.fs-color__white{
+	color: $fv-color-white;
+}
+/* 链接颜色 */
+.fs-color__link{
+	color: $fv-color-link;
+}
+
+
+/* bgckground-color */
+
+.fs-bg__primary {
+	background: $fv-color-primary;
+}
+.fs-bg__success {
+	background: $fv-color-success;
+}
+.fs-bg__warning {
+	background: $fv-color-warning;
+}
+.fs-bg__danger {
+	background: $fv-color-danger;
+}
+.fs-bg__purple {
+	background: $fv-color-purple;
+}
+.fs-bg__white{
+	background: $fv-color-white;
+}
+
+/* 页面背景底色 */
+.fs-bg__page{
+	background:$fv-bg-color-grey;
+}
+/* 内容模块底色 */
+.fs-bg__content{
+	background:$fv-bg-color-content;
+}
+/* 点击背景颜色 */
+.fs-bg__hover{
+	background:$fv-bg-color-hover;
+}
+/* 遮罩背景颜色 */
+.fs-bg__mask{
+	background:$fv-bg-color-mask;
+}

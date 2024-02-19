@@ -62,14 +62,14 @@
 	}
 
 	.fui-white__space-small {
-		height: 16rpx
+		height: 8rpx
 	}
 
 	.fui-white__space-default {
-		height: 24rpx
+		height: 16rpx
 	}
 
 	.fui-white__space-large {
-		height: 32rpx
+		height: 24rpx
 	}
 </style>

@@ -1,0 +1,32 @@
+/*!
+ * border v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+.fs-border {
+  border-style: solid;
+  border-width: $fv-border-width;
+}
+
+.fs-border__none { border-width: 0 }
+
+.fs-border__top {
+  border-top-style: solid;
+  border-top-width: $fv-border-width;
+}
+
+.fs-border__right {
+  border-right-style: solid;
+  border-right-width: $fv-border-width;
+}
+
+.fs-border__bottom {
+  border-bottom-style: solid;
+  border-bottom-width: $fv-border-width;
+}
+
+.fs-border__left {
+  border-left-style: solid;
+  border-left-width: $fv-border-width;
+}

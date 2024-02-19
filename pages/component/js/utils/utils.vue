@@ -79,6 +79,21 @@
 				<fui-button type="gray" btn-size="medium" text="执行 +1" bold :margin="['24rpx']"
 					@click="btnThrottle"></fui-button>
 			</view>
+			<view class="fui-section__title">生成随机颜色</view>
+			<view class="fui-btn__flex-center">
+				<text class="fui-page__desc" :style="{color:color}">随机颜色</text>
+				<fui-button type="gray" btn-size="medium" text="获取颜色" :bold="true" :margin="['24rpx']"
+					@click="getRandomHexColor"></fui-button>
+			</view>
+			<view class="fui-section__title">金额转大写</view>
+			<view class="fui-btn__flex-center">
+				<fui-button type="gray" btn-size="medium" text="￥20.00" :bold="true" :margin="['24rpx']"
+					@click="convertCurrency('￥20.00')"></fui-button>
+				<fui-button type="gray" btn-size="medium" text="￥1,020.52" :bold="true"
+					@click="convertCurrency('￥1,020.52')"></fui-button>
+				<fui-button type="gray" btn-size="medium" text="1314521" :bold="true" :margin="['24rpx']"
+					@click="convertCurrency('1314521')"></fui-button>
+			</view>
 			<view class="fui-section__title">其他功能</view>
 			<view class="fui-page__desc">
 				除以上功能以外，还有：日期时间格式化【更多使用】，RGB颜色转十六进制颜色，十六进制颜色转RGB颜色，获取唯一标识，获取uuid，简单数组合并去重，获取日期时间段，获取Url参数，函数防抖，函数节流等功能，具体使用请查看文档。
@@ -92,7 +107,8 @@
 	export default {
 		data() {
 			return {
-				num: 0
+				num: 0,
+				color:''
 			}
 		},
 		onLoad() {
@@ -163,6 +179,17 @@
 			},
 			btnThrottle() {
 				this.throttle()
+			},
+			getRandomHexColor() {
+				const val = utils.getRandomHexColor()
+				console.log(val)
+				this.color = val
+				this.fui.toast(val)
+			},
+			convertCurrency(money) {
+				const val = utils.convertCurrency(money)
+				console.log(val)
+				this.fui.toast(val)
 			}
 		}
 	}

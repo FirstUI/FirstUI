@@ -1,0 +1,66 @@
+/* fui-variables  */
+/* 行为相关颜色 */
+$fv-color-primary: #465CFF !default;
+$fv-color-success: #09BE4F !default;
+$fv-color-warning: #FFB703 !default;
+$fv-color-danger: #FF2B2B !default;
+$fv-color-purple: #6831FF !default;
+
+/* 文字基本颜色、其他辅助色 */
+/* 用于重量级文字信息、标题 */
+$fv-color-title: #181818 !default;
+/* 用于普通级段落信息、引导词 */
+$fv-color-section: #333333 !default;
+/* 用于次要标题内容 */
+$fv-color-subtitle: #7F7F7F !default;
+/* 用于底部标签、描述、次要文字信息 */
+$fv-color-label: #B2B2B2 !default;
+/* 用于辅助、次要信息、禁用文字等。如：待输入状态描述文字，已点击按钮文字 */
+$fv-color-minor: #CCCCCC !default;
+$fv-color-white: #FFFFFF !default;
+/* 链接颜色 */
+$fv-color-link: #465CFF !default;
+
+
+/* 背景颜色 */
+$fv-bg-color: #ffffff !default;
+/* 页面背景底色 */
+$fv-bg-color-grey: #F1F4FA !default;
+/* 内容模块底色 */
+$fv-bg-color-content: #F8F8F8 !default;
+/* 点击背景色 */
+$fv-bg-color-hover: rgba(0, 0, 0, 0.2) !default;
+/* 遮罩颜色 */
+$fv-bg-color-mask: rgba(0, 0, 0, 0.6) !default;
+
+
+/* 边框颜色 */
+$fv-color-border: #EEEEEE !default;
+
+/* 阴影颜色 */
+$fv-color-shadow: rgba(2, 4, 38, 0.05) !default;
+
+/*禁用态的透明度 */
+$fv-opacity-disabled: 0.5 !default;
+
+
+/* icon尺寸 */
+$fv-icon-size: 64rpx !default;
+
+/* Border Radius */
+$fv-border-radius-sm: 16rpx !default;
+$fv-border-radius-base: 24rpx !default;
+$fv-border-radius-lg: 48rpx !default;
+
+/* 水平间距 */
+$fv-spacing-row-sm: 16rpx !default;
+$fv-spacing-row-base: 24rpx !default;
+$fv-spacing-row-lg: 32rpx !default;
+
+/* 垂直间距 */
+$fv-spacing-col-sm: 8rpx !default;
+$fv-spacing-col-base: 16rpx !default;
+$fv-spacing-col-lg: 24rpx !default;
+
+/* 边框宽度 */
+$fv-border-width:1px !default;

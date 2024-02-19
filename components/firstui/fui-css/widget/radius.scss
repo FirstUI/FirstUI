@@ -1,0 +1,36 @@
+/*!
+ * border-radius v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+$fv_radius:4,8,12,16,24,30,48,200;
+
+@each $r in $fv_radius{
+	.fs-radius__#{$r} { 
+		border-radius: #{$r}rpx;
+		overflow: hidden;
+	}
+}
+.fs-radius__sm{
+	border-radius: $fv-border-radius-sm;
+	overflow: hidden;
+}
+.fs-radius__base,
+.fs-radius__md{
+	border-radius: $fv-border-radius-base;
+	overflow: hidden;
+}
+.fs-radius__lg{
+	border-radius: $fv-border-radius-lg;
+	overflow: hidden;
+}
+.fs-radius__circle{
+	/* #ifndef APP-NVUE */
+	border-radius: 50%;
+	/* #endif */
+	/* #ifdef APP-NVUE */
+	border-radius: 200px;
+	/* #endif */
+	overflow: hidden;
+}

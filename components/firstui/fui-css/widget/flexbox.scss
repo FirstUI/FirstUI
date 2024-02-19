@@ -1,0 +1,99 @@
+/*!
+ * flexbox v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+.fs-flex,
+.fs-flex__row { 
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+}
+
+.fs-flex__column  { 
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: column;
+}
+
+.fs-flex__wrap    { flex-wrap: wrap }
+
+.fs-items__start    { align-items: flex-start }
+.fs-items__end      { align-items: flex-end }
+.fs-items__center   { align-items: center }
+/* #ifndef APP-NVUE */
+.fs-items__baseline { align-items: baseline }
+/* #endif */
+.fs-items__stretch  { align-items: stretch }
+
+/* #ifndef APP-NVUE */
+.fs-self__start    { align-self: flex-start }
+.fs-self__end      { align-self: flex-end }
+.fs-self__center   { align-self: center }
+.fs-self__baseline { align-self: baseline }
+.fs-self__stretch  { align-self: stretch }
+/* #endif */
+
+.fs-justify__start   { justify-content: flex-start }
+.fs-justify__end     { justify-content: flex-end }
+.fs-justify__center  { justify-content: center }
+.fs-justify__between { justify-content: space-between }
+.fs-justify__around  { justify-content: space-around }
+/* #ifndef APP-NVUE */
+.fs-justify__evenly  { justify-content: space-evenly }
+/* #endif */
+
+/* #ifndef APP-NVUE */
+.fs-content__start   { align-content: flex-start }
+.fs-content__end     { align-content: flex-end }
+.fs-content__center  { align-content: center }
+.fs-content__between { align-content: space-between }
+.fs-content__around  { align-content: space-around }
+.fs-content__stretch { align-content: stretch }
+/* #endif */
+
+/* #ifndef APP-NVUE */
+.fs-order__0 { order: 0 }
+.fs-order__1 { order: 1 }
+.fs-order__2 { order: 2 }
+.fs-order__3 { order: 3 }
+.fs-order__last { order: 99999 }
+/* #endif */
+
+.fs-flex__center{
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.fs-flex__between {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.fs-align__center {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	align-items: center;
+	flex-direction: row;
+}
+
+.fs-flex__reverse {
+	flex-direction: row-reverse;
+}
+
+.fs-flex__1,
+.fs-flex1{
+	flex: 1;
+}

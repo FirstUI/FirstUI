@@ -1,0 +1,21 @@
+/*!
+ * margin v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+$fv-margin:0,2,4,8,10,12,16,20,24,28,30,32,36,40,44,48,52,56,60,64,68,72,76,80,84,88,92,96;
+
+@each $m in $fv-margin{
+	.fs-m#{$m} { margin: #{$m}rpx;}
+	.fs-mt#{$m} { margin-top: #{$m}rpx;}
+	.fs-mr#{$m} { margin-right: #{$m}rpx; }
+	.fs-mb#{$m} { margin-bottom: #{$m}rpx; }
+	.fs-ml#{$m} { margin-left: #{$m}rpx; }
+	.fs-mx#{$m} { margin-left: #{$m}rpx; margin-right: #{$m}rpx; }
+	.fs-my#{$m} { margin-top:#{$m}rpx; margin-bottom: #{$m}rpx; }
+}
+
+/* #ifndef APP-NVUE */
+.fs-ml__auto  { margin-left: auto; }
+.fs-mr__auto  { margin-right: auto; }
+/* #endif */

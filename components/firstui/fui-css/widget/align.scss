@@ -1,0 +1,31 @@
+/*!
+ * text-align v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+.fs-align__left{
+	text-align: left;
+}
+
+.fs-align__center{
+	text-align: center;
+}
+
+.fs-align__right{
+	text-align: right;
+}
+
+/* #ifndef APP-NVUE */
+.fs-align__justify{
+	text-align: justify;
+}
+
+.fs-align__start{
+	text-align: start;
+}
+
+.fs-align__end{
+	text-align: end;
+}
+/* #endif */

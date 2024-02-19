@@ -1,0 +1,72 @@
+/*!
+ * common v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+/* ipx 底部安全区域 */
+.fs-safe__area{
+	/* #ifdef APP-NVUE || MP-TOUTIAO */
+	padding-bottom: 34px;
+	/* #endif */
+	
+	/* #ifndef APP-NVUE || MP-TOUTIAO */
+	padding-bottom: constant(safe-area-inset-bottom);
+	padding-bottom: env(safe-area-inset-bottom);
+	/* #endif */
+}
+
+/* hover */
+.fs-hover,
+.fs-text__hover{
+	/* #ifdef H5 */
+	cursor: pointer;
+	/* #endif */
+}
+
+.fs-hover:active{
+	background: $fv-bg-color-hover;
+}
+
+.fs-text__hover:active{
+	opacity: .5;
+}
+
+.fs-full{
+	/* #ifndef APP-NVUE */
+	width: 100%;
+	/* #endif */
+	/* #ifdef APP-NVUE */
+	width: 750rpx;
+	/* #endif */
+}
+
+.fs-disabled{
+	opacity: $fv-opacity-disabled;
+	/* #ifdef H5 */
+	cursor: not-allowed;
+	/* #endif */
+}
+
+/* thin 细边线 0.5px*/
+.fs-cell__thin{
+	position: relative;
+	/* #ifdef APP-NVUE */
+	border-bottom: 0.5px solid $fv-color-border;
+	/* #endif */
+}
+
+/* #ifndef APP-NVUE */
+.fs-cell__thin::after{
+	content: ' ';
+	position: absolute;
+	border-bottom: 1px solid $fv-color-border;
+	-webkit-transform: scaleY(0.5);
+	transform: scaleY(0.5);
+	bottom: 0;
+	left: 32rpx;
+	right: 0;
+	z-index: 1;
+	pointer-events: none;
+}
+/* #endif */

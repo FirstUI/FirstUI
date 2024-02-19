@@ -1,0 +1,2643 @@
+@charset "UTF-8";
+/*!
+ * firstui style v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+/*!
+ * common v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+/* ipx 底部安全区域 */
+.fs-safe__area {
+  /* #ifdef APP-NVUE || MP-TOUTIAO */
+  padding-bottom: 34px;
+  /* #endif */
+  /* #ifndef APP-NVUE || MP-TOUTIAO */
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  /* #endif */
+}
+
+/* hover */
+.fs-hover,
+.fs-text__hover {
+  /* #ifdef H5 */
+  cursor: pointer;
+  /* #endif */
+}
+
+.fs-hover:active {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.fs-text__hover:active {
+  opacity: 0.5;
+}
+
+.fs-full {
+  /* #ifndef APP-NVUE */
+  width: 100%;
+  /* #endif */
+  /* #ifdef APP-NVUE */
+  width: 750rpx;
+  /* #endif */
+}
+
+.fs-disabled {
+  opacity: 0.5;
+  /* #ifdef H5 */
+  cursor: not-allowed;
+  /* #endif */
+}
+
+/* thin 细边线 0.5px*/
+.fs-cell__thin {
+  position: relative;
+  /* #ifdef APP-NVUE */
+  border-bottom: 0.5px solid #EEEEEE;
+  /* #endif */
+}
+
+/* #ifndef APP-NVUE */
+.fs-cell__thin::after {
+  content: " ";
+  position: absolute;
+  border-bottom: 1px solid #EEEEEE;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  bottom: 0;
+  left: 32rpx;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* #endif */
+/* color */
+/*!
+ * color v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+/* color */
+.fs-color__primary {
+  color: #465CFF;
+}
+
+.fs-color__success {
+  color: #09BE4F;
+}
+
+.fs-color__warning {
+  color: #FFB703;
+}
+
+.fs-color__danger {
+  color: #FF2B2B;
+}
+
+.fs-color__purple {
+  color: #6831FF;
+}
+
+/* 用于重量级文字信息、标题 */
+.fs-color__title {
+  color: #181818;
+}
+
+/* 用于普通级段落信息、引导词 */
+.fs-color__section {
+  color: #333333;
+}
+
+/* 用于次要标题内容 */
+.fs-color__subtitle {
+  color: #7F7F7F;
+}
+
+/* 用于底部标签、描述、次要文字信息 */
+.fs-color__label {
+  color: #B2B2B2;
+}
+
+/* 用于辅助、次要信息、禁用文字等。如：待输入状态描述文字，已点击按钮文字 */
+.fs-color__minor {
+  color: #CCCCCC;
+}
+
+.fs-color__white {
+  color: #FFFFFF;
+}
+
+/* 链接颜色 */
+.fs-color__link {
+  color: #465CFF;
+}
+
+/* bgckground-color */
+.fs-bg__primary {
+  background: #465CFF;
+}
+
+.fs-bg__success {
+  background: #09BE4F;
+}
+
+.fs-bg__warning {
+  background: #FFB703;
+}
+
+.fs-bg__danger {
+  background: #FF2B2B;
+}
+
+.fs-bg__purple {
+  background: #6831FF;
+}
+
+.fs-bg__white {
+  background: #FFFFFF;
+}
+
+/* 页面背景底色 */
+.fs-bg__page {
+  background: #F1F4FA;
+}
+
+/* 内容模块底色 */
+.fs-bg__content {
+  background: #F8F8F8;
+}
+
+/* 点击背景颜色 */
+.fs-bg__hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* 遮罩背景颜色 */
+.fs-bg__mask {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* font-size */
+/*!
+ * font-size v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+/* 常用字体大小 单位rpx*/
+.fs-size__h1 {
+  font-size: 44rpx;
+  font-weight: 500;
+}
+
+.fs-size__h2 {
+  font-size: 36rpx;
+  font-weight: 500;
+}
+
+.fs-size__h3 {
+  font-size: 32rpx;
+  font-weight: 400;
+}
+
+.fs-size__h4 {
+  font-size: 28rpx;
+  font-weight: 400;
+}
+
+.fs-size__h5,
+.fs-size__h6 {
+  font-size: 24rpx;
+  font-weight: 400;
+}
+
+/* 自定义字体大小 24~64 单位rpx*/
+.fs-size__24 {
+  font-size: 24rpx;
+}
+
+.fs-size__25 {
+  font-size: 25rpx;
+}
+
+.fs-size__26 {
+  font-size: 26rpx;
+}
+
+.fs-size__27 {
+  font-size: 27rpx;
+}
+
+.fs-size__28 {
+  font-size: 28rpx;
+}
+
+.fs-size__29 {
+  font-size: 29rpx;
+}
+
+.fs-size__30 {
+  font-size: 30rpx;
+}
+
+.fs-size__31 {
+  font-size: 31rpx;
+}
+
+.fs-size__32 {
+  font-size: 32rpx;
+}
+
+.fs-size__33 {
+  font-size: 33rpx;
+}
+
+.fs-size__34 {
+  font-size: 34rpx;
+}
+
+.fs-size__35 {
+  font-size: 35rpx;
+}
+
+.fs-size__36 {
+  font-size: 36rpx;
+}
+
+.fs-size__37 {
+  font-size: 37rpx;
+}
+
+.fs-size__38 {
+  font-size: 38rpx;
+}
+
+.fs-size__39 {
+  font-size: 39rpx;
+}
+
+.fs-size__40 {
+  font-size: 40rpx;
+}
+
+.fs-size__41 {
+  font-size: 41rpx;
+}
+
+.fs-size__42 {
+  font-size: 42rpx;
+}
+
+.fs-size__43 {
+  font-size: 43rpx;
+}
+
+.fs-size__44 {
+  font-size: 44rpx;
+}
+
+.fs-size__45 {
+  font-size: 45rpx;
+}
+
+.fs-size__46 {
+  font-size: 46rpx;
+}
+
+.fs-size__47 {
+  font-size: 47rpx;
+}
+
+.fs-size__48 {
+  font-size: 48rpx;
+}
+
+.fs-size__49 {
+  font-size: 49rpx;
+}
+
+.fs-size__50 {
+  font-size: 50rpx;
+}
+
+.fs-size__51 {
+  font-size: 51rpx;
+}
+
+.fs-size__52 {
+  font-size: 52rpx;
+}
+
+.fs-size__53 {
+  font-size: 53rpx;
+}
+
+.fs-size__54 {
+  font-size: 54rpx;
+}
+
+.fs-size__55 {
+  font-size: 55rpx;
+}
+
+.fs-size__56 {
+  font-size: 56rpx;
+}
+
+.fs-size__57 {
+  font-size: 57rpx;
+}
+
+.fs-size__58 {
+  font-size: 58rpx;
+}
+
+.fs-size__59 {
+  font-size: 59rpx;
+}
+
+.fs-size__60 {
+  font-size: 60rpx;
+}
+
+.fs-size__61 {
+  font-size: 61rpx;
+}
+
+.fs-size__62 {
+  font-size: 62rpx;
+}
+
+.fs-size__63 {
+  font-size: 63rpx;
+}
+
+.fs-size__64 {
+  font-size: 64rpx;
+}
+
+/* font-weight */
+/*!
+ * font-weight v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-weight__400,
+.fs-weight__normal {
+  font-weight: 400;
+}
+
+.fs-weight__500 {
+  font-weight: 500;
+}
+
+.fs-weight__600 {
+  font-weight: 600;
+}
+
+.fs-bold,
+.fs-weight__bold,
+.fs-weight__700,
+.fs-weight__800,
+.fs-weight__900 {
+  font-weight: bold;
+}
+
+/* align */
+/*!
+ * text-align v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-align__left {
+  text-align: left;
+}
+
+.fs-align__center {
+  text-align: center;
+}
+
+.fs-align__right {
+  text-align: right;
+}
+
+/* #ifndef APP-NVUE */
+.fs-align__justify {
+  text-align: justify;
+}
+
+.fs-align__start {
+  text-align: start;
+}
+
+.fs-align__end {
+  text-align: end;
+}
+
+/* #endif */
+/* margin */
+/*!
+ * margin v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-m0 {
+  margin: 0rpx;
+}
+
+.fs-mt0 {
+  margin-top: 0rpx;
+}
+
+.fs-mr0 {
+  margin-right: 0rpx;
+}
+
+.fs-mb0 {
+  margin-bottom: 0rpx;
+}
+
+.fs-ml0 {
+  margin-left: 0rpx;
+}
+
+.fs-mx0 {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+}
+
+.fs-my0 {
+  margin-top: 0rpx;
+  margin-bottom: 0rpx;
+}
+
+.fs-m2 {
+  margin: 2rpx;
+}
+
+.fs-mt2 {
+  margin-top: 2rpx;
+}
+
+.fs-mr2 {
+  margin-right: 2rpx;
+}
+
+.fs-mb2 {
+  margin-bottom: 2rpx;
+}
+
+.fs-ml2 {
+  margin-left: 2rpx;
+}
+
+.fs-mx2 {
+  margin-left: 2rpx;
+  margin-right: 2rpx;
+}
+
+.fs-my2 {
+  margin-top: 2rpx;
+  margin-bottom: 2rpx;
+}
+
+.fs-m4 {
+  margin: 4rpx;
+}
+
+.fs-mt4 {
+  margin-top: 4rpx;
+}
+
+.fs-mr4 {
+  margin-right: 4rpx;
+}
+
+.fs-mb4 {
+  margin-bottom: 4rpx;
+}
+
+.fs-ml4 {
+  margin-left: 4rpx;
+}
+
+.fs-mx4 {
+  margin-left: 4rpx;
+  margin-right: 4rpx;
+}
+
+.fs-my4 {
+  margin-top: 4rpx;
+  margin-bottom: 4rpx;
+}
+
+.fs-m8 {
+  margin: 8rpx;
+}
+
+.fs-mt8 {
+  margin-top: 8rpx;
+}
+
+.fs-mr8 {
+  margin-right: 8rpx;
+}
+
+.fs-mb8 {
+  margin-bottom: 8rpx;
+}
+
+.fs-ml8 {
+  margin-left: 8rpx;
+}
+
+.fs-mx8 {
+  margin-left: 8rpx;
+  margin-right: 8rpx;
+}
+
+.fs-my8 {
+  margin-top: 8rpx;
+  margin-bottom: 8rpx;
+}
+
+.fs-m10 {
+  margin: 10rpx;
+}
+
+.fs-mt10 {
+  margin-top: 10rpx;
+}
+
+.fs-mr10 {
+  margin-right: 10rpx;
+}
+
+.fs-mb10 {
+  margin-bottom: 10rpx;
+}
+
+.fs-ml10 {
+  margin-left: 10rpx;
+}
+
+.fs-mx10 {
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+}
+
+.fs-my10 {
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.fs-m12 {
+  margin: 12rpx;
+}
+
+.fs-mt12 {
+  margin-top: 12rpx;
+}
+
+.fs-mr12 {
+  margin-right: 12rpx;
+}
+
+.fs-mb12 {
+  margin-bottom: 12rpx;
+}
+
+.fs-ml12 {
+  margin-left: 12rpx;
+}
+
+.fs-mx12 {
+  margin-left: 12rpx;
+  margin-right: 12rpx;
+}
+
+.fs-my12 {
+  margin-top: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.fs-m16 {
+  margin: 16rpx;
+}
+
+.fs-mt16 {
+  margin-top: 16rpx;
+}
+
+.fs-mr16 {
+  margin-right: 16rpx;
+}
+
+.fs-mb16 {
+  margin-bottom: 16rpx;
+}
+
+.fs-ml16 {
+  margin-left: 16rpx;
+}
+
+.fs-mx16 {
+  margin-left: 16rpx;
+  margin-right: 16rpx;
+}
+
+.fs-my16 {
+  margin-top: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.fs-m20 {
+  margin: 20rpx;
+}
+
+.fs-mt20 {
+  margin-top: 20rpx;
+}
+
+.fs-mr20 {
+  margin-right: 20rpx;
+}
+
+.fs-mb20 {
+  margin-bottom: 20rpx;
+}
+
+.fs-ml20 {
+  margin-left: 20rpx;
+}
+
+.fs-mx20 {
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+
+.fs-my20 {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.fs-m24 {
+  margin: 24rpx;
+}
+
+.fs-mt24 {
+  margin-top: 24rpx;
+}
+
+.fs-mr24 {
+  margin-right: 24rpx;
+}
+
+.fs-mb24 {
+  margin-bottom: 24rpx;
+}
+
+.fs-ml24 {
+  margin-left: 24rpx;
+}
+
+.fs-mx24 {
+  margin-left: 24rpx;
+  margin-right: 24rpx;
+}
+
+.fs-my24 {
+  margin-top: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.fs-m28 {
+  margin: 28rpx;
+}
+
+.fs-mt28 {
+  margin-top: 28rpx;
+}
+
+.fs-mr28 {
+  margin-right: 28rpx;
+}
+
+.fs-mb28 {
+  margin-bottom: 28rpx;
+}
+
+.fs-ml28 {
+  margin-left: 28rpx;
+}
+
+.fs-mx28 {
+  margin-left: 28rpx;
+  margin-right: 28rpx;
+}
+
+.fs-my28 {
+  margin-top: 28rpx;
+  margin-bottom: 28rpx;
+}
+
+.fs-m30 {
+  margin: 30rpx;
+}
+
+.fs-mt30 {
+  margin-top: 30rpx;
+}
+
+.fs-mr30 {
+  margin-right: 30rpx;
+}
+
+.fs-mb30 {
+  margin-bottom: 30rpx;
+}
+
+.fs-ml30 {
+  margin-left: 30rpx;
+}
+
+.fs-mx30 {
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+}
+
+.fs-my30 {
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.fs-m32 {
+  margin: 32rpx;
+}
+
+.fs-mt32 {
+  margin-top: 32rpx;
+}
+
+.fs-mr32 {
+  margin-right: 32rpx;
+}
+
+.fs-mb32 {
+  margin-bottom: 32rpx;
+}
+
+.fs-ml32 {
+  margin-left: 32rpx;
+}
+
+.fs-mx32 {
+  margin-left: 32rpx;
+  margin-right: 32rpx;
+}
+
+.fs-my32 {
+  margin-top: 32rpx;
+  margin-bottom: 32rpx;
+}
+
+.fs-m36 {
+  margin: 36rpx;
+}
+
+.fs-mt36 {
+  margin-top: 36rpx;
+}
+
+.fs-mr36 {
+  margin-right: 36rpx;
+}
+
+.fs-mb36 {
+  margin-bottom: 36rpx;
+}
+
+.fs-ml36 {
+  margin-left: 36rpx;
+}
+
+.fs-mx36 {
+  margin-left: 36rpx;
+  margin-right: 36rpx;
+}
+
+.fs-my36 {
+  margin-top: 36rpx;
+  margin-bottom: 36rpx;
+}
+
+.fs-m40 {
+  margin: 40rpx;
+}
+
+.fs-mt40 {
+  margin-top: 40rpx;
+}
+
+.fs-mr40 {
+  margin-right: 40rpx;
+}
+
+.fs-mb40 {
+  margin-bottom: 40rpx;
+}
+
+.fs-ml40 {
+  margin-left: 40rpx;
+}
+
+.fs-mx40 {
+  margin-left: 40rpx;
+  margin-right: 40rpx;
+}
+
+.fs-my40 {
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
+}
+
+.fs-m44 {
+  margin: 44rpx;
+}
+
+.fs-mt44 {
+  margin-top: 44rpx;
+}
+
+.fs-mr44 {
+  margin-right: 44rpx;
+}
+
+.fs-mb44 {
+  margin-bottom: 44rpx;
+}
+
+.fs-ml44 {
+  margin-left: 44rpx;
+}
+
+.fs-mx44 {
+  margin-left: 44rpx;
+  margin-right: 44rpx;
+}
+
+.fs-my44 {
+  margin-top: 44rpx;
+  margin-bottom: 44rpx;
+}
+
+.fs-m48 {
+  margin: 48rpx;
+}
+
+.fs-mt48 {
+  margin-top: 48rpx;
+}
+
+.fs-mr48 {
+  margin-right: 48rpx;
+}
+
+.fs-mb48 {
+  margin-bottom: 48rpx;
+}
+
+.fs-ml48 {
+  margin-left: 48rpx;
+}
+
+.fs-mx48 {
+  margin-left: 48rpx;
+  margin-right: 48rpx;
+}
+
+.fs-my48 {
+  margin-top: 48rpx;
+  margin-bottom: 48rpx;
+}
+
+.fs-m52 {
+  margin: 52rpx;
+}
+
+.fs-mt52 {
+  margin-top: 52rpx;
+}
+
+.fs-mr52 {
+  margin-right: 52rpx;
+}
+
+.fs-mb52 {
+  margin-bottom: 52rpx;
+}
+
+.fs-ml52 {
+  margin-left: 52rpx;
+}
+
+.fs-mx52 {
+  margin-left: 52rpx;
+  margin-right: 52rpx;
+}
+
+.fs-my52 {
+  margin-top: 52rpx;
+  margin-bottom: 52rpx;
+}
+
+.fs-m56 {
+  margin: 56rpx;
+}
+
+.fs-mt56 {
+  margin-top: 56rpx;
+}
+
+.fs-mr56 {
+  margin-right: 56rpx;
+}
+
+.fs-mb56 {
+  margin-bottom: 56rpx;
+}
+
+.fs-ml56 {
+  margin-left: 56rpx;
+}
+
+.fs-mx56 {
+  margin-left: 56rpx;
+  margin-right: 56rpx;
+}
+
+.fs-my56 {
+  margin-top: 56rpx;
+  margin-bottom: 56rpx;
+}
+
+.fs-m60 {
+  margin: 60rpx;
+}
+
+.fs-mt60 {
+  margin-top: 60rpx;
+}
+
+.fs-mr60 {
+  margin-right: 60rpx;
+}
+
+.fs-mb60 {
+  margin-bottom: 60rpx;
+}
+
+.fs-ml60 {
+  margin-left: 60rpx;
+}
+
+.fs-mx60 {
+  margin-left: 60rpx;
+  margin-right: 60rpx;
+}
+
+.fs-my60 {
+  margin-top: 60rpx;
+  margin-bottom: 60rpx;
+}
+
+.fs-m64 {
+  margin: 64rpx;
+}
+
+.fs-mt64 {
+  margin-top: 64rpx;
+}
+
+.fs-mr64 {
+  margin-right: 64rpx;
+}
+
+.fs-mb64 {
+  margin-bottom: 64rpx;
+}
+
+.fs-ml64 {
+  margin-left: 64rpx;
+}
+
+.fs-mx64 {
+  margin-left: 64rpx;
+  margin-right: 64rpx;
+}
+
+.fs-my64 {
+  margin-top: 64rpx;
+  margin-bottom: 64rpx;
+}
+
+.fs-m68 {
+  margin: 68rpx;
+}
+
+.fs-mt68 {
+  margin-top: 68rpx;
+}
+
+.fs-mr68 {
+  margin-right: 68rpx;
+}
+
+.fs-mb68 {
+  margin-bottom: 68rpx;
+}
+
+.fs-ml68 {
+  margin-left: 68rpx;
+}
+
+.fs-mx68 {
+  margin-left: 68rpx;
+  margin-right: 68rpx;
+}
+
+.fs-my68 {
+  margin-top: 68rpx;
+  margin-bottom: 68rpx;
+}
+
+.fs-m72 {
+  margin: 72rpx;
+}
+
+.fs-mt72 {
+  margin-top: 72rpx;
+}
+
+.fs-mr72 {
+  margin-right: 72rpx;
+}
+
+.fs-mb72 {
+  margin-bottom: 72rpx;
+}
+
+.fs-ml72 {
+  margin-left: 72rpx;
+}
+
+.fs-mx72 {
+  margin-left: 72rpx;
+  margin-right: 72rpx;
+}
+
+.fs-my72 {
+  margin-top: 72rpx;
+  margin-bottom: 72rpx;
+}
+
+.fs-m76 {
+  margin: 76rpx;
+}
+
+.fs-mt76 {
+  margin-top: 76rpx;
+}
+
+.fs-mr76 {
+  margin-right: 76rpx;
+}
+
+.fs-mb76 {
+  margin-bottom: 76rpx;
+}
+
+.fs-ml76 {
+  margin-left: 76rpx;
+}
+
+.fs-mx76 {
+  margin-left: 76rpx;
+  margin-right: 76rpx;
+}
+
+.fs-my76 {
+  margin-top: 76rpx;
+  margin-bottom: 76rpx;
+}
+
+.fs-m80 {
+  margin: 80rpx;
+}
+
+.fs-mt80 {
+  margin-top: 80rpx;
+}
+
+.fs-mr80 {
+  margin-right: 80rpx;
+}
+
+.fs-mb80 {
+  margin-bottom: 80rpx;
+}
+
+.fs-ml80 {
+  margin-left: 80rpx;
+}
+
+.fs-mx80 {
+  margin-left: 80rpx;
+  margin-right: 80rpx;
+}
+
+.fs-my80 {
+  margin-top: 80rpx;
+  margin-bottom: 80rpx;
+}
+
+.fs-m84 {
+  margin: 84rpx;
+}
+
+.fs-mt84 {
+  margin-top: 84rpx;
+}
+
+.fs-mr84 {
+  margin-right: 84rpx;
+}
+
+.fs-mb84 {
+  margin-bottom: 84rpx;
+}
+
+.fs-ml84 {
+  margin-left: 84rpx;
+}
+
+.fs-mx84 {
+  margin-left: 84rpx;
+  margin-right: 84rpx;
+}
+
+.fs-my84 {
+  margin-top: 84rpx;
+  margin-bottom: 84rpx;
+}
+
+.fs-m88 {
+  margin: 88rpx;
+}
+
+.fs-mt88 {
+  margin-top: 88rpx;
+}
+
+.fs-mr88 {
+  margin-right: 88rpx;
+}
+
+.fs-mb88 {
+  margin-bottom: 88rpx;
+}
+
+.fs-ml88 {
+  margin-left: 88rpx;
+}
+
+.fs-mx88 {
+  margin-left: 88rpx;
+  margin-right: 88rpx;
+}
+
+.fs-my88 {
+  margin-top: 88rpx;
+  margin-bottom: 88rpx;
+}
+
+.fs-m92 {
+  margin: 92rpx;
+}
+
+.fs-mt92 {
+  margin-top: 92rpx;
+}
+
+.fs-mr92 {
+  margin-right: 92rpx;
+}
+
+.fs-mb92 {
+  margin-bottom: 92rpx;
+}
+
+.fs-ml92 {
+  margin-left: 92rpx;
+}
+
+.fs-mx92 {
+  margin-left: 92rpx;
+  margin-right: 92rpx;
+}
+
+.fs-my92 {
+  margin-top: 92rpx;
+  margin-bottom: 92rpx;
+}
+
+.fs-m96 {
+  margin: 96rpx;
+}
+
+.fs-mt96 {
+  margin-top: 96rpx;
+}
+
+.fs-mr96 {
+  margin-right: 96rpx;
+}
+
+.fs-mb96 {
+  margin-bottom: 96rpx;
+}
+
+.fs-ml96 {
+  margin-left: 96rpx;
+}
+
+.fs-mx96 {
+  margin-left: 96rpx;
+  margin-right: 96rpx;
+}
+
+.fs-my96 {
+  margin-top: 96rpx;
+  margin-bottom: 96rpx;
+}
+
+/* #ifndef APP-NVUE */
+.fs-ml__auto {
+  margin-left: auto;
+}
+
+.fs-mr__auto {
+  margin-right: auto;
+}
+
+/* #endif */
+/* padding */
+/*!
+ * padding v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-p0 {
+  padding: 0rpx;
+}
+
+.fs-pt0 {
+  padding-top: 0rpx;
+}
+
+.fs-pr0 {
+  padding-right: 0rpx;
+}
+
+.fs-pb0 {
+  padding-bottom: 0rpx;
+}
+
+.fs-pl0 {
+  padding-left: 0rpx;
+}
+
+.fs-px0 {
+  padding-left: 0rpx;
+  padding-right: 0rpx;
+}
+
+.fs-py0 {
+  padding-top: 0rpx;
+  padding-bottom: 0rpx;
+}
+
+.fs-p2 {
+  padding: 2rpx;
+}
+
+.fs-pt2 {
+  padding-top: 2rpx;
+}
+
+.fs-pr2 {
+  padding-right: 2rpx;
+}
+
+.fs-pb2 {
+  padding-bottom: 2rpx;
+}
+
+.fs-pl2 {
+  padding-left: 2rpx;
+}
+
+.fs-px2 {
+  padding-left: 2rpx;
+  padding-right: 2rpx;
+}
+
+.fs-py2 {
+  padding-top: 2rpx;
+  padding-bottom: 2rpx;
+}
+
+.fs-p4 {
+  padding: 4rpx;
+}
+
+.fs-pt4 {
+  padding-top: 4rpx;
+}
+
+.fs-pr4 {
+  padding-right: 4rpx;
+}
+
+.fs-pb4 {
+  padding-bottom: 4rpx;
+}
+
+.fs-pl4 {
+  padding-left: 4rpx;
+}
+
+.fs-px4 {
+  padding-left: 4rpx;
+  padding-right: 4rpx;
+}
+
+.fs-py4 {
+  padding-top: 4rpx;
+  padding-bottom: 4rpx;
+}
+
+.fs-p8 {
+  padding: 8rpx;
+}
+
+.fs-pt8 {
+  padding-top: 8rpx;
+}
+
+.fs-pr8 {
+  padding-right: 8rpx;
+}
+
+.fs-pb8 {
+  padding-bottom: 8rpx;
+}
+
+.fs-pl8 {
+  padding-left: 8rpx;
+}
+
+.fs-px8 {
+  padding-left: 8rpx;
+  padding-right: 8rpx;
+}
+
+.fs-py8 {
+  padding-top: 8rpx;
+  padding-bottom: 8rpx;
+}
+
+.fs-p10 {
+  padding: 10rpx;
+}
+
+.fs-pt10 {
+  padding-top: 10rpx;
+}
+
+.fs-pr10 {
+  padding-right: 10rpx;
+}
+
+.fs-pb10 {
+  padding-bottom: 10rpx;
+}
+
+.fs-pl10 {
+  padding-left: 10rpx;
+}
+
+.fs-px10 {
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+
+.fs-py10 {
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+}
+
+.fs-p12 {
+  padding: 12rpx;
+}
+
+.fs-pt12 {
+  padding-top: 12rpx;
+}
+
+.fs-pr12 {
+  padding-right: 12rpx;
+}
+
+.fs-pb12 {
+  padding-bottom: 12rpx;
+}
+
+.fs-pl12 {
+  padding-left: 12rpx;
+}
+
+.fs-px12 {
+  padding-left: 12rpx;
+  padding-right: 12rpx;
+}
+
+.fs-py12 {
+  padding-top: 12rpx;
+  padding-bottom: 12rpx;
+}
+
+.fs-p16 {
+  padding: 16rpx;
+}
+
+.fs-pt16 {
+  padding-top: 16rpx;
+}
+
+.fs-pr16 {
+  padding-right: 16rpx;
+}
+
+.fs-pb16 {
+  padding-bottom: 16rpx;
+}
+
+.fs-pl16 {
+  padding-left: 16rpx;
+}
+
+.fs-px16 {
+  padding-left: 16rpx;
+  padding-right: 16rpx;
+}
+
+.fs-py16 {
+  padding-top: 16rpx;
+  padding-bottom: 16rpx;
+}
+
+.fs-p20 {
+  padding: 20rpx;
+}
+
+.fs-pt20 {
+  padding-top: 20rpx;
+}
+
+.fs-pr20 {
+  padding-right: 20rpx;
+}
+
+.fs-pb20 {
+  padding-bottom: 20rpx;
+}
+
+.fs-pl20 {
+  padding-left: 20rpx;
+}
+
+.fs-px20 {
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+
+.fs-py20 {
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+
+.fs-p24 {
+  padding: 24rpx;
+}
+
+.fs-pt24 {
+  padding-top: 24rpx;
+}
+
+.fs-pr24 {
+  padding-right: 24rpx;
+}
+
+.fs-pb24 {
+  padding-bottom: 24rpx;
+}
+
+.fs-pl24 {
+  padding-left: 24rpx;
+}
+
+.fs-px24 {
+  padding-left: 24rpx;
+  padding-right: 24rpx;
+}
+
+.fs-py24 {
+  padding-top: 24rpx;
+  padding-bottom: 24rpx;
+}
+
+.fs-p28 {
+  padding: 28rpx;
+}
+
+.fs-pt28 {
+  padding-top: 28rpx;
+}
+
+.fs-pr28 {
+  padding-right: 28rpx;
+}
+
+.fs-pb28 {
+  padding-bottom: 28rpx;
+}
+
+.fs-pl28 {
+  padding-left: 28rpx;
+}
+
+.fs-px28 {
+  padding-left: 28rpx;
+  padding-right: 28rpx;
+}
+
+.fs-py28 {
+  padding-top: 28rpx;
+  padding-bottom: 28rpx;
+}
+
+.fs-p30 {
+  padding: 30rpx;
+}
+
+.fs-pt30 {
+  padding-top: 30rpx;
+}
+
+.fs-pr30 {
+  padding-right: 30rpx;
+}
+
+.fs-pb30 {
+  padding-bottom: 30rpx;
+}
+
+.fs-pl30 {
+  padding-left: 30rpx;
+}
+
+.fs-px30 {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.fs-py30 {
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
+}
+
+.fs-p32 {
+  padding: 32rpx;
+}
+
+.fs-pt32 {
+  padding-top: 32rpx;
+}
+
+.fs-pr32 {
+  padding-right: 32rpx;
+}
+
+.fs-pb32 {
+  padding-bottom: 32rpx;
+}
+
+.fs-pl32 {
+  padding-left: 32rpx;
+}
+
+.fs-px32 {
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+}
+
+.fs-py32 {
+  padding-top: 32rpx;
+  padding-bottom: 32rpx;
+}
+
+.fs-p36 {
+  padding: 36rpx;
+}
+
+.fs-pt36 {
+  padding-top: 36rpx;
+}
+
+.fs-pr36 {
+  padding-right: 36rpx;
+}
+
+.fs-pb36 {
+  padding-bottom: 36rpx;
+}
+
+.fs-pl36 {
+  padding-left: 36rpx;
+}
+
+.fs-px36 {
+  padding-left: 36rpx;
+  padding-right: 36rpx;
+}
+
+.fs-py36 {
+  padding-top: 36rpx;
+  padding-bottom: 36rpx;
+}
+
+.fs-p40 {
+  padding: 40rpx;
+}
+
+.fs-pt40 {
+  padding-top: 40rpx;
+}
+
+.fs-pr40 {
+  padding-right: 40rpx;
+}
+
+.fs-pb40 {
+  padding-bottom: 40rpx;
+}
+
+.fs-pl40 {
+  padding-left: 40rpx;
+}
+
+.fs-px40 {
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+}
+
+.fs-py40 {
+  padding-top: 40rpx;
+  padding-bottom: 40rpx;
+}
+
+.fs-p44 {
+  padding: 44rpx;
+}
+
+.fs-pt44 {
+  padding-top: 44rpx;
+}
+
+.fs-pr44 {
+  padding-right: 44rpx;
+}
+
+.fs-pb44 {
+  padding-bottom: 44rpx;
+}
+
+.fs-pl44 {
+  padding-left: 44rpx;
+}
+
+.fs-px44 {
+  padding-left: 44rpx;
+  padding-right: 44rpx;
+}
+
+.fs-py44 {
+  padding-top: 44rpx;
+  padding-bottom: 44rpx;
+}
+
+.fs-p48 {
+  padding: 48rpx;
+}
+
+.fs-pt48 {
+  padding-top: 48rpx;
+}
+
+.fs-pr48 {
+  padding-right: 48rpx;
+}
+
+.fs-pb48 {
+  padding-bottom: 48rpx;
+}
+
+.fs-pl48 {
+  padding-left: 48rpx;
+}
+
+.fs-px48 {
+  padding-left: 48rpx;
+  padding-right: 48rpx;
+}
+
+.fs-py48 {
+  padding-top: 48rpx;
+  padding-bottom: 48rpx;
+}
+
+.fs-p52 {
+  padding: 52rpx;
+}
+
+.fs-pt52 {
+  padding-top: 52rpx;
+}
+
+.fs-pr52 {
+  padding-right: 52rpx;
+}
+
+.fs-pb52 {
+  padding-bottom: 52rpx;
+}
+
+.fs-pl52 {
+  padding-left: 52rpx;
+}
+
+.fs-px52 {
+  padding-left: 52rpx;
+  padding-right: 52rpx;
+}
+
+.fs-py52 {
+  padding-top: 52rpx;
+  padding-bottom: 52rpx;
+}
+
+.fs-p56 {
+  padding: 56rpx;
+}
+
+.fs-pt56 {
+  padding-top: 56rpx;
+}
+
+.fs-pr56 {
+  padding-right: 56rpx;
+}
+
+.fs-pb56 {
+  padding-bottom: 56rpx;
+}
+
+.fs-pl56 {
+  padding-left: 56rpx;
+}
+
+.fs-px56 {
+  padding-left: 56rpx;
+  padding-right: 56rpx;
+}
+
+.fs-py56 {
+  padding-top: 56rpx;
+  padding-bottom: 56rpx;
+}
+
+.fs-p60 {
+  padding: 60rpx;
+}
+
+.fs-pt60 {
+  padding-top: 60rpx;
+}
+
+.fs-pr60 {
+  padding-right: 60rpx;
+}
+
+.fs-pb60 {
+  padding-bottom: 60rpx;
+}
+
+.fs-pl60 {
+  padding-left: 60rpx;
+}
+
+.fs-px60 {
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+}
+
+.fs-py60 {
+  padding-top: 60rpx;
+  padding-bottom: 60rpx;
+}
+
+.fs-p64 {
+  padding: 64rpx;
+}
+
+.fs-pt64 {
+  padding-top: 64rpx;
+}
+
+.fs-pr64 {
+  padding-right: 64rpx;
+}
+
+.fs-pb64 {
+  padding-bottom: 64rpx;
+}
+
+.fs-pl64 {
+  padding-left: 64rpx;
+}
+
+.fs-px64 {
+  padding-left: 64rpx;
+  padding-right: 64rpx;
+}
+
+.fs-py64 {
+  padding-top: 64rpx;
+  padding-bottom: 64rpx;
+}
+
+.fs-p68 {
+  padding: 68rpx;
+}
+
+.fs-pt68 {
+  padding-top: 68rpx;
+}
+
+.fs-pr68 {
+  padding-right: 68rpx;
+}
+
+.fs-pb68 {
+  padding-bottom: 68rpx;
+}
+
+.fs-pl68 {
+  padding-left: 68rpx;
+}
+
+.fs-px68 {
+  padding-left: 68rpx;
+  padding-right: 68rpx;
+}
+
+.fs-py68 {
+  padding-top: 68rpx;
+  padding-bottom: 68rpx;
+}
+
+.fs-p72 {
+  padding: 72rpx;
+}
+
+.fs-pt72 {
+  padding-top: 72rpx;
+}
+
+.fs-pr72 {
+  padding-right: 72rpx;
+}
+
+.fs-pb72 {
+  padding-bottom: 72rpx;
+}
+
+.fs-pl72 {
+  padding-left: 72rpx;
+}
+
+.fs-px72 {
+  padding-left: 72rpx;
+  padding-right: 72rpx;
+}
+
+.fs-py72 {
+  padding-top: 72rpx;
+  padding-bottom: 72rpx;
+}
+
+.fs-p76 {
+  padding: 76rpx;
+}
+
+.fs-pt76 {
+  padding-top: 76rpx;
+}
+
+.fs-pr76 {
+  padding-right: 76rpx;
+}
+
+.fs-pb76 {
+  padding-bottom: 76rpx;
+}
+
+.fs-pl76 {
+  padding-left: 76rpx;
+}
+
+.fs-px76 {
+  padding-left: 76rpx;
+  padding-right: 76rpx;
+}
+
+.fs-py76 {
+  padding-top: 76rpx;
+  padding-bottom: 76rpx;
+}
+
+.fs-p80 {
+  padding: 80rpx;
+}
+
+.fs-pt80 {
+  padding-top: 80rpx;
+}
+
+.fs-pr80 {
+  padding-right: 80rpx;
+}
+
+.fs-pb80 {
+  padding-bottom: 80rpx;
+}
+
+.fs-pl80 {
+  padding-left: 80rpx;
+}
+
+.fs-px80 {
+  padding-left: 80rpx;
+  padding-right: 80rpx;
+}
+
+.fs-py80 {
+  padding-top: 80rpx;
+  padding-bottom: 80rpx;
+}
+
+.fs-p84 {
+  padding: 84rpx;
+}
+
+.fs-pt84 {
+  padding-top: 84rpx;
+}
+
+.fs-pr84 {
+  padding-right: 84rpx;
+}
+
+.fs-pb84 {
+  padding-bottom: 84rpx;
+}
+
+.fs-pl84 {
+  padding-left: 84rpx;
+}
+
+.fs-px84 {
+  padding-left: 84rpx;
+  padding-right: 84rpx;
+}
+
+.fs-py84 {
+  padding-top: 84rpx;
+  padding-bottom: 84rpx;
+}
+
+.fs-p88 {
+  padding: 88rpx;
+}
+
+.fs-pt88 {
+  padding-top: 88rpx;
+}
+
+.fs-pr88 {
+  padding-right: 88rpx;
+}
+
+.fs-pb88 {
+  padding-bottom: 88rpx;
+}
+
+.fs-pl88 {
+  padding-left: 88rpx;
+}
+
+.fs-px88 {
+  padding-left: 88rpx;
+  padding-right: 88rpx;
+}
+
+.fs-py88 {
+  padding-top: 88rpx;
+  padding-bottom: 88rpx;
+}
+
+.fs-p92 {
+  padding: 92rpx;
+}
+
+.fs-pt92 {
+  padding-top: 92rpx;
+}
+
+.fs-pr92 {
+  padding-right: 92rpx;
+}
+
+.fs-pb92 {
+  padding-bottom: 92rpx;
+}
+
+.fs-pl92 {
+  padding-left: 92rpx;
+}
+
+.fs-px92 {
+  padding-left: 92rpx;
+  padding-right: 92rpx;
+}
+
+.fs-py92 {
+  padding-top: 92rpx;
+  padding-bottom: 92rpx;
+}
+
+.fs-p96 {
+  padding: 96rpx;
+}
+
+.fs-pt96 {
+  padding-top: 96rpx;
+}
+
+.fs-pr96 {
+  padding-right: 96rpx;
+}
+
+.fs-pb96 {
+  padding-bottom: 96rpx;
+}
+
+.fs-pl96 {
+  padding-left: 96rpx;
+}
+
+.fs-px96 {
+  padding-left: 96rpx;
+  padding-right: 96rpx;
+}
+
+.fs-py96 {
+  padding-top: 96rpx;
+  padding-bottom: 96rpx;
+}
+
+.fs-p120 {
+  padding: 120rpx;
+}
+
+.fs-pt120 {
+  padding-top: 120rpx;
+}
+
+.fs-pr120 {
+  padding-right: 120rpx;
+}
+
+.fs-pb120 {
+  padding-bottom: 120rpx;
+}
+
+.fs-pl120 {
+  padding-left: 120rpx;
+}
+
+.fs-px120 {
+  padding-left: 120rpx;
+  padding-right: 120rpx;
+}
+
+.fs-py120 {
+  padding-top: 120rpx;
+  padding-bottom: 120rpx;
+}
+
+.fs-p160 {
+  padding: 160rpx;
+}
+
+.fs-pt160 {
+  padding-top: 160rpx;
+}
+
+.fs-pr160 {
+  padding-right: 160rpx;
+}
+
+.fs-pb160 {
+  padding-bottom: 160rpx;
+}
+
+.fs-pl160 {
+  padding-left: 160rpx;
+}
+
+.fs-px160 {
+  padding-left: 160rpx;
+  padding-right: 160rpx;
+}
+
+.fs-py160 {
+  padding-top: 160rpx;
+  padding-bottom: 160rpx;
+}
+
+.fs-p200 {
+  padding: 200rpx;
+}
+
+.fs-pt200 {
+  padding-top: 200rpx;
+}
+
+.fs-pr200 {
+  padding-right: 200rpx;
+}
+
+.fs-pb200 {
+  padding-bottom: 200rpx;
+}
+
+.fs-pl200 {
+  padding-left: 200rpx;
+}
+
+.fs-px200 {
+  padding-left: 200rpx;
+  padding-right: 200rpx;
+}
+
+.fs-py200 {
+  padding-top: 200rpx;
+  padding-bottom: 200rpx;
+}
+
+/* border */
+/*!
+ * border v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-border {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.fs-border__none {
+  border-width: 0;
+}
+
+.fs-border__top {
+  border-top-style: solid;
+  border-top-width: 1px;
+}
+
+.fs-border__right {
+  border-right-style: solid;
+  border-right-width: 1px;
+}
+
+.fs-border__bottom {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.fs-border__left {
+  border-left-style: solid;
+  border-left-width: 1px;
+}
+
+/* border-radius */
+/*!
+ * border-radius v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-radius__4 {
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.fs-radius__8 {
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.fs-radius__12 {
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.fs-radius__16 {
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.fs-radius__24 {
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.fs-radius__30 {
+  border-radius: 30rpx;
+  overflow: hidden;
+}
+
+.fs-radius__48 {
+  border-radius: 48rpx;
+  overflow: hidden;
+}
+
+.fs-radius__200 {
+  border-radius: 200rpx;
+  overflow: hidden;
+}
+
+.fs-radius__sm {
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.fs-radius__base,
+.fs-radius__md {
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.fs-radius__lg {
+  border-radius: 48rpx;
+  overflow: hidden;
+}
+
+.fs-radius__circle {
+  /* #ifndef APP-NVUE */
+  border-radius: 50%;
+  /* #endif */
+  /* #ifdef APP-NVUE */
+  border-radius: 200px;
+  /* #endif */
+  overflow: hidden;
+}
+
+/* position */
+/*!
+ * position v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-relative {
+  position: relative;
+}
+
+.fs-absolute {
+  position: absolute;
+}
+
+.fs-fixed {
+  position: fixed;
+}
+
+.fs-sticky {
+  position: sticky;
+}
+
+.fs-top0 {
+  top: 0;
+}
+
+.fs-right0 {
+  right: 0;
+}
+
+.fs-bottom0 {
+  bottom: 0;
+}
+
+.fs-left0 {
+  left: 0;
+}
+
+/* z-index */
+.fs-z1 {
+  z-index: 1;
+}
+
+.fs-z2 {
+  z-index: 2;
+}
+
+.fs-z3 {
+  z-index: 3;
+}
+
+.fs-z4 {
+  z-index: 4;
+}
+
+.fs-z5 {
+  z-index: 5;
+}
+
+.fs-z6 {
+  z-index: 6;
+}
+
+.fs-z7 {
+  z-index: 7;
+}
+
+.fs-z8 {
+  z-index: 8;
+}
+
+.fs-z9 {
+  z-index: 9;
+}
+
+/* flexbox */
+/*!
+ * flexbox v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-flex,
+.fs-flex__row {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: row;
+}
+
+.fs-flex__column {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: column;
+}
+
+.fs-flex__wrap {
+  flex-wrap: wrap;
+}
+
+.fs-items__start {
+  align-items: flex-start;
+}
+
+.fs-items__end {
+  align-items: flex-end;
+}
+
+.fs-items__center {
+  align-items: center;
+}
+
+/* #ifndef APP-NVUE */
+.fs-items__baseline {
+  align-items: baseline;
+}
+
+/* #endif */
+.fs-items__stretch {
+  align-items: stretch;
+}
+
+/* #ifndef APP-NVUE */
+.fs-self__start {
+  align-self: flex-start;
+}
+
+.fs-self__end {
+  align-self: flex-end;
+}
+
+.fs-self__center {
+  align-self: center;
+}
+
+.fs-self__baseline {
+  align-self: baseline;
+}
+
+.fs-self__stretch {
+  align-self: stretch;
+}
+
+/* #endif */
+.fs-justify__start {
+  justify-content: flex-start;
+}
+
+.fs-justify__end {
+  justify-content: flex-end;
+}
+
+.fs-justify__center {
+  justify-content: center;
+}
+
+.fs-justify__between {
+  justify-content: space-between;
+}
+
+.fs-justify__around {
+  justify-content: space-around;
+}
+
+/* #ifndef APP-NVUE */
+.fs-justify__evenly {
+  justify-content: space-evenly;
+}
+
+/* #endif */
+/* #ifndef APP-NVUE */
+.fs-content__start {
+  align-content: flex-start;
+}
+
+.fs-content__end {
+  align-content: flex-end;
+}
+
+.fs-content__center {
+  align-content: center;
+}
+
+.fs-content__between {
+  align-content: space-between;
+}
+
+.fs-content__around {
+  align-content: space-around;
+}
+
+.fs-content__stretch {
+  align-content: stretch;
+}
+
+/* #endif */
+/* #ifndef APP-NVUE */
+.fs-order__0 {
+  order: 0;
+}
+
+.fs-order__1 {
+  order: 1;
+}
+
+.fs-order__2 {
+  order: 2;
+}
+
+.fs-order__3 {
+  order: 3;
+}
+
+.fs-order__last {
+  order: 99999;
+}
+
+/* #endif */
+.fs-flex__center {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.fs-flex__between {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fs-align__center {
+  /* #ifndef APP-NVUE */
+  display: flex;
+  /* #endif */
+  align-items: center;
+  flex-direction: row;
+}
+
+.fs-flex__reverse {
+  flex-direction: row-reverse;
+}
+
+.fs-flex__1,
+.fs-flex1 {
+  flex: 1;
+}
+
+/* hide */
+/*!
+ * hide v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-hide {
+  position: absolute;
+  left: -6666px;
+  top: -6666px;
+  opacity: 0;
+  /* #ifndef APP-NVUE */
+  visibility: hidden;
+  z-index: -1;
+  /* #endif */
+  overflow: hidden;
+}
+
+/* #ifndef APP-NVUE */
+.fs-display__none {
+  display: none !important;
+}
+
+/* #endif */
+.fs-ellipsis {
+  /* #ifndef APP-NVUE */
+  white-space: nowrap;
+  /* #endif */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* #ifdef APP-NVUE */
+  lines: 1;
+  /* #endif */
+}
+
+.fs-ellipsis__2 {
+  /* #ifndef APP-NVUE */
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  /* #endif */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* #ifdef APP-NVUE */
+  lines: 2;
+  /* #endif */
+}
+
+/*# sourceMappingURL=firstui.css.map */

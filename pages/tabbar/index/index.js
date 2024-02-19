@@ -12,6 +12,11 @@ export default [{
 		vip: false,
 		page: 'text'
 	}, {
+		icon: 'digitalroller',
+		name: 'Number 数字',
+		vip: false,
+		page: 'numbers'
+	}, {
 		icon: 'icon',
 		name: 'Icon 图标',
 		vip: false,
@@ -31,6 +36,11 @@ export default [{
 		name: 'Animation 动画',
 		vip: false,
 		page: 'animation'
+	}, {
+		icon: 'color',
+		name: 'CSS 常用样式',
+		vip: false,
+		page: 'css'
 	}]
 }, {
 	id: 'layout',

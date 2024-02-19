@@ -1,0 +1,20 @@
+/*!
+ * position v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+
+.fs-relative { position: relative }
+.fs-absolute { position: absolute }
+.fs-fixed { position: fixed }
+.fs-sticky { position: sticky }
+
+.fs-top0 { top: 0 }
+.fs-right0 { right: 0 }
+.fs-bottom0 { bottom: 0 }
+.fs-left0 { left: 0 }
+
+/* z-index */
+@for $i from 1 through 9 {
+	.fs-z#{$i} { z-index: #{$i} }
+}

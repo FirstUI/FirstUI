@@ -1,0 +1,42 @@
+/*!
+ * firstui style v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+@import './variables/index.scss';
+
+/* common */
+@import './base/common.scss';
+
+/* color */
+@import './widget/color.scss';
+
+/* font-size */
+@import './widget/size.scss';
+
+/* font-weight */
+@import './widget/weight.scss';
+
+/* align */
+@import './widget/align.scss';
+
+/* margin */
+@import './widget/margin.scss';
+
+/* padding */
+@import './widget/padding.scss';
+
+/* border */
+@import './widget/border.scss';
+
+/* border-radius */
+@import './widget/radius.scss';
+
+/* position */
+@import './widget/position.scss';
+
+/* flexbox */
+@import './widget/flexbox.scss';
+
+/* hide */
+@import './widget/hide.scss';

@@ -85,11 +85,13 @@
 				//34px
 				const res = uni.getSystemInfoSync();
 				let iphonex = false;
-				let models = ['iphonex', 'iphonexr', 'iphonexsmax', 'iphone11', 'iphone11pro', 'iphone11promax',
-					'iphone12', 'iphone12mini', 'iphone12pro', 'iphone12promax', 'iphone13', 'iphone13mini',
-					'iphone13pro', 'iphone13promax', 'iphone14', 'iphone14mini',
-					'iphone14pro', 'iphone14promax', 'iphone15'
-				]
+				let models = ['iphonex', 'iphonexr', 'iphonexsmax']
+				for (let i = 11; i < 20; i++) {
+					models.push(`iphone${i}`)
+					models.push(`iphone${i}mini`)
+					models.push(`iphone${i}pro`)
+					models.push(`iphone${i}promax`)
+				}
 				const model = res.model.replace(/\s/g, "").toLowerCase()
 				const newModel = model.split('<')[0]
 				if (models.includes(model) || models.includes(newModel) || (res.safeAreaInsets && res.safeAreaInsets

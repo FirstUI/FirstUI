@@ -1,0 +1,46 @@
+/*!
+ * hide v1.0.0 (https://doc.firstui.cn)
+ * Copyright 2024 FirstUI.
+ * Licensed under the Apache license
+ */
+.fs-hide{
+	position: absolute;
+	left: -6666px;
+	top: -6666px;
+	opacity: 0;
+	/* #ifndef APP-NVUE */
+	visibility: hidden;
+	z-index: -1;
+	/* #endif */
+	overflow: hidden;
+}
+
+/* #ifndef APP-NVUE */
+.fs-display__none { 
+	display: none !important 
+}
+/* #endif */
+
+.fs-ellipsis{
+	/* #ifndef APP-NVUE */
+	white-space: nowrap;
+	/* #endif */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/* #ifdef APP-NVUE */
+	lines:1;
+	/* #endif */
+}
+.fs-ellipsis__2{
+	/* #ifndef APP-NVUE */
+	word-break: break-all;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	/* #endif */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/* #ifdef APP-NVUE */
+	lines:2;
+	/* #endif */
+}

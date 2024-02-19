@@ -12,6 +12,25 @@
 					<fui-switch @change="change"></fui-switch>
 				</view>
 			</fui-list-cell>
+			<view class="fui-section__title">带文字</view>
+			<fui-list-cell :highlight="false" :padding="['28rpx','32rpx']">
+				<view class="fui-cells">
+					<text class="fui-text">slot插槽</text>
+					<fui-switch @change="change2">
+						<text class="fui-switch--text">{{isOpen?'ON':'OFF'}}</text>
+					</fui-switch>
+				</view>
+			</fui-list-cell>
+			<view class="fui-section__title">带图标</view>
+			<fui-list-cell :highlight="false" :padding="['28rpx','32rpx']">
+				<view class="fui-cells">
+					<text class="fui-text">slot插槽</text>
+					<fui-switch btnColor="#3d3d3d" color="#2C2C2C" @change="change3">
+						<image :src="`/static/images/component/icon_${isOpen2?'moon':'sun'}.png`" class="fui-icon--img">
+						</image>
+					</fui-switch>
+				</view>
+			</fui-list-cell>
 			<view class="fui-section__title">默认打开</view>
 			<fui-list-cell :highlight="false" :padding="['28rpx','32rpx']">
 				<view class="fui-cells">
@@ -53,12 +72,20 @@
 	export default {
 		data() {
 			return {
-				status: false
+				status: false,
+				isOpen: false,
+				isOpen2: false
 			}
 		},
 		methods: {
 			change(e) {
 				this.status = e.detail.value
+			},
+			change2(e) {
+				this.isOpen = e.detail.value
+			},
+			change3(e) {
+				this.isOpen2 = e.detail.value
 			}
 		}
 	}
@@ -78,5 +105,17 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+
+	.fui-switch--text {
+		font-size: 20rpx;
+		font-weight: bold;
+		color: #333;
+		text-align: center;
+	}
+
+	.fui-icon--img {
+		width: 40rpx;
+		height: 40rpx;
 	}
 </style>
