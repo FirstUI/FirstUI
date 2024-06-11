@@ -111,8 +111,10 @@ function touchmove(e, ownerInstance) {
 	if (state.direction !== 'horizontal') return;
 
 	if (e.preventDefault) {
-		// 阻止页面滚动
 		e.preventDefault()
+	}
+	if (event && event.preventDefault) {
+		event.preventDefault()
 	}
 
 	move(state.x + state.deltaX, ins, ownerInstance)
@@ -249,5 +251,5 @@ module.exports = {
 	disabledChange: disabledChange,
 	thresholdChange: thresholdChange,
 	showChange: showChange,
-	clickCloseChange:clickCloseChange
+	clickCloseChange: clickCloseChange
 }

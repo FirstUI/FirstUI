@@ -19,7 +19,13 @@
 		// #ifdef MP-WEIXIN
 		behaviors: ['wx://form-field-group'],
 		// #endif
-		// #ifdef MP-BAIDU || MP-QQ || H5
+		// #ifdef MP-BAIDU
+		behaviors: ['swan://form-field'],
+		// #endif
+		// #ifdef MP-QQ
+		behaviors: ['qq://form-field'],
+		// #endif
+		// #ifdef H5
 		behaviors: ['uni://form-field'],
 		// #endif
 		props: {
@@ -35,12 +41,14 @@
 				}
 			},
 			// #endif
+			// #ifdef VUE2
 			value: {
 				type: Array,
 				default () {
 					return []
 				}
 			}
+			// #endif
 		},
 		data() {
 			return {
@@ -53,9 +61,11 @@
 				this.modelChange(vals)
 			},
 			// #endif
+			// #ifdef VUE2
 			value(vals) {
 				this.modelChange(vals)
 			}
+			// #endif
 		},
 		created() {
 			this.childrens = []
@@ -63,7 +73,7 @@
 		methods: {
 			checkboxChange(e) {
 				this.$emit('change', e)
-				// TODO vue2 兼容
+				// TODO vue2 兼容 
 				this.$emit('input', e.detail.value)
 				// TODO vue3 兼容
 				// #ifdef VUE3
@@ -71,7 +81,7 @@
 				// #endif
 			},
 			changeValue(checked, target) {
-				let vals = []
+				const vals = []
 				this.childrens.forEach(item => {
 					if (item.val) {
 						vals.push(item.value);

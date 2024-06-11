@@ -1,6 +1,7 @@
 <template>
 	<view @tap="maskClose" :style="{background:maskBackground}" class="fui-dialog__wrap"
-		:class="{'fui-wrap__show':show}" @touchmove.stop.prevent="stop" v-if="visible || !isNvue" ref="fui_dialog_ani">
+		:class="{'fui-wrap__show':show}" v-if="visible || !isNvue" ref="fui_dialog_ani">
+		<!-- @touchmove.stop.prevent="stop" -->
 		<view class="fui-dialog__inner" :style="{background:background,borderRadius:radius+'rpx'}" @tap.stop="stop">
 			<text class="fui-dialog__title" :style="{color:color}" v-if="title">{{title}}</text>
 			<view class="fui-dialog__body" :class="{'fui-dialog__mtop':!title}">
@@ -31,7 +32,7 @@
 			},
 			title: {
 				type: String,
-				default: '温馨提示'
+				default: '提示'
 			},
 			color: {
 				type: String,

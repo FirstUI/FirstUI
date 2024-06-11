@@ -171,9 +171,7 @@
 <style scoped>
 	.fui-swipe__action-wrap {
 		position: relative;
-		/* #ifndef APP-NVUE */
 		overflow: hidden;
-		/* #endif */
 	}
 
 	.fui-swipe__action-inner {

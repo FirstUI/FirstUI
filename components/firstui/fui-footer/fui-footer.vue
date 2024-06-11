@@ -1,5 +1,6 @@
 <template>
-	<view class="fui-footer" :class="[isFixed?'fui-footer__fixed-bottom':'']" :style='{background:background}'>
+	<view class="fui-footer" :class="[isFixed?'fui-footer__fixed-bottom':'']"
+		:style="{background:background,bottom:bottom+'rpx'}">
 		<view class="fui-footer__link" v-if="navigate.length>0">
 			<navigator v-for="(item,index) in navigate" :key="index" class="fui-link__item" hover-class="fui-link-hover"
 				hover-stop-propagation :open-type="item.openType || 'navigate'" :url="item.url" :delta="item.delta">
@@ -8,7 +9,8 @@
 					:style="{color:item.color || linkColor,fontSize:(item.size || 28)+'rpx',borderColor:borderColor,lineHeight:(item.size || 28)+'rpx'}">{{item.text}}</text>
 			</navigator>
 		</view>
-		<view class="fui-footer__text" :class="{'fui-as__safe-weex':iphoneX && safeArea}">
+		<view class="fui-footer__text"
+			:class="{'fui-as__safe-weex':iphoneX && safeArea,'fui-footer__safearea':safeArea}">
 			<text :style="{color:color,fontSize:size+'rpx'}">{{text}}</text>
 		</view>
 	</view>
@@ -55,6 +57,10 @@
 			isFixed: {
 				type: Boolean,
 				default: false
+			},
+			bottom: {
+				type: [Number, String],
+				default: 0
 			},
 			//是否适配底部安全区
 			safeArea: {
@@ -123,7 +129,6 @@
 	.fui-footer__fixed-bottom {
 		position: fixed;
 		z-index: 99;
-		bottom: 0;
 		left: 0;
 		right: 0;
 		/* #ifndef APP-NVUE */
@@ -206,12 +211,16 @@
 		line-height: 1;
 		text-align: center;
 		padding-top: 8rpx;
-		/* #ifndef APP-NVUE || MP-TOUTIAO */
-		padding-bottom: constant(safe-area-inset-bottom);
-		padding-bottom: env(safe-area-inset-bottom);
-		/* #endif */
 		font-weight: 400;
 	}
+
+	/* #ifndef APP-NVUE || MP-TOUTIAO */
+	.fui-footer__safearea {
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
+	}
+
+	/* #endif */
 
 	/* #ifdef APP-NVUE || MP-TOUTIAO */
 	.fui-as__safe-weex {

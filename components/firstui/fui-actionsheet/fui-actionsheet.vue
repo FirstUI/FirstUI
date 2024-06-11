@@ -10,11 +10,11 @@
 				:style="{fontSize:size+'rpx',color:color}" v-if="tips">{{tips}}</text>
 			<view :class="{'fui-actionsheet__operate-box':isCancel}">
 				<text class="fui-actionsheet__btn"
-					:style="{color:theme==='dark'?(item.darkColor || '#D1D1D1'):(item.color || '#181818'),fontSize:itemSize+'rpx'}"
+					:style="{color:theme==='dark'?(item.darkColor || itemDarkColor):(item.color || itemColor),fontSize:(item.size || itemSize)+'rpx'}"
 					:class="{'fui-actionsheet__btn-last':!isCancel && index==vals.length-1,'fui-as__safe-weex':!isCancel && index==vals.length-1 && iphoneX && safeArea,'fui-actionsheet__radius':radius && !tips && index===0,'fui-as__divider-light':(index!==0 || tips) && theme==='light','fui-as__divider-dark':(index!==0 || tips) && theme==='dark' ,'fui-as__btn-light':theme==='light','fui-as__btn-dark':theme==='dark'}"
-					v-for="(item,index) in vals" :key="index" @tap="handleClickItem(index)">{{item.text}}</text>
+					v-for="(item,index) in vals" :key="index" @tap="handleClickItem(index)">{{item[textKey]}}</text>
 			</view>
-			<text :style="{color:theme==='dark'?'#D1D1D1':'#181818',fontSize:itemSize+'rpx'}"
+			<text :style="{color:theme==='dark'?itemDarkColor:itemColor,fontSize:(cancelSize || itemSize)+'rpx'}"
 				class="fui-actionsheet__btn fui-actionsheet__cancel"
 				:class="{'fui-as__safe-weex':iphoneX && safeArea,'fui-as__btn-light':theme==='light','fui-as__btn-dark':theme==='dark'}"
 				v-if="isCancel" @tap="handleClickCancel">取消</text>
@@ -42,10 +42,24 @@
 					return []
 				}
 			},
+			textKey: {
+				type: String,
+				default: 'text'
+			},
 			//菜单按钮字体大小 rpx
 			itemSize: {
 				type: [Number, String],
 				default: 32
+			},
+			//v2.4.0+
+			itemColor: {
+				type: String,
+				default: '#181818'
+			},
+			//v2.4.0+
+			itemDarkColor: {
+				type: String,
+				default: '#D1D1D1'
 			},
 			//提示信息
 			tips: {
@@ -71,6 +85,11 @@
 			isCancel: {
 				type: Boolean,
 				default: true
+			},
+			//v2.4.0+
+			cancelSize: {
+				type: [Number, String],
+				default: 32
 			},
 			//light/dark
 			theme: {
@@ -138,7 +157,7 @@
 					if (typeof vals[0] !== 'object') {
 						vals = vals.map(item => {
 							return {
-								text: item
+								[this.textKey]: item
 							}
 						})
 					}

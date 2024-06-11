@@ -3,7 +3,7 @@ import App from './App'
 import fui from './common/fui-app'
 import store from './store' 
 
-// #ifndef VUE3
+// #ifndef VUE3 
 import Vue from 'vue'
 
 Vue.config.productionTip = false

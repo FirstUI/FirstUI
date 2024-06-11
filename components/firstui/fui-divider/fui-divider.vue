@@ -1,12 +1,16 @@
 <template>
 	<view class="fui-divider__wrap" :style="{ height: height + 'rpx' }">
-		<view class="fui-divider__line" :style="{ width: width, background: dividerColor,top:getTop}">
-		</view>
-		<view class="fui-divider__text-box" :style="{backgroundColor: backgroundColor}">
-			<slot></slot>
-			<text class="fui-divider__text"
-				:style="{fontWeight: fontWeight,color: color, fontSize: size + 'rpx',lineHeight: size + 'rpx'}"
-				v-if="text">{{text}}</text>
+		<view class="fui-divider__wrap" :style="{width:width, height: height + 'rpx' }">
+			<view class="fui-divider__line" :style="{ background: dividerColor}">
+			</view>
+			<view class="fui-divider__text-box">
+				<slot></slot>
+				<text class="fui-divider__text"
+					:style="{fontWeight: fontWeight,color: color, fontSize: size + 'rpx',lineHeight: size + 'rpx'}"
+					v-if="text">{{text}}</text>
+			</view>
+			<view class="fui-divider__line" :style="{ background: dividerColor}">
+			</view>
 		</view>
 	</view>
 </template>
@@ -47,16 +51,6 @@
 			fontWeight: {
 				type: [Number, String],
 				default: 400
-			},
-			//背景颜色，和当前页面背景色保持一致
-			backgroundColor: {
-				type: String,
-				default: '#F1F4FA'
-			}
-		},
-		computed: {
-			getTop() {
-				return Number(this.height) / 2 + 'rpx'
 			}
 		}
 	};
@@ -69,7 +63,6 @@
 		display: flex;
 		box-sizing: border-box;
 		/* #endif */
-		position: relative;
 		text-align: center;
 		flex-direction: row;
 		justify-content: center;
@@ -78,27 +71,26 @@
 	}
 
 	.fui-divider__line {
-		position: absolute;
 		/* #ifdef APP-NVUE */
 		height: 0.5px;
 		/* #endif */
 
 		/* #ifndef APP-NVUE */
 		height: 1px;
-		top: 50%;
-		left: 50%;
-		-webkit-transform: scaleY(0.5) translate3d(-50%, -50%, 0);
-		transform: scaleY(0.5) translate3d(-50%, -50%, 0);
+		-webkit-transform: scaleY(0.5) translateZ(0);
+		transform: scaleY(0.5) translateZ(0);
 		/* #endif */
+		flex: 1;
 	}
 
 	.fui-divider__text-box {
 		position: relative;
 		text-align: center;
-		padding: 0 6rpx;
+		padding: 0 8rpx;
 		z-index: 1;
 		/* #ifndef APP-NVUE */
 		display: flex;
+		flex-shrink: 0;
 		/* #endif */
 		flex-direction: row;
 		align-items: center;
@@ -106,6 +98,6 @@
 	}
 
 	.fui-divider__text {
-		padding: 0 12rpx;
+		padding: 0 10rpx;
 	}
 </style>

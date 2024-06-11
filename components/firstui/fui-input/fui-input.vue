@@ -73,8 +73,13 @@
 		//加group是为了避免在表单中使用时给组件加value属性
 		behaviors: ['wx://form-field-group'],
 		// #endif
-		// #ifdef MP-BAIDU || MP-QQ || H5
-		//如果在这些平台不需要也能识别，则删除
+		// #ifdef MP-BAIDU
+		behaviors: ['swan://form-field'],
+		// #endif
+		// #ifdef MP-QQ
+		behaviors: ['qq://form-field'],
+		// #endif
+		// #ifdef H5
 		behaviors: ['uni://form-field'],
 		// #endif
 		// #ifdef MP-WEIXIN
@@ -428,7 +433,7 @@
 				if ((this.modelModifiers.number || this.number || this.type === 'digit' || this.type === 'number') && !
 					isNaN(currentVal) && Number.isSafeInteger(currentVal)) {
 					let eVal = this.type === 'digit' ? value : currentVal
-					if (typeof currentVal === 'number') {
+					if (typeof eVal === 'number') {
 						const min = Number(this.min)
 						const max = Number(this.max)
 						if (typeof min === 'number' && currentVal < min) {

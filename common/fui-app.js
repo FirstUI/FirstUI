@@ -1,7 +1,7 @@
 const fui = {
 	toast: function(text) {
 		text && uni.showToast({
-			title: text,
+			title: text, 
 			icon: 'none',
 			duration: 2000
 		})

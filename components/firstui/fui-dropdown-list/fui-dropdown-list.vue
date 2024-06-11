@@ -2,36 +2,39 @@
 	<view class="fui-dropdown__list-wrap" :class="{'fui-dropdown__list-show':isShow}"
 		:style="{background:maskBackground,zIndex:zIndex}" v-if="isShow || !isNvue" ref="fui_ddl_ani" @tap="close(1)">
 		<view class="fui-dropdown__list" :style="{borderRadius:radius+'rpx',background:background}">
-			<scroll-view :show-scrollbar="false" class="fui-ddl__scroll" scroll-y :style="getStyles">
+			<scroll-view :show-scrollbar="false" class="fui-ddl__scroll" :scroll-y="true" :style="getStyles">
 				<!-- #ifdef APP-NVUE -->
 				<view>
-					<!-- #endif -->
+				<!-- #endif -->
+					<slot></slot>
 					<view class="fui-dropdown__list-item"
 						:style="{background:background,paddingTop:padding[0] || 0,paddingRight:padding[1] || 0,paddingBottom:padding[2] || padding[0] || 0,paddingLeft:padding[3] || padding[1] || 0,borderBottomColor:lineColor}"
 						:class="{'fui-ddl__reverse':isReverse,'fui-ddl__item-line':splitLine && itemList.length-1!==index}"
 						v-for="(model,index) in itemList" :key="index" @tap.stop.prevent="itemClick($event,index)">
 						<view class="fui-ddl__checkbox"
-							:class="{'fui-is__checkmark':isCheckMark,'fui-ddl__checkbox-color':(!checkboxColor || checkboxColor===true) && model.checked && !isCheckMark}"
-							:style="{background:model.checked && !isCheckMark ?getChkColor:'transparent',borderColor:model.checked && !isCheckMark ?getChkColor:borderColor}"
+							:class="{'fui-is__checkmark':isCheckMark,'fui-ddl__checkbox-color':(!checkboxColor || checkboxColor===true) && model[checkedKey] && !isCheckMark}"
+							:style="{background:model[checkedKey] && !isCheckMark ?getChkColor:'transparent',borderColor:model[checkedKey] && !isCheckMark ?getChkColor:borderColor}"
 							v-if="isCheckbox">
 							<view class="fui-ddl__checkmark"
 								:style="{borderBottomColor:checkmarkColor,borderRightColor:checkmarkColor}"
-								v-if="model.checked"></view>
+								v-if="model[checkedKey]"></view>
 						</view>
 						<view class="fui-ddl__flex">
 							<view class="fui-ddl__icon-box"
 								:class="{'fui-ddl__icon-ml':!isReverse && isCheckbox,'fui-ddl__icon-mr':isReverse}"
-								:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="model.src">
-								<image :src="model.src" :style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}"></image>
+								:style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}" v-if="model[srcKey]">
+								<image :src="model[srcKey]" :style="{width:iconWidth+'rpx',height:iconWidth+'rpx'}">
+								</image>
 							</view>
 							<text class="fui-ddl__item-text"
-								:class="{'fui-ddl__text-pl':!isReverse && (isCheckbox || model.src),'fui-ddl__text-pr':isReverse && (isCheckbox || model.src)}"
-								:style="{fontSize:size+'rpx',color:selectedColor && model.checked?selectedColor:color}">{{model.text}}</text>
+								:class="{'fui-ddl__text-pl':!isReverse && (isCheckbox || model[srcKey]),'fui-ddl__text-pr':isReverse && (isCheckbox || model[srcKey])}"
+								:style="{fontSize:size+'rpx',color:selectedColor && model[checkedKey]?selectedColor:color}">{{model[textKey]}}</text>
 						</view>
 					</view>
-					<!-- #ifdef APP-NVUE -->
+				<!-- #ifdef APP-NVUE -->
 				</view>
 				<!-- #endif -->
+
 			</scroll-view>
 		</view>
 	</view>
@@ -50,6 +53,18 @@
 				default () {
 					return []
 				}
+			},
+			textKey: {
+				type: String,
+				default: 'text'
+			},
+			srcKey: {
+				type: String,
+				default: 'src'
+			},
+			checkedKey: {
+				type: String,
+				default: 'checked'
 			},
 			height: {
 				type: [Number, String],
@@ -206,16 +221,18 @@
 					if (typeof vals[0] !== 'object') {
 						vals = vals.map(item => {
 							return {
-								text: item,
-								checked: false
+								[this.textKey]: item,
+								[this.checkedKey]: false
 							}
 						})
 					} else {
 						vals.map(item => {
-							item.checked = item.checked || false
+							item[this.checkedKey] = item[this.checkedKey] || false
 						})
 					}
 					this.itemList = vals;
+				} else {
+					this.itemList = []
 				}
 			},
 			itemClick(e, index) {
@@ -226,9 +243,9 @@
 				let vals = [...this.itemList]
 				vals.forEach((item, idx) => {
 					if (index === idx) {
-						item.checked = true
+						item[this.checkedKey] = true
 					} else {
-						item.checked = false
+						item[this.checkedKey] = false
 					}
 				})
 				this.itemList = vals;

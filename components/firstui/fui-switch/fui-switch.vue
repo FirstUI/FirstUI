@@ -6,10 +6,12 @@
 		</switch>
 		<!-- #endif -->
 		<!-- #ifndef APP-NVUE -->
-		<view class="fui-switch__input-def" :style="{background:val?color:'#dfdfdf',borderColor:val?color:borderColor}"
-			:class="{'fui-switch__input--checked':val,'fui-checkbox__disabled':disabled,'fui-switch__color':val && !color}"
-			v-if="type==='switch'">
-			<view class="fui-switch__input-after" :style="{background:val?(btnColor?btnColor:'#fff'):'#fff'}"
+		<view class="fui-switch__input-def"
+			:style="{background:val?color:'#dfdfdf',borderColor:val?color:borderColor}"
+			:class="{'fui-checkbox__disabled':disabled,'fui-switch__color':val && !color}" v-if="type==='switch'">
+			<view class="fui-switch__input-before" :class="{'fui-switch__input--checked':val}"
+				:style="{background:background}"></view>
+			<view class="fui-switch__input-after" :style="{background:val?(btnColor?btnColor:btnBgColor):btnBgColor}"
 				:class="{'fui-switch__input--after':val}">
 				<slot></slot>
 			</view>
@@ -20,7 +22,7 @@
 		<!-- #endif -->
 		<view class="fui-checkbox__self"
 			:class="{'fui-checkbox__disabled':disabled,'fui-switch__color':!getColor && val}"
-			:style="{background:val?getColor:'#fff',border:val?`1px solid ${getColor}`:`1px solid ${borderColor}`}"
+			:style="{background:val?getColor:background,border:val?`1px solid ${getColor}`:`1px solid ${borderColor}`}"
 			v-else>
 			<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 				v-if="val"></view>
@@ -38,7 +40,13 @@
 		// #ifdef MP-WEIXIN
 		behaviors: ['wx://form-field-group'],
 		// #endif
-		// #ifdef MP-BAIDU || MP-QQ || H5
+		// #ifdef MP-BAIDU
+		behaviors: ['swan://form-field'],
+		// #endif
+		// #ifdef MP-QQ
+		behaviors: ['qq://form-field'],
+		// #endif
+		// #ifdef H5
 		behaviors: ['uni://form-field'],
 		// #endif
 		props: {
@@ -65,10 +73,18 @@
 				type: String,
 				default: ''
 			},
+			background: {
+				type: String,
+				default: '#fdfdfd'
+			},
 			//switch选中时按钮颜色 V2.3.0+（nvue不支持）
 			btnColor: {
 				type: String,
 				default: ''
+			},
+			btnBgColor: {
+				type: String,
+				default: '#fff'
 			},
 			//边框颜色，type=checkbox时生效
 			borderColor: {
@@ -198,15 +214,13 @@
 		transition: background-color .1s, border .1s;
 	}
 
-	.fui-switch__input-def::before {
-		content: " ";
+	.fui-switch__input-before {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 50px;
 		height: 30px;
 		border-radius: 15px;
-		background-color: #fdfdfd;
 		transition: transform .3s
 	}
 
@@ -225,7 +239,7 @@
 		justify-content: center;
 	}
 
-	.fui-switch__input--checked::before {
+	.fui-switch__input--checked {
 		transform: scale(0)
 	}
 

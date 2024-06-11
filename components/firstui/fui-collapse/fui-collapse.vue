@@ -1,5 +1,5 @@
 <template>
-	<view class="fui-collapse__wrap">
+	<view class="fui-collapse__wrap" :style="{background:background}">
 		<slot></slot>
 	</view>
 </template>
@@ -12,6 +12,10 @@
 			accordion: {
 				type: Boolean,
 				default: false
+			},
+			background: {
+				type: String,
+				default: 'transparent'
 			}
 		},
 		created() {
@@ -44,6 +48,5 @@
 		flex: 1;
 		/* #endif */
 		flex-direction: column;
-		background: #fff;
 	}
 </style>

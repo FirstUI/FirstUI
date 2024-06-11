@@ -1,9 +1,9 @@
 <template>
-	<view class="fui-collapse__item">
+	<view class="fui-collapse__item" :style="{marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}">
 		<view @tap.stop="onClick(!isOpen)" class="fui-collapse-item__title" :class="{'fui-collapse__disabled':disabled}"
 			:style="{background:background}">
 			<view class="fui-collapse__title">
-				<slot></slot> 
+				<slot></slot>
 			</view>
 			<view v-if="arrow"
 				:class="{'fui-collapse__arrow-close':!isOpen,'fui-collapse__arrow-active': isOpen, 'fui-collapse__item-ani': animation}"
@@ -90,7 +90,16 @@
 			contentBg: {
 				type: String,
 				default: '#fff'
+			},
+			marginTop: {
+				type: [Number, String],
+				default: 0
+			},
+			marginBottom: {
+				type: [Number, String],
+				default: 0
 			}
+
 		},
 		data() {
 			const elId = `fui_${Math.ceil(Math.random() * 10e5).toString(36)}`

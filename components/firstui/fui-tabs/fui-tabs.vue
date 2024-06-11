@@ -5,9 +5,11 @@
 		:style="{background:background,zIndex:(isFixed || isSticky)?zIndex:1,top: isFixed || isSticky ? top + 'px' : 'auto'}">
 		<view class="fui-scroll__view" :class="{'fui-tabs__full':!alignLeft}">
 			<view v-for="(tab, index) in vals" :key="index" class="fui-tabs__item"
-				:class="{'fui-tabs__full':!alignLeft}" :id="tab.fui_s_id" @tap="switchTab(index)">
+				:class="{'fui-tabs__full':!alignLeft}"
+				:style="{paddingLeft:itemPadding+'rpx',paddingRight:itemPadding+'rpx'}" :id="tab.fui_s_id"
+				@tap="switchTab(index)">
 				<view class="fui-tabs__text-wrap"
-					:class="{'fui-tabs__wrap-disabled':tab.disabled,'fui-tabs__item-column':direction==='column' && tab.icon}"
+					:class="{'fui-tabs__wrap-disabled':tab[disabledKey],'fui-tabs__item-column':direction==='column' && tab.icon}"
 					:style="{height:height+'rpx'}">
 					<view class="fui-tabs__line-wrap" :class="{'fui-tabs__line-center':center}"
 						:style="{bottom:bottom +'rpx',left:`-${padding}rpx`,right:`-${padding}rpx`}" v-if="isSlider">
@@ -23,14 +25,14 @@
 					<view class="fui-tabs__text">
 						<text
 							:style="{fontSize:selectedSize+'rpx',fontWeight:tabIndex===index?selectedFontWeight:fontWeight,height:height+'rpx',lineHeight:height+'rpx'}"
-							style="opacity: 0;">{{tab.name}}</text>
+							style="opacity: 0;">{{tab[nameKey]}}</text>
 						<text class="fui-tabs__text-nvue"
 							:class="{'fui-tabs__selected-color':!getSelectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
-							:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?getSelectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,height:height+'rpx',lineHeight:height+'rpx'}">{{tab.name}}</text>
+							:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?getSelectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,height:height+'rpx',lineHeight:height+'rpx'}">{{tab[nameKey]}}</text>
 						<text
 							:class="{'fui-tabs__badge-color':!getBadgeBgColor,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
 							:style="{color:badgeColor,background:getBadgeBgColor,top:getTop+'rpx'}"
-							v-if="tab.badge">{{isDot?'':tab.badge}}</text>
+							v-if="tab[badgeKey]">{{isDot?'':tab[badgeKey]}}</text>
 					</view>
 
 					<!-- #endif -->
@@ -39,10 +41,10 @@
 					<view class="fui-tabs__text"
 						:class="{'fui-tabs__selected-color':!getSelectedColor && tabIndex===index,'fui-tabs__text-color':!color && tabIndex!==index}"
 						:style="{fontSize:(tabIndex===index && isNvue? selectedSize:size)+'rpx',color:tabIndex===index?getSelectedColor:color,fontWeight:tabIndex===index?selectedFontWeight:fontWeight,transform:`scale(${tabIndex===index && !isNvue?scale:1})`}">
-						{{tab.name}}<text
+						{{tab[nameKey]}}<text
 							:class="{'fui-tabs__badge-color':!getBadgeBgColor,'fui-tabs__badge-dot':isDot,'fui-tabs__badge':!isDot}"
 							:style="{color:badgeColor,background:getBadgeBgColor}"
-							v-if="tab.badge">{{isDot?'':tab.badge}}</text>
+							v-if="tab[badgeKey]">{{isDot?'':tab[badgeKey]}}</text>
 					</view>
 					<!-- #endif -->
 				</view>
@@ -67,6 +69,18 @@
 				default () {
 					return []
 				}
+			},
+			nameKey: {
+				type: String,
+				default: 'name'
+			},
+			badgeKey: {
+				type: String,
+				default: 'badge'
+			},
+			disabledKey: {
+				type: String,
+				default: 'disabled'
 			},
 			// 当前选项卡
 			current: {
@@ -215,6 +229,10 @@
 				type: String,
 				default: 'row'
 			},
+			itemPadding: {
+				type: [Number, String],
+				default: 32
+			},
 			zIndex: {
 				type: [Number, String],
 				default: 996
@@ -297,7 +315,7 @@
 						vals = vals.map(item => {
 							const scrollId = this.getId()
 							return {
-								name: item,
+								[this.nameKey]: item,
 								fui_s_id: scrollId
 							}
 						})
@@ -314,7 +332,7 @@
 				const item = {
 					...this.vals[index]
 				}
-				if (this.tabIndex === index || item.disabled) return;
+				if (this.tabIndex === index || item[this.disabledKey]) return;
 				this.tabIndex = index;
 				let scrollIndex = index - 1 < 0 ? 0 : index - 1;
 				this.scrollInto = this.vals[scrollIndex].fui_s_id;
@@ -378,8 +396,6 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		padding-left: 32rpx;
-		padding-right: 32rpx;
 		position: relative;
 
 	}

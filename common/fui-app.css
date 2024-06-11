@@ -1,7 +1,7 @@
 /* #ifndef APP-NVUE */
 page {
 	background-color: var(--fui-bg-color-grey,#F1F4FA);
-	font-size: 32rpx;
+	font-size: 32rpx; 
 	font-weight: 500;
 	color: var(--fui-color-title,#181818);
 	font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;

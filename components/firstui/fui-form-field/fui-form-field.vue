@@ -9,7 +9,18 @@
 	export default {
 		emits: ['input', 'update:modelValue'],
 		name: "fui-form-field",
+		// #ifdef MP-WEIXIN
+		 behaviors: ['wx://form-field'],
+		// #endif
+		// #ifdef MP-BAIDU
+		behaviors: ['swan://form-field'],
+		// #endif
+		// #ifdef MP-QQ
+		behaviors: ['qq://form-field'],
+		// #endif
+		// #ifdef H5
 		behaviors: ['uni://form-field'],
+		// #endif
 		props: {
 			//是否为隐藏域
 			hidden: {

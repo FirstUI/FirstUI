@@ -1,6 +1,6 @@
 <template>
-	<view class="fui-popup__animation" :class="[ani.in]" :style="'transform:' + transform + ';' + stylesObject"
-		@tap="change" v-if="isShow" ref="fui_ani">
+	<view class="fui-popup__animation" :class="[ani.in]" :style="transformStyles" @tap="change" v-if="isShow"
+		ref="fui_ani">
 		<slot></slot>
 	</view>
 </template>
@@ -57,7 +57,7 @@
 					if (newVal) {
 						this.open();
 					} else {
-						this.close();
+						this.isShow && this.close();
 					}
 				},
 				immediate: true
@@ -89,6 +89,9 @@
 					transfrom += line + ':' + styles[i] + ';';
 				}
 				return transfrom;
+			},
+			transformStyles() {
+				return `transform:${this.transform};${this.stylesObject}`
 			}
 		},
 		methods: {

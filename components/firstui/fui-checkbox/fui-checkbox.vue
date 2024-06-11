@@ -6,7 +6,7 @@
 		<view class="fui-check__mark" :style="{borderBottomColor:checkMarkColor,borderRightColor:checkMarkColor}"
 			v-if="val"></view>
 		<checkbox class="fui-checkbox__hidden" style="opacity: 0;position: absolute;" :color="getColor"
-			:disabled="disabled" :value="value" :checked="val">
+			:disabled="disabled" :value="getValue" :checked="val">
 		</checkbox>
 	</view>
 </template>
@@ -21,8 +21,9 @@
 		},
 		// #endif
 		props: {
+			//注意：返回值仍为string类型
 			value: {
-				type: String,
+				type: [String, Number],
 				default: ''
 			},
 			checked: {
@@ -70,6 +71,16 @@
 				default: 1
 			}
 		},
+		// #ifndef VUE3
+		beforeDestroy() {
+			this.unInstall()
+		},
+		// #endif
+		// #ifdef VUE3
+		beforeUnmount() {
+			this.unInstall()
+		},
+		// #endif
 		created() {
 			this.val = this.checked;
 			this.group = this.getParent()
@@ -109,6 +120,9 @@
 				}
 				// #endif
 				return color;
+			},
+			getValue() {
+				return String(this.value)
 			}
 		},
 		data() {
@@ -122,6 +136,15 @@
 			};
 		},
 		methods: {
+			unInstall() {
+				if (this.group) {
+					this.group.childrens.forEach((item, index) => {
+						if (item === this) {
+							this.group.childrens.splice(index, 1)
+						}
+					})
+				}
+			},
 			getBackgroundColor(val, isCheckMark) {
 				let color = val ? this.getColor : '#fff'
 				if (isCheckMark) {

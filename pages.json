@@ -16,7 +16,7 @@
 			"mp-alipay": {
 				"allowsBounceVertical": "NO"
 			},
-			"mp-baidu": {
+			"mp-baidu": { 
 				"disableScroll": true
 			}
 		}
