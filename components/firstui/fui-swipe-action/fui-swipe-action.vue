@@ -4,7 +4,7 @@
 		<view class="fui-swipe__action-inner" :show="isShow" :change:show="handler.showChange" :threshold="thresholdVal"
 			:change:threshold="handler.thresholdChange" :clickclose="clickClose"
 			:change:clickclose="handler.clickCloseChange" :disabled="isDisabled"
-			:change:disabled="handler.disabledChange" @touchstart="handler.touchstart" @touchmove="handler.touchmove"
+			:change:disabled="handler.disabledChange" :data-app="isApp" @touchstart="handler.touchstart" @touchmove="handler.touchmove"
 			@touchend="handler.touchend" @mousedown="handler.mousedown" @mousemove="handler.mousemove"
 			@mouseup="handler.mouseup" @mouseleave="handler.mouseleave">
 			<view class="fui-swipe__action-left">
@@ -143,6 +143,15 @@
 			this.unInstall()
 		},
 		// #endif
+		data() {
+			let isApp = 0;
+			// #ifdef APP
+			isApp = 1;
+			// #endif
+			return {
+				isApp
+			}
+		},
 		methods: {
 			unInstall() {
 				if (this.group) {

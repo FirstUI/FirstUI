@@ -1,4 +1,5 @@
 var MIN_DISTANCE = 10
+var app = false;
 
 function isPC() {
 	if (typeof navigator !== 'object') return false;
@@ -74,6 +75,8 @@ function stopTouchStart(event) {
 function touchstart(e, ownerInstance) {
 	var ins = e.instance;
 	var state = ins.getState();
+	var dataset = e.instance.getDataset()
+	app = (+dataset.app) == 1 ? true : false;
 	getDom(ins, ownerInstance)
 	if (state.disabled) return
 	// 开始触摸时移除动画类
@@ -113,7 +116,7 @@ function touchmove(e, ownerInstance) {
 	if (e.preventDefault) {
 		e.preventDefault()
 	}
-	if (event && event.preventDefault) {
+	if (app && event && event.preventDefault) {
 		event.preventDefault()
 	}
 
